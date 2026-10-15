@@ -48,9 +48,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
         
-        body {
+        /* Prevent body scroll, handle scroll in specific container */
+        html, body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            overflow: hidden; 
         }
 
         /* Glassmorphism Classes (Optimized for Speed) */
@@ -66,8 +71,8 @@
         /* Light Theme Adjustments */
         .light .glass-panel {
             background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
         }
 
         /* Hardware Accelerated Animations */
@@ -77,17 +82,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .slide-in-right { animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        /* Custom Scrollbar for inner containers */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
 
         .hidden-view { display: none !important; }
 
@@ -97,37 +96,31 @@
             cursor: pointer;
         }
         .interactive-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.3);
         }
         .light .interactive-card:hover {
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Mobile specific fixes to prevent cutoff */
-        main {
-            height: 100vh;
-            height: 100dvh; 
+            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.2);
         }
     </style>
 </head>
-<body class="bg-lightBg text-gray-900 dark:bg-darkBg dark:text-gray-100 flex overflow-hidden transition-colors duration-300">
+<body class="bg-lightBg text-gray-900 dark:bg-darkBg dark:text-gray-100 flex w-screen transition-colors duration-300">
 
     <!-- Mobile Sidebar Overlay -->
     <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-40 hidden opacity-0 transition-opacity duration-300" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar Drawer -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 glass-panel flex flex-col z-50 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out border-r border-gray-200 dark:border-gray-800">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 glass-panel flex flex-col z-50 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out border-r border-gray-200 dark:border-gray-800 shrink-0">
         <div class="p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
             <h1 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-neonCyan to-neonPurple tracking-wider flex items-center gap-2">
                 <i class="fa-solid fa-chart-line"></i>InvestoPro
             </h1>
-            <button class="md:hidden text-gray-500 hover:text-red-500" onclick="toggleSidebar()">
+            <button class="md:hidden text-gray-500 hover:text-red-500 p-2" onclick="toggleSidebar()">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
         
-        <nav id="sidebar-nav" class="flex flex-col gap-2 p-4 flex-grow overflow-y-auto">
+        <nav id="sidebar-nav" class="flex flex-col gap-2 p-4 flex-grow overflow-y-auto custom-scrollbar">
             <button onclick="switchView('dashboard')" class="nav-btn active flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 bg-gray-200 dark:bg-gray-800 text-neonCyan font-semibold">
                 <i class="fa-solid fa-border-all text-lg w-5"></i> <span data-i18n="dashboard">Dashboard</span>
             </button>
@@ -139,23 +132,20 @@
             </button>
         </nav>
 
-        <div class="p-4 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-2">
+        <div class="p-4 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-3 shrink-0">
             <!-- Utility Buttons -->
-            <div class="flex gap-2">
-                <button onclick="toggleLanguage()" class="flex-1 flex items-center justify-center p-3 rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-neonCyan font-bold text-lg" title="Change Language">
-                    <i class="fa-solid fa-language"></i>
-                </button>
-                <button onclick="toggleTheme()" class="flex-1 flex items-center justify-center p-3 rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors" title="Toggle Theme">
-                    <i id="theme-icon" class="fa-solid fa-sun text-yellow-500 text-lg"></i>
-                </button>
-                <button onclick="openModal('shortcut-modal')" class="flex-1 flex items-center justify-center p-3 rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors text-neonPurple" title="Keyboard Shortcuts">
-                    <i class="fa-solid fa-keyboard text-lg"></i>
-                </button>
-            </div>
+            <button onclick="toggleLanguage()" class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800/80 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-neonCyan font-bold shadow-sm" title="Change Language">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-language text-lg"></i> <span data-i18n="lang_switch">English / বাংলা</span></span>
+                <kbd class="hidden md:inline-block px-2 py-0.5 bg-gray-300 dark:bg-gray-600 rounded text-xs text-gray-700 dark:text-gray-300">Ctrl+L</kbd>
+            </button>
+            <button onclick="toggleTheme()" class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800/80 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-bold text-gray-700 dark:text-gray-300 shadow-sm" title="Toggle Theme">
+                <span class="flex items-center gap-2"><i id="theme-icon" class="fa-solid fa-sun text-yellow-500 text-lg w-5"></i> <span id="theme-text">Light Mode</span></span>
+                <kbd class="hidden md:inline-block px-2 py-0.5 bg-gray-300 dark:bg-gray-600 rounded text-xs text-gray-700 dark:text-gray-300">Ctrl+T</kbd>
+            </button>
         </div>
     </aside>
 
-    <main class="flex-grow flex flex-col h-full overflow-hidden relative w-full">
+    <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative w-full">
         
         <!-- Mobile Top Header -->
         <header class="md:hidden glass-panel flex-shrink-0 z-30 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
@@ -166,108 +156,109 @@
                 <span class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonPurple">InvestoPro</span>
             </div>
             <div class="flex gap-2">
-                <button onclick="openModal('shortcut-modal')" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-neonPurple w-10 h-10 flex items-center justify-center shadow-sm">
+                <button onclick="openModal('shortcut-modal')" class="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-neonPurple w-10 h-10 flex items-center justify-center shadow-sm transition-transform active:scale-95">
                     <i class="fa-solid fa-keyboard"></i>
                 </button>
             </div>
         </header>
 
         <!-- Scrollable Content -->
-        <div class="flex-grow overflow-y-auto p-4 md:p-8 pb-24 custom-scrollbar" id="main-scroll-area">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 pb-32 custom-scrollbar w-full" id="main-scroll-area">
             
-            <!-- Global Investment Setup Banner -->
-            <div id="setup-banner" class="glass-panel p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-center border-l-4 border-neonPurple hidden-view fade-in">
-                <div>
+            <!-- Global Investment Setup Banner (Fixed Mobile Overflow) -->
+            <div id="setup-banner" class="glass-panel p-5 sm:p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-l-4 border-neonPurple hidden-view fade-in gap-4">
+                <div class="flex-1 w-full">
                     <h2 class="text-xl font-bold mb-1 dark:text-white text-gray-800" data-i18n="set_global">Set Total Global Investment</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="set_global_sub">Define your root capital (e.g., 2 Cr) to track overall ROI.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="set_global_sub">Define your root capital (e.g., 2 Cr) to track overall ROI.</p>
                 </div>
-                <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-2">
-                    <input type="number" id="global-invest-input" placeholder="Amount (e.g. 20000000)" class="flex-grow md:w-48 px-4 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan text-gray-800 dark:text-white font-semibold">
-                    <button onclick="setGlobalInvestment()" class="bg-gradient-to-r from-neonCyan to-blue-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg hover:opacity-90 transition" data-i18n="save">Save</button>
+                <!-- FIXED: Changed to flex-col on small screens so it stacks perfectly, preventing cut-offs -->
+                <div class="flex flex-col sm:flex-row w-full md:w-auto gap-3 shrink-0">
+                    <input type="number" id="global-invest-input" placeholder="Amount (e.g. 20000000)" class="w-full sm:w-56 px-4 py-3 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan text-gray-800 dark:text-white font-semibold shadow-inner">
+                    <button onclick="setGlobalInvestment()" class="w-full sm:w-auto bg-gradient-to-r from-neonCyan to-blue-500 text-white px-6 py-3 sm:py-2 rounded-xl font-bold shadow-lg hover:opacity-90 transition active:scale-95" data-i18n="save">Save</button>
                 </div>
             </div>
 
             <div id="view-dashboard" class="view-section fade-in">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                     <h2 class="text-3xl font-extrabold tracking-tight dark:text-white text-gray-900" data-i18n="overview">Overview</h2>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="exportData('excel')" class="flex-1 sm:flex-none bg-green-600/10 dark:bg-green-600/20 text-green-700 dark:text-green-400 border border-green-600/30 px-4 py-2.5 rounded-xl hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm">
+                    <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                        <button onclick="exportData('excel')" class="flex-1 sm:flex-none bg-green-600/10 dark:bg-green-600/20 text-green-700 dark:text-green-400 border border-green-600/30 px-5 py-2.5 rounded-xl hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm active:scale-95">
                             <i class="fa-solid fa-file-excel"></i> <span data-i18n="exp_excel">Excel</span>
                         </button>
-                        <button onclick="exportData('pdf')" class="flex-1 sm:flex-none bg-red-600/10 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-600/30 px-4 py-2.5 rounded-xl hover:bg-red-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm">
+                        <button onclick="exportData('pdf')" class="flex-1 sm:flex-none bg-red-600/10 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-600/30 px-5 py-2.5 rounded-xl hover:bg-red-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm active:scale-95">
                             <i class="fa-solid fa-file-pdf"></i> <span data-i18n="exp_pdf">PDF</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- KPI Cards Grid (Clickable for details) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 mb-8">
                     <!-- Investment Card -->
                     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card" onclick="openDetailsModal('invest')">
-                        <div class="absolute -right-6 -top-6 text-neonPurple opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-wallet text-9xl"></i></div>
+                        <div class="absolute -right-6 -top-6 text-neonPurple opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-wallet text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_invest">Total Investment</h3>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white" id="kpi-investment">₹0</p>
-                        <p class="text-sm mt-2 text-neonCyan font-medium flex justify-between items-center">
+                        <p class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2" id="kpi-investment">₹0</p>
+                        <p class="text-sm text-neonCyan font-medium flex justify-between items-center bg-cyan-50 dark:bg-cyan-900/20 p-2 rounded-lg inline-flex w-full">
                             <span id="kpi-allocated">Allocated: ₹0</span>
                             <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
                         </p>
                     </div>
                     <!-- Collected Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card" onclick="openDetailsModal('collected')">
-                        <div class="absolute -right-6 -top-6 text-neonGreen opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-money-bill-trend-up text-9xl"></i></div>
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonGreen" onclick="openDetailsModal('collected')">
+                        <div class="absolute -right-6 -top-6 text-neonGreen opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-money-bill-trend-up text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_collected">Total Collected</h3>
-                        <p class="text-3xl font-bold text-green-600 dark:text-neonGreen" id="kpi-collected">₹0</p>
-                        <p class="text-sm mt-2 text-gray-600 dark:text-gray-400 font-medium flex justify-between items-center">
+                        <p class="text-3xl sm:text-4xl font-bold text-green-600 dark:text-neonGreen mb-2" id="kpi-collected">₹0</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
                             <span id="kpi-collect-percent">0% of Expected</span>
                             <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
                         </p>
                     </div>
                     <!-- Due Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card" onclick="openDetailsModal('due')">
-                        <div class="absolute -right-6 -top-6 text-neonRed opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-triangle-exclamation text-9xl"></i></div>
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonRed" onclick="openDetailsModal('due')">
+                        <div class="absolute -right-6 -top-6 text-neonRed opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-triangle-exclamation text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_due">Total Due</h3>
-                        <p class="text-3xl font-bold text-red-600 dark:text-neonRed" id="kpi-due">₹0</p>
-                        <p class="text-sm mt-2 text-gray-600 dark:text-gray-400 font-medium flex justify-between items-center">
+                        <p class="text-3xl sm:text-4xl font-bold text-red-600 dark:text-neonRed mb-2" id="kpi-due">₹0</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
                             <span id="kpi-active-areas">0 Active Areas</span>
                             <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
                         </p>
                     </div>
                     <!-- Total Profit Card -->
                     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonGold" onclick="openDetailsModal('profit')">
-                        <div class="absolute -right-6 -top-6 text-neonGold opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-sack-dollar text-9xl"></i></div>
+                        <div class="absolute -right-6 -top-6 text-neonGold opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-sack-dollar text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="earned_profit">Total Earned Profit</h3>
-                        <p class="text-3xl font-bold text-yellow-600 dark:text-neonGold" id="kpi-profit-total">₹0</p>
-                        <p class="text-sm mt-2 text-gray-600 dark:text-gray-400 font-medium flex justify-between items-center">
+                        <p class="text-3xl sm:text-4xl font-bold text-yellow-600 dark:text-neonGold mb-2" id="kpi-profit-total">₹0</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
                             <span id="kpi-profit-projected">Projected: ₹0</span>
                             <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
                         </p>
                     </div>
                     <!-- Monthly Profit Card -->
                     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-6 -top-6 text-blue-500 opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-calendar-days text-9xl"></i></div>
+                        <div class="absolute -right-6 -top-6 text-blue-500 opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-calendar-days text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="monthly_profit">Monthly Profit</h3>
-                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400" id="kpi-profit-monthly">₹0</p>
-                        <p class="text-sm mt-2 text-gray-600 dark:text-gray-400 font-medium" data-i18n="last_30">Last 30 Days</p>
+                        <p class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2" id="kpi-profit-monthly">₹0</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full" data-i18n="last_30">Last 30 Days</p>
                     </div>
                     <!-- Weekly Profit Card -->
                     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-6 -top-6 text-indigo-500 opacity-10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt text-9xl"></i></div>
+                        <div class="absolute -right-6 -top-6 text-indigo-500 opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-bolt text-9xl"></i></div>
                         <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="weekly_profit">Weekly Profit</h3>
-                        <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400" id="kpi-profit-weekly">₹0</p>
-                        <p class="text-sm mt-2 text-gray-600 dark:text-gray-400 font-medium" data-i18n="last_7">Last 7 Days</p>
+                        <p class="text-3xl sm:text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2" id="kpi-profit-weekly">₹0</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full" data-i18n="last_7">Last 7 Days</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl lg:col-span-2 shadow-xl">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div class="glass-panel p-5 sm:p-6 rounded-2xl xl:col-span-2 shadow-xl border border-gray-200 dark:border-gray-800">
                         <h3 class="font-bold mb-4 text-lg text-gray-800 dark:text-white" data-i18n="chart_area">Area-wise Collection vs Due</h3>
-                        <div class="relative h-72 w-full">
+                        <div class="relative h-64 sm:h-72 w-full">
                             <canvas id="mainChart"></canvas>
                         </div>
                     </div>
-                    <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                    <div class="glass-panel p-5 sm:p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800">
                         <h3 class="font-bold mb-4 text-lg text-gray-800 dark:text-white" data-i18n="chart_timeline">Profit Timeline</h3>
-                        <div class="relative h-72 w-full">
+                        <div class="relative h-64 sm:h-72 w-full">
                             <canvas id="timelineChart"></canvas>
                         </div>
                     </div>
@@ -277,24 +268,24 @@
             <div id="view-areas" class="view-section hidden-view fade-in">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                     <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" data-i18n="area_mgt">Manage Areas</h2>
-                    <button onclick="openModal('add-area-modal')" class="w-full sm:w-auto bg-gradient-to-r from-neonCyan to-blue-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <button onclick="openModal('add-area-modal')" class="w-full sm:w-auto bg-gradient-to-r from-neonCyan to-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 active:scale-95">
                         <i class="fa-solid fa-plus"></i> <span data-i18n="create_area">Create New Area</span>
                     </button>
                 </div>
 
                 <!-- Areas Grid -->
-                <div id="areas-grid" class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div id="areas-grid" class="grid grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6">
                     <!-- Area cards injected via JS strings for speed -->
                 </div>
             </div>
 
             <div id="view-transactions" class="view-section hidden-view fade-in">
-                <h2 class="text-3xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white" data-i18n="recent_trans">Recent Transactions</h2>
-                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl">
+                <h2 class="text-3xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white" data-i18n="history">History & Logs</h2>
+                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left border-collapse min-w-[600px]">
+                        <table class="w-full text-left border-collapse min-w-[700px]">
                             <thead>
-                                <tr class="bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider">
+                                <tr class="bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                                     <th class="p-4 font-semibold" data-i18n="date_time">Date & Time</th>
                                     <th class="p-4 font-semibold" data-i18n="area">Area</th>
                                     <th class="p-4 font-semibold" data-i18n="person_no">Person No.</th>
@@ -302,7 +293,7 @@
                                     <th class="p-4 font-semibold text-center" data-i18n="action">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="transactions-body" class="divide-y divide-gray-300 dark:divide-gray-800/50">
+                            <tbody id="transactions-body" class="divide-y divide-gray-200 dark:divide-gray-800">
                                 <!-- Transactions injected here -->
                             </tbody>
                         </table>
@@ -313,33 +304,33 @@
         </div>
     </main>
 
-    <!-- Shortcuts Modal -->
-    <div id="shortcut-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonPurple">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-keyboard text-neonPurple"></i> Keyboard Shortcuts</h3>
-                <button onclick="closeModal('shortcut-modal')" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
+    <!-- Shortcuts Modal (Fixed Design) -->
+    <div id="shortcut-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[70] flex justify-center items-center hidden-view opacity-0 transition-opacity">
+        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonPurple relative">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-keyboard text-neonPurple text-2xl"></i> Shortcuts Chart</h3>
+                <button onclick="closeModal('shortcut-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <ul class="space-y-3 text-sm text-gray-700 dark:text-gray-300 font-medium">
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>Dashboard View</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + D</kbd></li>
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>Manage Areas</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + M</kbd></li>
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>History & Logs</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + H</kbd></li>
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>Create New Area</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + B</kbd></li>
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>Toggle Language</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + L</kbd></li>
-                <li class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><span>Toggle Theme</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl + T</kbd></li>
+            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300 font-medium">
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Dashboard View</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + D</kbd></li>
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Manage Areas</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + M</kbd></li>
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>History & Logs</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + H</kbd></li>
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Create New Area</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + B</kbd></li>
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Toggle Language</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + L</kbd></li>
+                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Toggle Theme</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + T</kbd></li>
             </ul>
         </div>
     </div>
 
     <!-- Deep Dive Details Modal -->
-    <div id="details-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 max-h-[80vh] flex flex-col">
-            <div class="flex justify-between items-center mb-4 shrink-0">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="details-modal-title">Details</h3>
-                <button onclick="closeModal('details-modal')" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
+    <div id="details-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
+        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 max-h-[85vh] flex flex-col relative border-t-4 border-neonCyan">
+            <div class="flex justify-between items-center mb-5 shrink-0">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2" id="details-modal-title"><i class="fa-solid fa-list text-neonCyan"></i> Details</h3>
+                <button onclick="closeModal('details-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="overflow-y-auto custom-scrollbar flex-grow pr-2">
-                <ul id="details-modal-list" class="space-y-2">
+                <ul id="details-modal-list" class="space-y-3">
                     <!-- Injected via JS -->
                 </ul>
             </div>
@@ -347,107 +338,108 @@
     </div>
 
     <!-- Add Area Modal -->
-    <div id="add-area-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonCyan max-h-[90vh] overflow-y-auto custom-scrollbar">
+    <div id="add-area-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity py-4">
+        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonCyan max-h-full overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="create_area">Create Area</h3>
-                <button onclick="closeModal('add-area-modal')" class="text-gray-500 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <button onclick="closeModal('add-area-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="form-add-area" onsubmit="handleAddArea(event)">
-                <div class="space-y-4">
+                <div class="space-y-5">
                     <div>
-                        <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="area_name">Area Name (e.g. Gayespur)</label>
-                        <input type="text" id="input-area-name" required class="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-neonCyan text-gray-900 dark:text-white font-medium">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="area_name">Area Name (e.g. Gayespur)</label>
+                        <input type="text" id="input-area-name" required class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-medium shadow-inner transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="principal_amt">Principal Amount (₹ Invested)</label>
-                        <input type="number" id="input-area-principal" required min="1" placeholder="e.g. 5000000" class="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-neonCyan text-gray-900 dark:text-white font-bold">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="principal_amt">Principal Amount (₹ Invested)</label>
+                        <input type="number" id="input-area-principal" required min="1" placeholder="e.g. 5000000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-bold shadow-inner transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="interest_rate">Interest Rate (%) (Your Profit)</label>
-                        <input type="number" id="input-area-interest" required min="0" step="0.1" placeholder="e.g. 10 for 10%" class="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-neonCyan text-gray-900 dark:text-white font-bold text-neonGold">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="interest_rate">Interest Rate (%) (Your Profit)</label>
+                        <input type="number" id="input-area-interest" required min="0" step="0.1" placeholder="e.g. 10 for 10%" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-bold text-neonGold shadow-inner transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="num_people">Number of People</label>
-                        <input type="number" id="input-area-people" required min="1" max="1000" class="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-neonCyan text-gray-900 dark:text-white font-medium">
-                        <p class="text-xs text-gray-500 mt-1 dark:text-gray-400" data-i18n="auto_gen_hint">App will auto-generate IDs (1, 2, 3...) and split Target equally.</p>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="num_people">Number of People</label>
+                        <input type="number" id="input-area-people" required min="1" max="1000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-medium shadow-inner transition-colors">
+                        <p class="text-xs text-gray-500 mt-2 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 p-2 rounded-lg" data-i18n="auto_gen_hint">App will auto-generate IDs (1, 2, 3...) and split Target equally.</p>
                     </div>
                 </div>
-                <button type="submit" class="w-full mt-6 bg-gradient-to-r from-neonCyan to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition tracking-wide" data-i18n="save">Create & Save</button>
+                <button type="submit" class="w-full mt-8 bg-gradient-to-r from-neonCyan to-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition transform hover:-translate-y-0.5 active:scale-95 tracking-wide text-lg" data-i18n="save">Create & Save</button>
             </form>
         </div>
     </div>
 
     <!-- Collect Payment Modal -->
-    <div id="collect-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonGreen">
+    <div id="collect-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity py-4">
+        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonGreen">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-green-600 dark:text-neonGreen" data-i18n="collect_payment">Collect Payment</h3>
-                <button onclick="closeModal('collect-modal')" class="text-gray-500 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <button onclick="closeModal('collect-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="form-collect" onsubmit="handleCollect(event)">
                 <input type="hidden" id="collect-area-id">
                 <input type="hidden" id="collect-person-id">
                 
-                <div class="bg-gray-100 dark:bg-gray-800/80 p-4 rounded-xl mb-4 border border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-gray-600 dark:text-gray-400"><span data-i18n="area">Area</span>: <span id="lbl-collect-area" class="font-bold text-gray-900 dark:text-white"></span></p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400"><span data-i18n="person_no">Person No</span>: <span id="lbl-collect-person" class="font-bold text-gray-900 dark:text-white"></span></p>
-                    <div class="mt-3 flex justify-between items-end">
+                <div class="bg-gray-50 dark:bg-gray-800/80 p-5 rounded-2xl mb-6 border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><span data-i18n="area">Area</span>: <span id="lbl-collect-area" class="font-bold text-gray-900 dark:text-white text-base"></span></p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400"><span data-i18n="person_no">Person No</span>: <span id="lbl-collect-person" class="font-bold text-gray-900 dark:text-white text-base bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded"></span></p>
+                    <hr class="my-3 border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-end">
                         <div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="target">Target</p>
-                            <p class="font-bold text-gray-800 dark:text-gray-200">₹<span id="lbl-collect-target"></span></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold" data-i18n="target">Target</p>
+                            <p class="font-bold text-gray-800 dark:text-gray-200 text-lg">₹<span id="lbl-collect-target"></span></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="current_due">Current Due</p>
-                            <p class="font-bold text-red-600 dark:text-neonRed text-xl">₹<span id="lbl-collect-due"></span></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold" data-i18n="current_due">Current Due</p>
+                            <p class="font-bold text-red-600 dark:text-neonRed text-2xl">₹<span id="lbl-collect-due"></span></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="enter_amount">Enter Amount Received (₹)</label>
-                        <input type="number" id="input-collect-amount" required min="1" step="0.01" class="w-full text-2xl font-bold text-center px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-neonGreen text-green-600 dark:text-neonGreen shadow-inner">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="enter_amount">Enter Amount Received (₹)</label>
+                        <input type="number" id="input-collect-amount" required min="1" step="0.01" class="w-full text-3xl font-bold text-center px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonGreen focus:ring-1 focus:ring-neonGreen text-green-600 dark:text-neonGreen shadow-inner transition-colors">
                     </div>
                 </div>
-                <button type="submit" class="w-full mt-6 bg-green-600 dark:bg-neonGreen text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-green-500/50 transition tracking-wide" data-i18n="confirm_pay">Confirm Payment</button>
+                <button type="submit" class="w-full mt-8 bg-green-600 dark:bg-neonGreen text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition transform hover:-translate-y-0.5 active:scale-95 tracking-wide text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-check-circle"></i> <span data-i18n="confirm_pay">Confirm Payment</span></button>
             </form>
         </div>
     </div>
 
     <!-- Edit Person Modal -->
-    <div id="edit-person-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 sm:p-8 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-blue-500">
+    <div id="edit-person-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
+        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-blue-500">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="edit_target">Edit Person Target</h3>
-                <button onclick="closeModal('edit-person-modal')" class="text-gray-500 hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeModal('edit-person-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="form-edit-person" onsubmit="handleEditPerson(event)">
                 <input type="hidden" id="edit-area-id">
                 <input type="hidden" id="edit-person-id">
                 <div>
-                    <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300" data-i18n="new_target">New Target Amount (₹)</label>
-                    <input type="number" id="input-edit-target" required min="0" step="0.01" class="w-full px-4 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white font-bold">
+                    <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="new_target">New Target Amount (₹)</label>
+                    <input type="number" id="input-edit-target" required min="0" step="0.01" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-900 dark:text-white font-bold shadow-inner transition-colors">
                 </div>
-                <button type="submit" class="w-full mt-4 bg-blue-600 text-white font-bold py-2 rounded-xl shadow-lg hover:bg-blue-700 transition" data-i18n="update">Update</button>
+                <button type="submit" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition active:scale-95" data-i18n="update">Update</button>
             </form>
         </div>
     </div>
 
     <!-- Custom Alert/Message Box -->
-    <div id="custom-alert" class="fixed top-4 right-4 z-[80] transform translate-x-[150%] transition-transform duration-300 flex items-center gap-3 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl">
-        <i id="alert-icon" class="text-xl"></i>
+    <div id="custom-alert" class="fixed top-4 right-4 z-[80] transform translate-x-[150%] transition-transform duration-300 flex items-center gap-4 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl min-w-[250px]">
+        <i id="alert-icon" class="text-2xl"></i>
         <div>
             <h4 id="alert-title" class="font-bold text-sm text-gray-900 dark:text-white">Notification</h4>
-            <p id="alert-message" class="text-xs text-gray-600 dark:text-gray-400"></p>
+            <p id="alert-message" class="text-xs text-gray-600 dark:text-gray-400 font-medium"></p>
         </div>
     </div>
 
     <script>
-        // Translations Dictionary
+        // Translations Dictionary (Bengali and English)
         const i18n = {
             en: {
-                dashboard: "Dashboard", area_mgt: "Manage Areas", history: "History & Logs",
+                dashboard: "Dashboard", area_mgt: "Manage Areas", history: "History & Logs", lang_switch: "English / বাংলা",
                 set_global: "Set Total Global Investment", set_global_sub: "Define your root capital (e.g., 2 Cr) to track overall ROI.",
                 save: "Save", overview: "Overview", exp_excel: "Excel", exp_pdf: "PDF",
                 total_invest: "Total Investment", total_collected: "Total Collected", total_due: "Total Due",
@@ -462,10 +454,11 @@
                 collect_payment: "Collect Payment", target: "Target", current_due: "Current Due",
                 enter_amount: "Enter Amount Received (₹)", confirm_pay: "Confirm Payment",
                 edit_target: "Edit Person Target", new_target: "New Target Amount (₹)", update: "Update",
-                details_invest: "Investment Details", details_collected: "Collection Details", details_due: "Due Breakdown", details_profit: "Profit Breakdown"
+                details_invest: "Investment Details", details_collected: "Collection Details", details_due: "Due Breakdown", details_profit: "Profit Breakdown",
+                light_mode: "Light Mode", dark_mode: "Dark Mode"
             },
             bn: {
-                dashboard: "ড্যাশবোর্ড", area_mgt: "এলাকা পরিচালনা", history: "লগ ও ইতিহাস",
+                dashboard: "ড্যাশবোর্ড", area_mgt: "এলাকা পরিচালনা", history: "লগ ও ইতিহাস", lang_switch: "English / বাংলা",
                 set_global: "মোট মূলধন সেট করুন", set_global_sub: "আপনার মোট পুঁজি (যেমন ২ কোটি) সংজ্ঞায়িত করুন।",
                 save: "সেভ করুন", overview: "ওভারভিউ", exp_excel: "এক্সেল", exp_pdf: "পিডিএফ",
                 total_invest: "মোট বিনিয়োগ", total_collected: "মোট আদায়", total_due: "মোট বাকি (Due)",
@@ -480,7 +473,8 @@
                 collect_payment: "পেমেন্ট গ্রহণ করুন", target: "টার্গেট", current_due: "বর্তমান বাকি",
                 enter_amount: "প্রাপ্ত পরিমাণ লিখুন (₹)", confirm_pay: "পেমেন্ট নিশ্চিত করুন",
                 edit_target: "টার্গেট পরিবর্তন করুন", new_target: "নতুন টার্গেট (₹)", update: "আপডেট",
-                details_invest: "বিনিয়োগের বিস্তারিত", details_collected: "আদায়ের বিস্তারিত", details_due: "বাকি টাকার বিস্তারিত", details_profit: "লাভের বিস্তারিত"
+                details_invest: "বিনিয়োগের বিস্তারিত", details_collected: "আদায়ের বিস্তারিত", details_due: "বাকি টাকার বিস্তারিত", details_profit: "লাভের বিস্তারিত",
+                light_mode: "লাইট মোড", dark_mode: "ডার্ক মোড"
             }
         };
 
@@ -491,9 +485,15 @@
             transactions: [] 
         };
 
-        let appState = JSON.parse(localStorage.getItem('investoProStateV3')) || null;
+        // Initialize state from local storage securely
+        let appState = null;
+        try {
+            appState = JSON.parse(localStorage.getItem('investoProStateV3'));
+        } catch (e) {
+            console.error("Storage format error, resetting to default");
+        }
         
-        // Migration logic
+        // Data Migration & Integrity Check
         if(!appState) {
             let oldState = JSON.parse(localStorage.getItem('investoProStateV2')) || JSON.parse(localStorage.getItem('investoProState'));
             if(oldState) {
@@ -527,7 +527,7 @@
             localStorage.setItem('investoProStateV3', JSON.stringify(appState));
         }
 
-        // Sidebar Toggle for Mobile (Smooth Drawer)
+        // Optimized Sidebar Toggle for Mobile View
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobile-overlay');
@@ -540,7 +540,6 @@
             } else {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
-                // slight delay to allow display:block to apply before animating opacity
                 requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
                 isSidebarOpen = true;
             }
@@ -556,7 +555,6 @@
                         case 'b': e.preventDefault(); openModal('add-area-modal'); break;
                         case 'l': e.preventDefault(); toggleLanguage(); break;
                         case 't': e.preventDefault(); toggleTheme(); break;
-                        case 'k': e.preventDefault(); openModal('shortcut-modal'); break;
                     }
                 }
             });
@@ -571,14 +569,23 @@
         function applyLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(i18n[lang][key]) el.innerText = i18n[lang][key];
+                if(i18n[lang][key]) {
+                    // Protect innerHTML elements if they exist inside spans
+                    if(el.children.length === 0) {
+                        el.innerText = i18n[lang][key];
+                    }
+                }
             });
             document.getElementById('input-area-principal').placeholder = lang === 'en' ? 'e.g. 5000000' : 'যেমন ৫ লাখ';
             
-            // Re-render strings if needed
+            // Re-render strings dynamically
             if(!document.getElementById('view-areas').classList.contains('hidden-view')) renderAreas();
             if(!document.getElementById('view-transactions').classList.contains('hidden-view')) renderTransactions();
             renderDashboard();
+            
+            // Update Theme Text inside Language Update too
+            const isDark = appState.settings.theme === 'dark';
+            document.getElementById('theme-text').innerText = isDark ? i18n[lang]['light_mode'] : i18n[lang]['dark_mode'];
         }
 
         function toggleTheme() {
@@ -592,13 +599,17 @@
         function applyTheme(theme) {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
+            const textEl = document.getElementById('theme-text');
+            const lang = appState.settings.language;
             
             if (theme === 'dark') {
                 html.classList.add('dark');
-                if(icon) icon.className = 'fa-solid fa-sun text-yellow-500 text-lg';
+                if(icon) icon.className = 'fa-solid fa-sun text-yellow-500 text-lg w-5';
+                if(textEl) textEl.innerText = i18n[lang]['light_mode'];
             } else {
                 html.classList.remove('dark');
-                if(icon) icon.className = 'fa-solid fa-moon text-indigo-600 text-lg';
+                if(icon) icon.className = 'fa-solid fa-moon text-indigo-600 text-lg w-5';
+                if(textEl) textEl.innerText = i18n[lang]['dark_mode'];
             }
             if(mainChartInst) renderCharts();
         }
@@ -622,19 +633,16 @@
             if(viewId === 'areas') renderAreas();
             if(viewId === 'transactions') renderTransactions();
             
-            // Auto close sidebar on mobile after clicking
             if(window.innerWidth < 768 && isSidebarOpen) toggleSidebar();
             
-            // Scroll top
+            // Correct scroll top logic for fixed structure
             document.getElementById('main-scroll-area').scrollTop = 0;
         }
 
-        // Fast Modal Logic
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('hidden-view');
-            // Force reflow
-            void modal.offsetWidth;
+            void modal.offsetWidth; // Force Reflow
             modal.classList.remove('opacity-0');
             modal.querySelector('.glass-panel').classList.remove('scale-95');
         }
@@ -657,7 +665,7 @@
             document.getElementById('alert-title').innerText = title;
             document.getElementById('alert-message').innerText = message;
             
-            alertBox.className = `fixed top-4 right-4 z-[80] transform transition-transform duration-300 flex items-center gap-3 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl`;
+            alertBox.className = `fixed top-4 right-4 z-[80] transform transition-transform duration-300 flex items-center gap-4 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl min-w-[250px]`;
             
             if (type === 'success') {
                 alertBox.classList.add('border-neonGreen');
@@ -668,7 +676,7 @@
             }
 
             alertBox.classList.remove('translate-x-[150%]');
-            setTimeout(() => alertBox.classList.add('translate-x-[150%]'), 3000);
+            setTimeout(() => alertBox.classList.add('translate-x-[150%]'), 3500);
         }
 
         function checkGlobalInvestment() {
@@ -699,7 +707,6 @@
             return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
         }
 
-        // Data Calculation core
         function getCalculatedStats() {
             let totalAllocatedPrincipal = 0, totalExpected = 0, totalCollected = 0, totalDue = 0, totalEarnedProfit = 0;
             let areaStats = [];
@@ -741,7 +748,6 @@
             return { totalAllocatedPrincipal, totalExpected, totalCollected, totalDue, totalEarnedProfit, projectedProfit: (totalExpected - totalAllocatedPrincipal), weeklyProfit, monthlyProfit, areaStats };
         }
 
-        // Deep Dive Modals (Clicking on KPI cards)
         function openDetailsModal(type) {
             const stats = getCalculatedStats();
             const lang = appState.settings.language;
@@ -751,45 +757,50 @@
 
             let titleKey = '';
             let itemsHTML = '';
+            let iconHTML = '';
 
             if(type === 'invest') {
                 titleKey = 'details_invest';
+                iconHTML = '<i class="fa-solid fa-wallet text-neonPurple"></i>';
                 itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">${a.name}</span>
-                        <span class="font-bold text-neonPurple">${formatExact(a.principal)}</span>
+                    <li class="flex justify-between p-3.5 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
+                        <span class="font-extrabold text-neonPurple text-lg">${formatExact(a.principal)}</span>
                     </li>
                 `).join('');
-                itemsHTML += `<li class="flex justify-between p-3 mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg"><span class="font-bold">Total Allocated</span><span class="font-bold">${formatExact(stats.totalAllocatedPrincipal)}</span></li>`;
+                itemsHTML += `<li class="flex justify-between p-4 mt-3 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-md border border-gray-300 dark:border-gray-600"><span class="font-bold uppercase tracking-wider text-sm">Total Allocated</span><span class="font-black text-xl">${formatExact(stats.totalAllocatedPrincipal)}</span></li>`;
             } else if (type === 'collected') {
                 titleKey = 'details_collected';
+                iconHTML = '<i class="fa-solid fa-money-bill-trend-up text-neonGreen"></i>';
                 itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3 bg-green-50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-900/30">
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">${a.name}</span>
-                        <span class="font-bold text-green-600 dark:text-neonGreen">${formatExact(a.collected)}</span>
+                    <li class="flex justify-between p-3.5 bg-green-50 dark:bg-green-900/10 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
+                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
+                        <span class="font-extrabold text-green-600 dark:text-neonGreen text-lg">${formatExact(a.collected)}</span>
                     </li>
                 `).join('');
             } else if (type === 'due') {
                 titleKey = 'details_due';
+                iconHTML = '<i class="fa-solid fa-triangle-exclamation text-neonRed"></i>';
                 itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-900/30">
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">${a.name}</span>
-                        <span class="font-bold text-red-600 dark:text-neonRed">${formatExact(a.due)}</span>
+                    <li class="flex justify-between p-3.5 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 shadow-sm">
+                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
+                        <span class="font-extrabold text-red-600 dark:text-neonRed text-lg">${formatExact(a.due)}</span>
                     </li>
                 `).join('');
             } else if (type === 'profit') {
                 titleKey = 'details_profit';
+                iconHTML = '<i class="fa-solid fa-sack-dollar text-neonGold"></i>';
                 itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg border border-yellow-100 dark:border-yellow-900/30">
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">${a.name}</span>
-                        <span class="font-bold text-yellow-600 dark:text-neonGold">${formatExact(a.profit)}</span>
+                    <li class="flex justify-between p-3.5 bg-yellow-50 dark:bg-yellow-900/10 rounded-xl border border-yellow-100 dark:border-yellow-900/30 shadow-sm">
+                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
+                        <span class="font-extrabold text-yellow-600 dark:text-neonGold text-lg">${formatExact(a.profit)}</span>
                     </li>
                 `).join('');
             }
 
-            titleEl.innerText = i18n[lang][titleKey];
+            titleEl.innerHTML = `${iconHTML} ${i18n[lang][titleKey]}`;
             if(itemsHTML === '') {
-                listEl.innerHTML = `<li class="text-center p-4 text-gray-500">No data available</li>`;
+                listEl.innerHTML = `<li class="text-center p-6 text-gray-500 font-bold bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600">No data available yet</li>`;
             } else {
                 listEl.innerHTML = itemsHTML;
             }
@@ -819,7 +830,6 @@
             renderCharts();
         }
 
-        // Optimized Chart Rendering
         function renderCharts() {
             const isDark = document.documentElement.classList.contains('dark');
             const textColor = isDark ? '#94a3b8' : '#475569';
@@ -841,17 +851,18 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: lang==='en'?'Collected':'আদায়', data: collectedData, backgroundColor: '#10b981', borderRadius: 4 },
-                        { label: lang==='en'?'Due':'বাকি', data: dueData, backgroundColor: '#f43f5e', borderRadius: 4 }
+                        { label: lang==='en'?'Collected':'আদায়', data: collectedData, backgroundColor: '#10b981', borderRadius: 6, maxBarThickness: 40 },
+                        { label: lang==='en'?'Due':'বাকি', data: dueData, backgroundColor: '#f43f5e', borderRadius: 6, maxBarThickness: 40 }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
                     scales: {
-                        y: { ticks: { color: textColor }, grid: { color: gridColor } },
-                        x: { ticks: { color: textColor }, grid: { display: false } }
+                        y: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { display: false } }
                     },
-                    plugins: { legend: { labels: { color: textColor } } }
+                    plugins: { legend: { labels: { color: textColor, font: {family: 'Inter', weight: 'bold'} } } }
                 }
             });
 
@@ -876,27 +887,26 @@
                         data: Object.values(dates),
                         borderColor: '#fbbf24',
                         backgroundColor: 'rgba(251, 191, 36, 0.2)',
-                        fill: true, tension: 0.4, pointBackgroundColor: '#fbbf24'
+                        fill: true, tension: 0.4, pointBackgroundColor: '#fbbf24', borderWidth: 3, pointRadius: 4
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     scales: {
-                        y: { ticks: { color: textColor }, grid: { color: gridColor } },
-                        x: { ticks: { color: textColor }, grid: { display: false } }
+                        y: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { display: false } }
                     },
                     plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // Fast DOM generation for Areas
         function renderAreas() {
             const grid = document.getElementById('areas-grid');
             const lang = appState.settings.language;
 
             if (appState.areas.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center p-12 text-gray-500 font-semibold">${lang === 'en' ? "No areas found. Create one." : "কোনো এলাকা পাওয়া যায়নি।"}</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center p-12 text-gray-500 font-bold bg-gray-100 dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700">${lang === 'en' ? "No areas found. Create one." : "কোনো এলাকা পাওয়া যায়নি।"}</div>`;
                 return;
             }
 
@@ -909,37 +919,39 @@
                 const earnedProfit = exp > 0 ? col * (expectedProfit / exp) : 0;
 
                 htmlString += `
-                    <div class="glass-panel bg-white dark:bg-darkCard rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-200">
-                        <div class="p-5 sm:p-6 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition" onclick="toggleAreaDetails('${area.id}')">
+                    <div class="glass-panel bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="p-5 sm:p-6 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" onclick="toggleAreaDetails('${area.id}')">
                             <div class="truncate pr-2">
-                                <h3 class="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white truncate"><i class="fa-solid fa-location-dot text-neonCyan"></i> ${area.name}</h3>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Inv: ${formatMoney(area.principal)} • Int: ${area.interestRate}%</p>
+                                <h3 class="text-xl sm:text-2xl font-extrabold flex items-center gap-2 text-gray-900 dark:text-white truncate"><i class="fa-solid fa-location-dot text-neonCyan"></i> ${area.name}</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-1 bg-gray-100 dark:bg-gray-800 inline-block px-2 py-1 rounded">Inv: ${formatMoney(area.principal)} • Int: ${area.interestRate}%</p>
                             </div>
-                            <div class="flex items-center gap-3 shrink-0">
-                                <div class="text-right hidden sm:block">
-                                    <p class="text-sm font-semibold text-green-600 dark:text-neonGreen">Col: ${formatMoney(col)}</p>
-                                    <p class="text-sm font-semibold text-red-600 dark:text-neonRed">Due: ${formatMoney(due)}</p>
+                            <div class="flex items-center gap-4 shrink-0">
+                                <div class="text-right hidden sm:block bg-gray-50 dark:bg-gray-900 p-2 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <p class="text-sm font-bold text-green-600 dark:text-neonGreen">Col: ${formatMoney(col)}</p>
+                                    <p class="text-sm font-bold text-red-600 dark:text-neonRed">Due: ${formatMoney(due)}</p>
                                 </div>
-                                <button onclick="event.stopPropagation(); deleteArea('${area.id}')" class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white transition flex items-center justify-center shadow-sm">
-                                    <i class="fa-solid fa-trash text-xs"></i>
+                                <button onclick="event.stopPropagation(); deleteArea('${area.id}')" class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white transition-all flex items-center justify-center shadow-sm active:scale-90">
+                                    <i class="fa-solid fa-trash text-sm"></i>
                                 </button>
-                                <i class="fa-solid fa-chevron-down transition-transform duration-300 text-gray-600 dark:text-gray-400" id="icon-${area.id}"></i>
+                                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center transition-transform duration-300" id="icon-${area.id}">
+                                    <i class="fa-solid fa-chevron-down text-gray-600 dark:text-gray-400 text-sm"></i>
+                                </div>
                             </div>
                         </div>
-                        <div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700">
-                            <div class="h-full bg-gradient-to-r from-neonCyan to-neonGreen transition-all duration-500" style="width: ${progress}%"></div>
+                        <div class="h-2 w-full bg-gray-200 dark:bg-gray-800">
+                            <div class="h-full bg-gradient-to-r from-neonCyan to-neonGreen transition-all duration-700 ease-out shadow-[0_0_10px_rgba(16,185,129,0.5)]" style="width: ${progress}%"></div>
                         </div>
-                        <div class="px-5 py-2 bg-gray-50 dark:bg-gray-800/50 flex justify-between text-xs text-gray-600 dark:text-gray-400 font-semibold border-b border-gray-200 dark:border-gray-800">
-                            <span>Projected Profit: ₹${expectedProfit.toFixed(0)}</span>
-                            <span class="text-yellow-600 dark:text-neonGold">Earned: ₹${earnedProfit.toFixed(0)}</span>
+                        <div class="px-5 py-3 bg-gray-100 dark:bg-gray-800/80 flex justify-between text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-bold border-b border-gray-200 dark:border-gray-800 shadow-inner">
+                            <span>Projected: ₹${expectedProfit.toFixed(0)}</span>
+                            <span class="text-yellow-600 dark:text-neonGold flex items-center gap-1"><i class="fa-solid fa-star"></i> Earned: ₹${earnedProfit.toFixed(0)}</span>
                         </div>
-                        <div id="details-${area.id}" class="hidden bg-white/50 dark:bg-[#0f172a]/50 flex flex-col max-h-[400px]">
-                            <div class="p-3 flex justify-between items-center bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase sticky top-0 z-10">
-                                <span class="w-8 text-center">No.</span>
-                                <span class="w-16 text-center">Target</span>
-                                <span class="w-16 text-center hidden sm:block">Paid</span>
-                                <span class="w-16 text-center">Due</span>
-                                <span class="w-16 text-center">Act</span>
+                        <div id="details-${area.id}" class="hidden bg-white/50 dark:bg-[#0f172a]/50 flex flex-col max-h-[450px]">
+                            <div class="p-3 sm:p-4 flex justify-between items-center bg-gray-200/80 dark:bg-gray-800/90 text-xs sm:text-sm font-extrabold text-gray-800 dark:text-gray-200 uppercase sticky top-0 z-10 shadow-sm backdrop-blur-md">
+                                <span class="w-10 text-center">No.</span>
+                                <span class="w-20 text-center">Target</span>
+                                <span class="w-20 text-center hidden sm:block">Paid</span>
+                                <span class="w-20 text-center text-red-500">Due</span>
+                                <span class="w-20 text-center">Act</span>
                             </div>
                             <div class="overflow-y-auto custom-scrollbar flex-grow" id="people-list-${area.id}"></div>
                         </div>
@@ -955,7 +967,7 @@
             if (details.classList.contains('hidden')) {
                 details.classList.remove('hidden');
                 icon.style.transform = 'rotate(180deg)';
-                renderPeople(areaId); // Render inner list only when opened for performance
+                renderPeople(areaId); 
             } else {
                 details.classList.add('hidden');
                 icon.style.transform = 'rotate(0deg)';
@@ -971,14 +983,14 @@
                 const isComplete = p.due <= 0;
                 const bgClass = isComplete ? 'bg-green-50/50 dark:bg-green-900/10' : '';
                 htmlString += `
-                    <div class="p-3 border-b border-gray-200 dark:border-gray-800/50 flex justify-between items-center text-sm ${bgClass} hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors">
-                        <div class="font-bold w-8 text-center rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-1 text-xs">#${p.id}</div>
-                        <div class="w-16 text-center cursor-pointer text-gray-800 dark:text-gray-200 hover:text-blue-600 font-semibold" onclick="openEditPerson('${areaId}', ${p.id}, ${p.target})" title="Edit target">₹${p.target.toFixed(0)}</div>
-                        <div class="w-16 text-center text-green-600 dark:text-neonGreen font-bold hidden sm:block">₹${p.paid.toFixed(0)}</div>
-                        <div class="w-16 text-center text-red-600 dark:text-neonRed font-bold">₹${p.due.toFixed(0)}</div>
-                        <div class="w-16 text-center flex justify-center">
-                            <button onclick="openCollectModal('${areaId}', ${p.id})" class="bg-green-100 text-green-700 dark:bg-neonGreen/20 dark:text-green-400 hover:bg-green-600 hover:text-white dark:hover:bg-neonGreen dark:hover:text-white px-3 py-1.5 rounded-lg transition font-bold text-xs shadow-sm w-full" ${isComplete ? 'disabled style="opacity:0.4"' : ''}>
-                                ${isComplete ? '<i class="fa-solid fa-check"></i>' : 'PAY'}
+                    <div class="p-3 sm:p-4 border-b border-gray-200 dark:border-gray-800/80 flex justify-between items-center text-sm sm:text-base ${bgClass} hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors">
+                        <div class="font-extrabold w-10 text-center rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-1.5 shadow-sm text-xs sm:text-sm">#${p.id}</div>
+                        <div class="w-20 text-center cursor-pointer text-gray-800 dark:text-gray-200 hover:text-blue-600 font-bold bg-gray-100 dark:bg-gray-900/50 py-1 rounded transition-colors" onclick="openEditPerson('${areaId}', ${p.id}, ${p.target})" title="Edit target">₹${p.target.toFixed(0)}</div>
+                        <div class="w-20 text-center text-green-600 dark:text-neonGreen font-extrabold hidden sm:block">₹${p.paid.toFixed(0)}</div>
+                        <div class="w-20 text-center text-red-600 dark:text-neonRed font-extrabold text-lg">₹${p.due.toFixed(0)}</div>
+                        <div class="w-20 text-center flex justify-center">
+                            <button onclick="openCollectModal('${areaId}', ${p.id})" class="bg-green-100 text-green-700 dark:bg-neonGreen/20 dark:text-green-400 hover:bg-green-600 hover:text-white dark:hover:bg-neonGreen dark:hover:text-white px-4 py-2 rounded-xl transition-all font-bold text-xs sm:text-sm shadow-sm w-full flex items-center justify-center gap-1 active:scale-90" ${isComplete ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>
+                                ${isComplete ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-plus"></i> PAY'}
                             </button>
                         </div>
                     </div>
@@ -987,7 +999,6 @@
             list.innerHTML = htmlString;
         }
 
-        // Logic Actions
         function handleAddArea(e) {
             e.preventDefault();
             const name = document.getElementById('input-area-name').value;
@@ -1015,12 +1026,14 @@
         }
 
         function deleteArea(areaId) {
-            appState.areas = appState.areas.filter(a => a.id !== areaId);
-            appState.transactions = appState.transactions.filter(t => t.areaId !== areaId);
-            saveState();
-            showAlert('Deleted', 'Area deleted completely.', 'error');
-            renderAreas();
-            renderDashboard();
+            if(confirm("Are you sure you want to delete this area? This action cannot be undone.")) {
+                appState.areas = appState.areas.filter(a => a.id !== areaId);
+                appState.transactions = appState.transactions.filter(t => t.areaId !== areaId);
+                saveState();
+                showAlert('Deleted', 'Area deleted completely.', 'error');
+                renderAreas();
+                renderDashboard();
+            }
         }
 
         function openEditPerson(areaId, personId, currentTarget) {
@@ -1056,7 +1069,7 @@
             document.getElementById('collect-area-id').value = areaId;
             document.getElementById('collect-person-id').value = personId;
             document.getElementById('lbl-collect-area').innerText = area.name;
-            document.getElementById('lbl-collect-person').innerText = personId;
+            document.getElementById('lbl-collect-person').innerText = '#' + personId;
             document.getElementById('lbl-collect-target').innerText = person.target.toFixed(2);
             document.getElementById('lbl-collect-due').innerText = person.due.toFixed(2);
             document.getElementById('input-collect-amount').value = person.due.toFixed(2); 
@@ -1087,9 +1100,15 @@
 
             saveState();
             closeModal('collect-modal');
-            showAlert('Success', `₹${amount} collected.`);
+            showAlert('Success', `₹${amount} collected from #${personId}.`);
             renderAreas(); 
-            toggleAreaDetails(areaId);
+            // Re-open details drawer since re-rendering Areas collapses it
+            const details = document.getElementById(`details-${areaId}`);
+            const icon = document.getElementById(`icon-${areaId}`);
+            details.classList.remove('hidden');
+            icon.style.transform = 'rotate(180deg)';
+            renderPeople(areaId);
+            
             renderDashboard();
         }
 
@@ -1098,7 +1117,7 @@
             const lang = appState.settings.language;
             
             if(appState.transactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500 font-semibold">${lang === 'en' ? "No transactions found." : "কোনো লেনদেন পাওয়া যায়নি।"}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500 font-bold bg-gray-50 dark:bg-gray-800">${lang === 'en' ? "No transactions found." : "কোনো লেনদেন পাওয়া যায়নি।"}</td></tr>`;
                 return;
             }
 
@@ -1109,13 +1128,13 @@
                 const dateObj = new Date(t.date);
                 
                 htmlString += `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition border-b border-gray-200 dark:border-gray-800">
-                        <td class="p-4 text-sm text-gray-600 dark:text-gray-400 font-medium whitespace-nowrap">${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-                        <td class="p-4 font-bold text-gray-900 dark:text-gray-200">${areaName}</td>
-                        <td class="p-4 font-semibold text-gray-700 dark:text-gray-300">#${t.personId}</td>
-                        <td class="p-4 text-right font-extrabold text-green-600 dark:text-neonGreen">+₹${t.amount.toFixed(0)}</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-200 dark:border-gray-800">
+                        <td class="p-4 text-sm text-gray-600 dark:text-gray-400 font-medium whitespace-nowrap"><i class="fa-regular fa-clock mr-1"></i> ${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+                        <td class="p-4 font-bold text-gray-900 dark:text-gray-200 flex items-center gap-2"><i class="fa-solid fa-location-dot text-neonCyan text-xs"></i> ${areaName}</td>
+                        <td class="p-4"><span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg font-bold text-gray-800 dark:text-gray-200 text-sm">#${t.personId}</span></td>
+                        <td class="p-4 text-right font-black text-green-600 dark:text-neonGreen text-lg">+₹${t.amount.toFixed(0)}</td>
                         <td class="p-4 text-center">
-                            <button onclick="deleteTransaction('${t.id}')" class="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg transition" title="Delete record"><i class="fa-solid fa-trash"></i></button>
+                            <button onclick="deleteTransaction('${t.id}')" class="text-red-500 hover:text-white bg-red-50 dark:bg-red-900/20 hover:bg-red-600 p-2.5 rounded-xl transition-colors shadow-sm active:scale-90" title="Delete record"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1124,25 +1143,27 @@
         }
 
         function deleteTransaction(tId) {
-            const tIndex = appState.transactions.findIndex(t => t.id === tId);
-            if(tIndex === -1) return;
-            const t = appState.transactions[tIndex];
+            if(confirm("Delete this transaction and revert the due amount?")) {
+                const tIndex = appState.transactions.findIndex(t => t.id === tId);
+                if(tIndex === -1) return;
+                const t = appState.transactions[tIndex];
 
-            const area = appState.areas.find(a => a.id === t.areaId);
-            if(area) {
-                const person = area.people.find(p => p.id === t.personId);
-                if(person) {
-                    person.paid -= t.amount;
-                    person.due += t.amount;
+                const area = appState.areas.find(a => a.id === t.areaId);
+                if(area) {
+                    const person = area.people.find(p => p.id === t.personId);
+                    if(person) {
+                        person.paid -= t.amount;
+                        person.due += t.amount;
+                    }
                 }
-            }
 
-            appState.transactions.splice(tIndex, 1);
-            saveState();
-            showAlert('Reverted', 'Transaction deleted.', 'error');
-            renderTransactions();
-            renderDashboard();
-            if(!document.getElementById('view-areas').classList.contains('hidden-view')) renderAreas();
+                appState.transactions.splice(tIndex, 1);
+                saveState();
+                showAlert('Reverted', 'Transaction deleted and due restored.', 'error');
+                renderTransactions();
+                renderDashboard();
+                if(!document.getElementById('view-areas').classList.contains('hidden-view')) renderAreas();
+            }
         }
 
         function exportData(type) {
@@ -1192,6 +1213,7 @@
             }
         }
 
+        // Initialize App on window load
         window.onload = initApp;
 
     </script>
