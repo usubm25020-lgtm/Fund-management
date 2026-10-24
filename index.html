@@ -9,8 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SheetJS for Real Excel (.xlsx) Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Google Fonts: Inter & Hind Siliguri -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -26,22 +28,168 @@
     </script>
 
     <style>
+        :root {
+            --bg-dark: #070b14;
+            --card-bg: #0f172a;
+        }
+
         body {
-            background-color: #090d16;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 88% 20%, rgba(16, 185, 129, 0.07) 0%, transparent 35%),
+                radial-gradient(circle at 50% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+            background-attachment: fixed;
             color: #f8fafc;
             font-family: 'Inter', 'Hind Siliguri', sans-serif;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
+        /* ================= COOL GAMING & PRO UI ANIMATIONS ================= */
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(18px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes shimmerSweep {
+            0% {
+                transform: translateX(-120%) skewX(-20deg);
+            }
+            100% {
+                transform: translateX(220%) skewX(-20deg);
+            }
+        }
+
+        @keyframes pulseGlowAmber {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 12px rgba(245, 158, 11, 0.08);
+            }
+            50% {
+                box-shadow: 0 0 28px rgba(245, 158, 11, 0.45), inset 0 0 20px rgba(245, 158, 11, 0.16);
+            }
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @keyframes barStripes {
+            0% { background-position: 0 0; }
+            100% { background-position: 28px 0; }
+        }
+
+        .animate-page-in {
+            animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Gaming Card Surface with Animated Hover Elevation & Neon Edge */
         .card-surface {
-            background: #111827;
-            border: 1px solid #1f2937;
-            transition: border-color 0.15s ease, transform 0.15s ease;
-        }
-        .card-surface:hover {
-            border-color: #374151;
+            position: relative;
+            background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(11, 17, 30, 0.98));
+            border: 1px solid rgba(51, 65, 85, 0.65);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.28s ease,
+                        box-shadow 0.28s ease;
+            overflow: hidden;
         }
 
+        .card-surface::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 65%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.65s ease;
+            pointer-events: none;
+        }
+
+        .card-surface:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245, 158, 11, 0.45);
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.85), 0 0 22px rgba(245, 158, 11, 0.12);
+        }
+
+        .card-surface:hover::after {
+            left: 160%;
+        }
+
+        /* Hero Total Loan Banner Gaming Glow */
+        .hero-loan-card {
+            background: linear-gradient(135deg, #111827 0%, #0f172a 55%, rgba(245, 158, 11, 0.14) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            animation: pulseGlowAmber 4s infinite ease-in-out;
+        }
+
+        .float-badge {
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        /* Gaming Tactile Animated Buttons */
+        .btn-gaming {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateZ(0);
+        }
+
+        .btn-gaming::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            transition: none;
+            pointer-events: none;
+        }
+
+        .btn-gaming:hover::before {
+            animation: shimmerSweep 0.75s ease forwards;
+        }
+
+        .btn-gaming:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-gaming:active {
+            transform: translateY(1px) scale(0.95);
+        }
+
+        .btn-glow-amber:hover {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.55);
+        }
+
+        .btn-glow-emerald:hover {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.55);
+        }
+
+        .btn-glow-cyan:hover {
+            box-shadow: 0 0 18px rgba(6, 182, 212, 0.45);
+        }
+
+        /* Interactive Tree Row Hover Slide */
+        .metric-row {
+            transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .metric-row:hover {
+            transform: translateX(4px);
+        }
+
+        /* Notebook Tree Branch Connector */
         .tree-branch {
             position: relative;
             padding-left: 1.25rem;
@@ -50,10 +198,11 @@
             content: '';
             position: absolute;
             left: 0.35rem;
-            top: -0.35rem;
+            top: -0.25rem;
             bottom: 0.85rem;
             width: 2px;
-            background: #334155;
+            background: linear-gradient(to bottom, #8b5cf6, #10b981, #f59e0b);
+            border-radius: 99px;
         }
         .tree-item {
             position: relative;
@@ -65,7 +214,24 @@
             top: 50%;
             width: 0.75rem;
             height: 2px;
-            background: #334155;
+            background: #475569;
+        }
+
+        /* Gaming Progress Bar Stripes */
+        .gaming-progress {
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.18) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.18) 50%,
+                rgba(255, 255, 255, 0.18) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 28px 28px;
+            animation: barStripes 1.2s linear infinite;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.65);
         }
 
         ::-webkit-scrollbar {
@@ -73,7 +239,7 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #090d16;
+            background: #070b14;
         }
         ::-webkit-scrollbar-thumb {
             background: #1e293b;
@@ -83,189 +249,243 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- ================= TOP HEADER ================= -->
-    <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 py-3.5">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-            <!-- Brand Title (SHILABIZ NIDHI LIMITED) -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-extrabold text-lg shadow-md">
-                    <i class="fa-solid fa-building-columns"></i>
+    <!-- ================= TOP HEADER (RESPONSIVE FOR MOBILE, LAPTOP & PC) ================= -->
+    <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-6 py-3 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col gap-3">
+            
+            <!-- Top Row: Brand + Action Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2.5">
+                <!-- Brand Title -->
+                <div class="flex items-center gap-3">
+                    <div class="float-badge w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-sm sm:text-xl font-black tracking-wider text-white uppercase">
+                            SHILABIZ NIDHI LIMITED
+                        </h1>
+                        <p id="headerSubtitle" class="text-[11px] sm:text-xs text-slate-400">
+                            Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-base sm:text-xl font-extrabold tracking-wide text-white uppercase">
-                        SHILABIZ NIDHI LIMITED
-                    </h1>
-                    <p id="headerSubtitle" class="text-xs text-slate-400">Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker</p>
+
+                <!-- Right Controls: Language Toggle | Excel Export | Add Area -->
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                    <!-- 1. Language Toggle Button -->
+                    <button onclick="toggleLanguage()" class="btn-gaming flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-xs font-bold text-amber-400">
+                        <i class="fa-solid fa-language text-sm"></i>
+                        <span id="langToggleText">বাংলা ভাষা</span>
+                    </button>
+
+                    <!-- 2. Direct Excel (.xlsx) Export Button (Replaces raw code button) -->
+                    <button onclick="exportToExcel()" class="btn-gaming btn-glow-emerald flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-xs font-extrabold text-emerald-300" title="Download Complete Report in Excel Format">
+                        <i class="fa-solid fa-file-excel text-emerald-400 text-sm"></i>
+                        <span data-i18n="excelBtn">Excel</span>
+                    </button>
+
+                    <!-- 3. Add New Area Button -->
+                    <button onclick="openAreaModal()" class="btn-gaming btn-glow-amber flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-md">
+                        <i class="fa-solid fa-plus"></i>
+                        <span data-i18n="addAreaBtn">Add Area</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Action Buttons & Language Switcher -->
-            <div class="flex items-center gap-2">
-                <!-- Language Toggle Button (Default English -> Bengali) -->
-                <button onclick="toggleLanguage()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-amber-400 transition-colors">
-                    <i class="fa-solid fa-language text-sm"></i>
-                    <span id="langToggleText">বাংলা ভাষা</span>
+            <!-- Second Row: Dedicated Page Navigation Tabs (Dashboard Page vs History Page) -->
+            <div class="flex items-center gap-2 pt-1 border-t border-slate-900">
+                <button id="navDashboardBtn" onclick="switchPage('dashboard')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                    <span data-i18n="navDashboard">Dashboard</span>
                 </button>
 
-                <!-- Backup / Restore -->
-                <button onclick="openBackupModal()" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-slate-300 flex items-center gap-1.5" title="Backup or Restore Data">
-                    <i class="fa-solid fa-download text-cyan-400"></i>
-                    <span class="hidden md:inline" data-i18n="backupBtn">Backup</span>
-                </button>
-
-                <!-- Add New Area Button -->
-                <button onclick="openAreaModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition-all">
-                    <i class="fa-solid fa-plus"></i>
-                    <span data-i18n="addAreaBtn">Add Area</span>
+                <button id="navHistoryBtn" onclick="switchPage('history')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700">
+                    <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+                    <span data-i18n="navHistory">History Page</span>
+                    <span id="navHistoryBadge" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-800 text-amber-400">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ================= MAIN CONTENT ================= -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <!-- ================= MAIN WORKSPACE ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 sm:py-6">
 
-        <!-- 1. TOP MASTER BOX: TOTAL AMOUNT & OVERALL SUMMARY -->
-        <section class="space-y-4">
-            <!-- Master Total Amount Banner (Matches top box in notebook) -->
-            <div class="card-surface rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/20 border-l-4 border-l-amber-500 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
-                        <i class="fa-solid fa-vault text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-amber-400" data-i18n="totalAmountBoxTitle">TOTAL AMOUNT (MASTER CAPITAL)</span>
-                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-medium" id="totalShortBadge">2.00 Crore</span>
+        <!-- =========================================================
+             PAGE 1: DASHBOARD VIEW (TOTAL LOAN HERO + 4 SUMMARY CARDS + AREA CARDS)
+             ========================================================= -->
+        <div id="dashboardPageView" class="space-y-6 animate-page-in">
+
+            <!-- 1. TOP HERO BANNER: TOTAL LOAN AMOUNT (Replaces Master Capital) -->
+            <section class="space-y-4">
+                <div class="card-surface hero-loan-card rounded-2xl p-4 sm:p-6 border-l-4 border-l-amber-500 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5 sm:gap-4">
+                        <div class="float-badge w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+                            <i class="fa-solid fa-sack-dollar text-xl sm:text-2xl"></i>
                         </div>
-                        <div class="flex items-baseline gap-3 mt-1">
-                            <h2 id="masterTotalDisplay" onclick="openTotalAmountModal()" class="text-2xl sm:text-3xl font-extrabold text-white cursor-pointer hover:text-amber-300 transition-colors" title="Click to Edit Total Amount">
-                                ₹2,00,00,000
-                            </h2>
-                            <button onclick="openTotalAmountModal()" class="text-xs text-slate-400 hover:text-white underline flex items-center gap-1">
-                                <i class="fa-solid fa-pen text-[10px]"></i> <span data-i18n="editText">Edit</span>
-                            </button>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-amber-400" data-i18n="totalLoanBannerTitle">
+                                    TOTAL LOAN AMOUNT (TOTAL AMOUNT)
+                                </span>
+                                <span id="heroLoanShortBadge" class="text-[11px] px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold">
+                                    0
+                                </span>
+                            </div>
+                            <div class="flex items-baseline gap-3 mt-1">
+                                <h2 id="heroTotalLoanDisplay" class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                                    ₹0
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Quick Stats inside Hero Box -->
+                    <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/90 text-xs">
+                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
+                            <span class="text-slate-400 text-[11px] block" data-i18n="totalMembersLabel">Total Members</span>
+                            <span id="summaryTotalMembers" class="text-sm sm:text-lg font-black text-white">0</span>
+                        </div>
+                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
+                            <span class="text-slate-400 text-[11px] block" data-i18n="totalAreasLabel">Active Areas</span>
+                            <span id="summaryTotalAreas" class="text-sm sm:text-lg font-black text-cyan-400">0</span>
+                        </div>
+                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
+                            <span class="text-slate-400 text-[11px] block" data-i18n="recoveryRateLabel">Paid Recovery</span>
+                            <span id="summaryRecoveryRate" class="text-sm sm:text-lg font-black text-emerald-400">0%</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right side quick balance breakdown -->
-                <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800 text-xs">
-                    <div>
-                        <span class="text-slate-400 block" data-i18n="totalMembersLabel">Total Members</span>
-                        <span id="summaryTotalMembers" class="text-base font-extrabold text-white">0</span>
+                <!-- 4 Clean Summary Strip Cards (2x2 on Mobile, 4 Columns on Laptop/PC) -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <!-- 1. Total Closing Amount -->
+                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-violet-500/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-violet-300 uppercase tracking-wide" data-i18n="closingAmountLabel">Closing Amount</span>
+                            <i class="fa-solid fa-file-invoice-dollar text-violet-400/80 text-xs"></i>
+                        </div>
+                        <p id="sumClosingAmount" class="text-lg sm:text-2xl font-black text-violet-300 mt-1.5">₹0</p>
+                        <span id="sumClosingShort" class="text-[11px] text-violet-400 font-semibold">0</span>
                     </div>
-                    <div class="h-8 w-px bg-slate-800 hidden sm:block"></div>
-                    <div>
-                        <span class="text-slate-400 block" data-i18n="remainingCapitalLabel">Available Balance (After Loan)</span>
-                        <span id="summaryRemainingCapital" class="text-base font-extrabold text-cyan-400">₹0</span>
+
+                    <!-- 2. Customer Paid Amount -->
+                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-emerald-500/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wide" data-i18n="paidAmountLabel">Customer Paid Amount</span>
+                            <i class="fa-solid fa-circle-check text-emerald-400/80 text-xs"></i>
+                        </div>
+                        <p id="sumPaidAmount" class="text-lg sm:text-2xl font-black text-emerald-400 mt-1.5">₹0</p>
+                        <span id="sumPaidShort" class="text-[11px] text-emerald-500 font-semibold">0</span>
+                    </div>
+
+                    <!-- 3. Outstanding Amount -->
+                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-amber-500/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wide" data-i18n="outstandingAmountLabel">Outstanding Amount</span>
+                            <i class="fa-solid fa-hourglass-half text-amber-400/80 text-xs"></i>
+                        </div>
+                        <p id="sumOutstandingAmount" class="text-lg sm:text-2xl font-black text-amber-400 mt-1.5">₹0</p>
+                        <span id="sumOutstandingShort" class="text-[11px] text-amber-500 font-semibold">0</span>
+                    </div>
+
+                    <!-- 4. Hold Amount -->
+                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-rose-500/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wide" data-i18n="holdAmountLabel">Hold Amount</span>
+                            <i class="fa-solid fa-hand-holding-hand text-rose-400/80 text-xs"></i>
+                        </div>
+                        <p id="sumHoldAmount" class="text-lg sm:text-2xl font-black text-rose-400 mt-1.5">₹0</p>
+                        <span id="sumHoldShort" class="text-[11px] text-rose-500 font-semibold">0</span>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- 5 Clean Summary Strip Cards matching the 5 Notebook Metrics -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                <!-- 1. Total Loan Amount -->
-                <div class="card-surface rounded-xl p-3.5">
-                    <span class="text-[11px] font-semibold text-slate-400 uppercase block" data-i18n="loanAmountLabel">Loan Amount</span>
-                    <p id="sumLoanAmount" class="text-lg sm:text-xl font-extrabold text-white mt-1">₹0</p>
-                    <span id="sumLoanShort" class="text-[11px] text-cyan-400 font-medium">0</span>
-                </div>
+            <!-- 2. AREA WISE BREAKDOWN SECTION (FULL WIDTH ON MOBILE, 2 COLS ON LAPTOP, 3 COLS ON WIDESCREEN PC) -->
+            <section class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800/80">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-2 h-5 rounded-full bg-amber-500"></div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white" data-i18n="areaListHeading">Area Wise Breakdown</h3>
+                        <span id="areaCountPill" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-500/15 border border-amber-500/30 text-amber-400">
+                            2 Areas
+                        </span>
+                    </div>
 
-                <!-- 2. Total Closing Amount -->
-                <div class="card-surface rounded-xl p-3.5">
-                    <span class="text-[11px] font-semibold text-slate-400 uppercase block" data-i18n="closingAmountLabel">Closing Amount</span>
-                    <p id="sumClosingAmount" class="text-lg sm:text-xl font-extrabold text-violet-300 mt-1">₹0</p>
-                    <span id="sumClosingShort" class="text-[11px] text-violet-400 font-medium">0</span>
-                </div>
-
-                <!-- 3. Customer Paid Amount -->
-                <div class="card-surface rounded-xl p-3.5 border-b-2 border-b-emerald-500/60">
-                    <span class="text-[11px] font-semibold text-emerald-400 uppercase block" data-i18n="paidAmountLabel">Customer Paid Amount</span>
-                    <p id="sumPaidAmount" class="text-lg sm:text-xl font-extrabold text-emerald-400 mt-1">₹0</p>
-                    <span id="sumPaidShort" class="text-[11px] text-emerald-500 font-medium">0</span>
-                </div>
-
-                <!-- 4. Outstanding Amount -->
-                <div class="card-surface rounded-xl p-3.5 border-b-2 border-b-amber-500/60">
-                    <span class="text-[11px] font-semibold text-amber-400 uppercase block" data-i18n="outstandingAmountLabel">Outstanding Amount</span>
-                    <p id="sumOutstandingAmount" class="text-lg sm:text-xl font-extrabold text-amber-400 mt-1">₹0</p>
-                    <span id="sumOutstandingShort" class="text-[11px] text-amber-500 font-medium">0</span>
-                </div>
-
-                <!-- 5. Hold Amount -->
-                <div class="card-surface rounded-xl p-3.5 col-span-2 sm:col-span-1 border-b-2 border-b-rose-500/60">
-                    <span class="text-[11px] font-semibold text-rose-400 uppercase block" data-i18n="holdAmountLabel">Hold Amount</span>
-                    <p id="sumHoldAmount" class="text-lg sm:text-xl font-extrabold text-rose-400 mt-1">₹0</p>
-                    <span id="sumHoldShort" class="text-[11px] text-rose-500 font-medium">0</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. MAIN WORKSPACE: AREA CARDS (LEFT) & TRANSACTION HISTORY (RIGHT) -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            
-            <!-- LEFT 8 COLUMNS: AREAS LIST (1. ADHATA, 2. CHAKDHA, etc.) -->
-            <div class="lg:col-span-8 space-y-4">
-                <!-- Clean Search & Section Bar -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="flex items-center gap-2">
-                        <h3 class="text-base font-bold text-white" data-i18n="areaListHeading">Area Wise Breakdown</h3>
-                        <span id="areaCountPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-amber-400">2 Areas</span>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <div class="relative flex-1 sm:w-60">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                            <input id="searchInput" oninput="renderAll()" type="text" placeholder="Search area (e.g. Adhata, Chakdha)..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+                        <div class="relative flex-1 sm:w-72">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                            <input id="searchInput" oninput="renderAll()" type="text" placeholder="Search area (e.g. Adhata, Chakdha)..." class="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
                         </div>
                     </div>
                 </div>
 
-                <!-- Area Cards Grid -->
-                <div id="areaCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Responsive Grid: 1 col Mobile, 2 cols Tablet/Laptop, 3 cols Large PC -->
+                <div id="areaCardsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
                     <!-- Populated via JavaScript -->
                 </div>
-            </div>
+            </section>
+        </div>
 
-            <!-- RIGHT 4 COLUMNS: CLEAN HISTORY LOG -->
-            <div class="lg:col-span-4 card-surface rounded-2xl p-4 sm:p-5 sticky top-20">
-                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                    <div>
-                        <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
-                            <span data-i18n="historyTitle">Payment & Edit History</span>
-                        </h3>
-                        <p class="text-[11px] text-slate-400" data-i18n="historySubtitle">Every collection & change is saved here</p>
+        <!-- =========================================================
+             PAGE 2: DEDICATED FULL-SCREEN HISTORY PAGE
+             ========================================================= -->
+        <div id="historyPageView" class="hidden space-y-5 animate-page-in">
+            <!-- History Page Top Bar -->
+            <div class="card-surface rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-amber-500">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                        <i class="fa-solid fa-clock-rotate-left text-lg"></i>
                     </div>
-                    <span id="historyCountBadge" class="px-2 py-0.5 rounded-md text-xs font-bold bg-slate-800 text-slate-300">0</span>
+                    <div>
+                        <h2 class="text-base sm:text-xl font-black text-white" data-i18n="historyTitle">
+                            Payment & Edit History
+                        </h2>
+                        <p class="text-xs text-slate-400" data-i18n="historySubtitle">
+                            Every collection & change is saved here with instant Cut / Revert option
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Filter by Area -->
-                <select id="historyFilterSelect" onchange="renderHistory()" class="w-full mb-3 px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 focus:outline-none focus:border-amber-500">
-                    <option value="all">All Areas History</option>
-                </select>
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <!-- Filter by Area -->
+                    <select id="historyFilterSelect" onchange="renderHistory()" class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-slate-200 focus:outline-none focus:border-amber-500">
+                        <option value="all">All Areas History</option>
+                    </select>
 
-                <!-- History Items -->
-                <div id="historyList" class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
-                    <!-- Populated via JS -->
+                    <!-- Export History to Excel -->
+                    <button onclick="exportToExcel()" class="btn-gaming btn-glow-emerald px-3.5 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-xs font-extrabold text-emerald-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span data-i18n="exportExcelFullBtn">Export Excel</span>
+                    </button>
+
+                    <!-- Back to Dashboard -->
+                    <button onclick="switchPage('dashboard')" class="btn-gaming px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span data-i18n="backToDashboardBtn">Back to Dashboard</span>
+                    </button>
                 </div>
             </div>
 
-        </section>
+            <!-- History Items Grid (Responsive 1 col mobile, 2 cols laptop/PC) -->
+            <div id="historyList" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+
     </main>
 
     <!-- ================= MODALS ================= -->
 
     <!-- 1. QUICK CUSTOMER PAYMENT / RECEIVE MODAL -->
-    <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-        <div class="card-surface rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
+    <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl animate-page-in">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div>
-                    <h3 class="text-base font-bold text-white" data-i18n="recordPaymentTitle">Record Customer Payment / Update</h3>
-                    <p id="payModalAreaName" class="text-xs text-amber-400 font-semibold mt-0.5">ADHATA</p>
+                    <h3 class="text-base font-extrabold text-white" data-i18n="recordPaymentTitle">Record Customer Payment / Update</h3>
+                    <p id="payModalAreaName" class="text-xs text-amber-400 font-extrabold mt-0.5">ADHATA</p>
                 </div>
-                <button onclick="closeModal('paymentModal')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                <button onclick="closeModal('paymentModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -274,15 +494,15 @@
             <div class="grid grid-cols-3 gap-2 my-3.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
                 <div>
                     <span class="text-[10px] text-slate-400 block" data-i18n="closingAmountLabel">Closing Amount</span>
-                    <span id="payModalClosing" class="text-xs font-bold text-white">₹0</span>
+                    <span id="payModalClosing" class="text-xs font-extrabold text-white">₹0</span>
                 </div>
                 <div class="border-x border-slate-800">
                     <span class="text-[10px] text-emerald-400 block" data-i18n="paidAmountLabel">Customer Paid</span>
-                    <span id="payModalPaid" class="text-xs font-bold text-emerald-400">₹0</span>
+                    <span id="payModalPaid" class="text-xs font-extrabold text-emerald-400">₹0</span>
                 </div>
                 <div>
                     <span class="text-[10px] text-amber-400 block" data-i18n="outstandingAmountLabel">Outstanding</span>
-                    <span id="payModalOutstanding" class="text-xs font-bold text-amber-400">₹0</span>
+                    <span id="payModalOutstanding" class="text-xs font-extrabold text-amber-400">₹0</span>
                 </div>
             </div>
 
@@ -293,13 +513,13 @@
                 <div class="grid grid-cols-2 gap-2">
                     <label class="cursor-pointer">
                         <input type="radio" name="payActionType" value="add_paid" checked class="peer hidden">
-                        <div class="py-2 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/15 peer-checked:text-emerald-300">
+                        <div class="btn-gaming py-2.5 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/15 peer-checked:text-emerald-300">
                             <i class="fa-solid fa-plus-circle mr-1"></i> <span data-i18n="addPaidRadio">Add Customer Paid</span>
                         </div>
                     </label>
                     <label class="cursor-pointer">
                         <input type="radio" name="payActionType" value="deduct_paid" class="peer hidden">
-                        <div class="py-2 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-rose-500 peer-checked:bg-rose-500/15 peer-checked:text-rose-300">
+                        <div class="btn-gaming py-2.5 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-rose-500 peer-checked:bg-rose-500/15 peer-checked:text-rose-300">
                             <i class="fa-solid fa-minus-circle mr-1"></i> <span data-i18n="deductPaidRadio">Deduct / Cut Paid</span>
                         </div>
                     </label>
@@ -309,11 +529,11 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="text-xs font-semibold text-slate-300" data-i18n="amountLabel">Amount (₹)</label>
-                        <button type="button" onclick="fillFullOutstanding()" class="text-[11px] text-amber-400 hover:underline font-semibold" data-i18n="fillOutstandingBtn">
+                        <button type="button" onclick="fillFullOutstanding()" class="text-[11px] text-amber-400 hover:underline font-bold" data-i18n="fillOutstandingBtn">
                             Fill Full Outstanding
                         </button>
                     </div>
-                    <input id="payAmountInput" type="number" step="any" min="1" required placeholder="e.g. 10000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold text-base focus:outline-none focus:border-emerald-500">
+                    <input id="payAmountInput" type="number" step="any" min="1" required placeholder="e.g. 10000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-black text-base focus:outline-none focus:border-emerald-500">
                 </div>
 
                 <div class="grid grid-cols-2 gap-2.5">
@@ -328,8 +548,8 @@
                 </div>
 
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                    <button type="button" onclick="closeModal('paymentModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs" data-i18n="savePaymentBtn">
+                    <button type="button" onclick="closeModal('paymentModal')" class="btn-gaming px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-gaming btn-glow-emerald px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs" data-i18n="savePaymentBtn">
                         Save & Update History
                     </button>
                 </div>
@@ -338,14 +558,14 @@
     </div>
 
     <!-- 2. ADD / EDIT AREA MODAL (WITH ALL 5 FIELDS + MEMBERS COUNT) -->
-    <div id="areaModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl max-h-[92vh] overflow-y-auto">
+    <div id="areaModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl max-h-[92vh] overflow-y-auto animate-page-in">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div>
-                    <h3 id="areaModalHeading" class="text-base font-bold text-white">Add / Edit Area Details</h3>
+                    <h3 id="areaModalHeading" class="text-base font-extrabold text-white">Add / Edit Area Details</h3>
                     <p class="text-xs text-slate-400" data-i18n="areaModalSub">Set Members, Loan, Closing, Paid, Outstanding & Hold Amount</p>
                 </div>
-                <button onclick="closeModal('areaModal')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                <button onclick="closeModal('areaModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -414,8 +634,8 @@
                 </div>
 
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                    <button type="button" onclick="closeModal('areaModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs" data-i18n="saveAreaBtn">
+                    <button type="button" onclick="closeModal('areaModal')" class="btn-gaming px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-gaming btn-glow-amber px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs" data-i18n="saveAreaBtn">
                         Save Area
                     </button>
                 </div>
@@ -423,65 +643,14 @@
         </div>
     </div>
 
-    <!-- 3. EDIT TOTAL AMOUNT MODAL -->
-    <div id="totalAmountModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-        <div class="card-surface rounded-2xl max-w-sm w-full p-5 border border-slate-700 shadow-2xl">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-                <h3 class="text-base font-bold text-white" data-i18n="totalAmountBoxTitle">TOTAL AMOUNT (MASTER CAPITAL)</h3>
-                <button onclick="closeModal('totalAmountModal')" class="w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <form onsubmit="submitTotalAmountModal(event)" class="space-y-4 mt-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="enterTotalAmountLabel">Total Capital Amount (₹)</label>
-                    <input id="masterTotalInput" type="number" step="any" min="0" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-lg font-extrabold text-white focus:outline-none focus:border-amber-500">
-                    <div class="flex flex-wrap gap-1.5 mt-2">
-                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 5000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">50 Lakh</button>
-                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 10000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">1 Crore</button>
-                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 20000000" class="px-2 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-[11px] text-amber-300 font-bold">2 Crore</button>
-                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 50000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">5 Crore</button>
-                    </div>
-                </div>
-                <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
-                    <button type="button" onclick="closeModal('totalAmountModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs" data-i18n="updateBtn">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 4. CONFIRM DELETE MODAL -->
-    <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-        <div class="card-surface rounded-2xl max-w-xs w-full p-5 border border-rose-500/40 text-center">
-            <h4 id="confirmTitle" class="text-sm font-bold text-white">Delete Area?</h4>
+    <!-- 3. CONFIRM DELETE MODAL -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-xs w-full p-5 border border-rose-500/40 text-center animate-page-in">
+            <h4 id="confirmTitle" class="text-sm font-extrabold text-white">Delete Area?</h4>
             <p id="confirmDesc" class="text-xs text-slate-400 mt-1">This will remove the area from your dashboard.</p>
             <div class="flex justify-center gap-2 mt-4">
-                <button onclick="closeModal('confirmModal')" class="px-4 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300">Cancel</button>
-                <button id="confirmActionBtn" class="px-4 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-bold">Delete</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. BACKUP / RESTORE MODAL -->
-    <div id="backupModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-                <h3 class="text-base font-bold text-white">Backup & Restore Data</h3>
-                <button onclick="closeModal('backupModal')" class="w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="space-y-3 mt-3 text-xs text-slate-300">
-                <p>Copy or download your complete Shilabiz Nidhi Limited data, or paste backup JSON below to restore.</p>
-                <textarea id="backupTextarea" rows="5" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono text-[11px] text-amber-300 focus:outline-none"></textarea>
-                <div class="flex flex-wrap justify-between gap-2 pt-2">
-                    <div class="flex gap-2">
-                        <button onclick="copyBackupData()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold text-white">Copy JSON</button>
-                        <button onclick="downloadBackupData()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold">Download File</button>
-                    </div>
-                    <button onclick="restoreBackupData()" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold">Restore Data</button>
-                </div>
+                <button onclick="closeModal('confirmModal')" class="btn-gaming px-4 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300">Cancel</button>
+                <button id="confirmActionBtn" class="btn-gaming px-4 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-bold">Delete</button>
             </div>
         </div>
     </div>
@@ -492,11 +661,11 @@
     <!-- ================= APPLICATION SCRIPT ================= -->
     <script>
         const STORAGE_KEY = 'shilabiz_nidhi_state_v1';
+        let currentPage = 'dashboard';
 
-        // Default Initial State matching the user's notebook diagram (1. ADHATA, 2. CHAKDHA) & 50k/30k/20k example
+        // Default Initial State matching the user's notebook diagram (1. ADHATA, 2. CHAKDHA)
         const defaultState = {
-            lang: 'en', // Default language is English
-            totalAmount: 20000000, // 2 Crore
+            lang: 'en',
             areas: [
                 {
                     id: 'area-adhata',
@@ -579,12 +748,16 @@
             en: {
                 headerSubtitle: 'Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker',
                 langToggleText: 'বাংলা ভাষা',
-                backupBtn: 'Backup',
+                excelBtn: 'Excel Export',
+                exportExcelFullBtn: 'Download Excel',
                 addAreaBtn: 'Add Area',
-                totalAmountBoxTitle: 'TOTAL AMOUNT (MASTER CAPITAL)',
-                editText: 'Edit',
+                navDashboard: 'Dashboard',
+                navHistory: 'History Page',
+                backToDashboardBtn: 'Back to Dashboard',
+                totalLoanBannerTitle: 'TOTAL LOAN AMOUNT (TOTAL AMOUNT)',
                 totalMembersLabel: 'Total Members',
-                remainingCapitalLabel: 'Available Balance (After Loan)',
+                totalAreasLabel: 'Active Areas',
+                recoveryRateLabel: 'Paid Recovery',
                 loanAmountLabel: 'Loan Amount',
                 closingAmountLabel: 'Closing Amount',
                 paidAmountLabel: 'Customer Paid Amount',
@@ -592,7 +765,7 @@
                 holdAmountLabel: 'Hold Amount',
                 areaListHeading: 'Area Wise Breakdown',
                 historyTitle: 'Payment & Edit History',
-                historySubtitle: 'Every collection & change is saved here',
+                historySubtitle: 'Every collection & change is saved here with instant Cut / Revert option',
                 recordPaymentTitle: 'Record Customer Payment',
                 addPaidRadio: 'Add Customer Paid',
                 deductPaidRadio: 'Deduct / Cut Paid',
@@ -608,9 +781,6 @@
                 closingBreakdownLabel: 'Closing Amount Breakdown',
                 autoCalcText: 'Auto-calculate Outstanding',
                 saveAreaBtn: 'Save Area',
-                enterTotalAmountLabel: 'Total Capital Amount (₹)',
-                updateBtn: 'Update',
-                membersWord: 'Members',
                 receiveBtn: 'Receive / Paid',
                 editAreaBtn: 'Edit / Modify',
                 revertBtn: 'Cut / Revert'
@@ -618,20 +788,24 @@
             bn: {
                 headerSubtitle: 'এলাকা ভিত্তিক লোন, ক্লোজিং, কাস্টমার পেইড, আউটস্ট্যান্ডিং ও হোল্ড ট্র্যাকার',
                 langToggleText: 'English',
-                backupBtn: 'ব্যাকআপ',
-                addAreaBtn: 'নতুন এলাকা যোগ করুন',
-                totalAmountBoxTitle: 'মোট তহবিল (TOTAL AMOUNT)',
-                editText: 'এডিট',
+                excelBtn: 'এক্সেল ডাউনলোড',
+                exportExcelFullBtn: 'এক্সেল ফাইল নামান',
+                addAreaBtn: 'নতুন এলাকা যোগ',
+                navDashboard: 'ড্যাশবোর্ড পেজ',
+                navHistory: 'হিস্ট্রি পেজ (History)',
+                backToDashboardBtn: 'ড্যাশবোর্ডে ফিরুন',
+                totalLoanBannerTitle: 'মোট লোন অ্যামাউন্ট (TOTAL LOAN AMOUNT)',
                 totalMembersLabel: 'মোট সদস্য (Members)',
-                remainingCapitalLabel: 'অবশিষ্ট তহবিল (লোন দেওয়ার পর)',
+                totalAreasLabel: 'মোট এলাকা',
+                recoveryRateLabel: 'আদায়ের হার',
                 loanAmountLabel: 'লোন অ্যামাউন্ট (Loan)',
                 closingAmountLabel: 'ক্লোজিং অ্যামাউন্ট (Closing)',
                 paidAmountLabel: 'কাস্টমার পেইড (Customer Paid)',
                 outstandingAmountLabel: 'আউটস্ট্যান্ডিং (Outstanding)',
                 holdAmountLabel: 'হোল্ড অ্যামাউন্ট (Hold)',
                 areaListHeading: 'এলাকা ভিত্তিক হিসাব (Area Breakdown)',
-                historyTitle: 'লেনদেন ও পরিবর্তনের ইতিহাস',
-                historySubtitle: 'টাকা জমা ও এডিটের সম্পূর্ণ রেকর্ড',
+                historyTitle: 'লেনদেন ও পরিবর্তনের সম্পূর্ণ ইতিহাস',
+                historySubtitle: 'টাকা জমা ও এডিটের সম্পূর্ণ রেকর্ড (ভুল হলে কাটুন / Revert করুন)',
                 recordPaymentTitle: 'কাস্টমার পেইড জমা / পরিবর্তন',
                 addPaidRadio: 'জমা যোগ করুন (Add Paid)',
                 deductPaidRadio: 'জমা কমান / কাটুন',
@@ -647,14 +821,35 @@
                 closingBreakdownLabel: 'ক্লোজিং অ্যামাউন্টের বিস্তারিত হিসাব',
                 autoCalcText: 'স্বয়ংক্রিয় বকেয়া হিসাব',
                 saveAreaBtn: 'সেভ করুন',
-                enterTotalAmountLabel: 'মোট মূল তহবিল (₹)',
-                updateBtn: 'আপডেট করুন',
-                membersWord: 'জন সদস্য',
                 receiveBtn: 'টাকা জমা (Paid)',
                 editAreaBtn: 'এডিট / মডিফাই',
                 revertBtn: 'কাটুন (Revert)'
             }
         };
+
+        // --- PAGE NAVIGATION (DASHBOARD PAGE vs DEDICATED HISTORY PAGE) ---
+        function switchPage(pageName) {
+            currentPage = pageName;
+            const dashEl = document.getElementById('dashboardPageView');
+            const histEl = document.getElementById('historyPageView');
+            const dashBtn = document.getElementById('navDashboardBtn');
+            const histBtn = document.getElementById('navHistoryBtn');
+
+            if (pageName === 'history') {
+                dashEl.classList.add('hidden');
+                histEl.classList.remove('hidden');
+
+                histBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20';
+                dashBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700';
+                renderHistory();
+            } else {
+                histEl.classList.add('hidden');
+                dashEl.classList.remove('hidden');
+
+                dashBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20';
+                histBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700';
+            }
+        }
 
         // --- FORMATTING HELPERS ---
         function formatINR(val) {
@@ -724,18 +919,17 @@
                 totalHold += Number(a.holdAmount) || 0;
             });
 
-            const remainingCapital = appState.totalAmount - totalLoan;
+            const recoveryBase = totalClosing > 0 ? totalClosing : totalLoan;
+            const recoveryPct = recoveryBase > 0 ? Math.min(100, Math.round((totalPaid / recoveryBase) * 100)) : 0;
 
-            // Update Top Master Bar
-            document.getElementById('masterTotalDisplay').textContent = formatINR(appState.totalAmount);
-            document.getElementById('totalShortBadge').textContent = formatShort(appState.totalAmount);
+            // Update Hero Total Loan Amount Banner
+            document.getElementById('heroTotalLoanDisplay').textContent = formatINR(totalLoan);
+            document.getElementById('heroLoanShortBadge').textContent = formatShort(totalLoan);
             document.getElementById('summaryTotalMembers').textContent = totalMembers.toLocaleString('en-IN');
-            document.getElementById('summaryRemainingCapital').textContent = formatINR(remainingCapital);
+            document.getElementById('summaryTotalAreas').textContent = appState.areas.length;
+            document.getElementById('summaryRecoveryRate').textContent = recoveryPct + '%';
 
-            // Update 5 Summary Cards
-            document.getElementById('sumLoanAmount').textContent = formatINR(totalLoan);
-            document.getElementById('sumLoanShort').textContent = formatShort(totalLoan);
-
+            // Update 4 Summary Cards
             document.getElementById('sumClosingAmount').textContent = formatINR(totalClosing);
             document.getElementById('sumClosingShort').textContent = formatShort(totalClosing);
 
@@ -752,12 +946,14 @@
                 ? `${appState.areas.length} টি এলাকা`
                 : `${appState.areas.length} Areas`;
 
+            document.getElementById('navHistoryBadge').textContent = appState.history.length;
+
             renderAreaCards(dict);
             updateHistoryFilterOptions();
             renderHistory();
         }
 
-        // --- RENDER AREA CARDS (EXACT NOTEBOOK DIAGRAM STRUCTURE) ---
+        // --- RENDER AREA CARDS (EXACT NOTEBOOK DIAGRAM STRUCTURE + GAMING ANIMATION) ---
         function renderAreaCards(dict) {
             const container = document.getElementById('areaCardsContainer');
             const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
@@ -768,9 +964,9 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="md:col-span-2 card-surface rounded-2xl p-8 text-center">
+                    <div class="md:col-span-2 xl:col-span-3 card-surface rounded-2xl p-8 text-center">
                         <p class="text-sm text-slate-400 mb-3">No matching areas found.</p>
-                        <button onclick="openAreaModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">+ Add New Area</button>
+                        <button onclick="openAreaModal()" class="btn-gaming btn-glow-amber px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">+ Add New Area</button>
                     </div>
                 `;
                 return;
@@ -781,16 +977,16 @@
                 const pct = baseTarget > 0 ? Math.min(100, Math.round((Number(area.paidAmount) / baseTarget) * 100)) : 0;
 
                 return `
-                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between">
+                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 60}ms">
                     <div>
-                        <!-- Card Header: Numbered Area Name + Members Pill + Edit/Delete -->
-                        <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800">
+                        <!-- Card Header: Numbered Area Name + Members Counter + Edit/Delete -->
+                        <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800/90">
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-extrabold flex items-center justify-center">
+                                    <span class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 text-xs font-black flex items-center justify-center shadow">
                                         ${idx + 1}
                                     </span>
-                                    <h4 class="text-base sm:text-lg font-extrabold text-white tracking-wide uppercase">
+                                    <h4 class="text-base sm:text-lg font-black text-white tracking-wide uppercase">
                                         ${escapeHtml(area.name)}
                                     </h4>
                                 </div>
@@ -799,19 +995,19 @@
 
                             <!-- Members Counter (Click +/- or edit directly) & Actions -->
                             <div class="flex items-center gap-1.5">
-                                <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl px-2 py-1 gap-1.5" title="Members in this area">
-                                    <button onclick="adjustMembers('${area.id}', -1)" class="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">-</button>
+                                <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 gap-1.5" title="Members in this area">
+                                    <button onclick="adjustMembers('${area.id}', -1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">-</button>
                                     <div onclick="openAreaModal('${area.id}')" class="cursor-pointer text-center px-1">
                                         <i class="fa-solid fa-users text-amber-400 text-[10px] mr-1"></i>
-                                        <span class="text-xs font-extrabold text-white">${Number(area.members) || 0}</span>
+                                        <span class="text-xs font-black text-white">${Number(area.members) || 0}</span>
                                     </div>
-                                    <button onclick="adjustMembers('${area.id}', 1)" class="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">+</button>
+                                    <button onclick="adjustMembers('${area.id}', 1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">+</button>
                                 </div>
 
-                                <button onclick="openAreaModal('${area.id}')" class="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" title="Edit Area">
+                                <button onclick="openAreaModal('${area.id}')" class="btn-gaming w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-amber-400 flex items-center justify-center" title="Edit Area">
                                     <i class="fa-solid fa-pen text-xs"></i>
                                 </button>
-                                <button onclick="confirmDeleteArea('${area.id}')" class="w-8 h-8 rounded-xl bg-slate-900 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 flex items-center justify-center" title="Delete Area">
+                                <button onclick="confirmDeleteArea('${area.id}')" class="btn-gaming w-8 h-8 rounded-xl bg-slate-900 hover:bg-rose-500/20 border border-slate-800 text-slate-400 hover:text-rose-400 flex items-center justify-center" title="Delete Area">
                                     <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </div>
@@ -821,69 +1017,69 @@
                         <div class="my-4 space-y-2.5 text-xs">
                             
                             <!-- 1. LOAN AMOUNT -->
-                            <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-slate-800/80 cursor-pointer">
-                                <span class="font-semibold text-slate-300 flex items-center gap-2">
+                            <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 hover:bg-slate-900 border border-slate-800/90 cursor-pointer">
+                                <span class="font-bold text-slate-300 flex items-center gap-2">
                                     <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
                                     ${dict.loanAmountLabel}
                                 </span>
-                                <span class="text-sm font-extrabold text-white">${formatINR(area.loanAmount)}</span>
+                                <span class="text-sm font-black text-white">${formatINR(area.loanAmount)}</span>
                             </div>
 
                             <!-- 2. CLOSING AMOUNT (With Sub-Tree for Paid & Outstanding) -->
-                            <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/80 space-y-2">
-                                <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between cursor-pointer">
-                                    <span class="font-semibold text-violet-300 flex items-center gap-2">
+                            <div class="p-2.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
+                                <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between cursor-pointer">
+                                    <span class="font-bold text-violet-300 flex items-center gap-2">
                                         <i class="fa-solid fa-arrow-right-long text-violet-400"></i>
                                         ${dict.closingAmountLabel}
                                     </span>
-                                    <span class="text-sm font-extrabold text-violet-300">${formatINR(area.closingAmount)}</span>
+                                    <span class="text-sm font-black text-violet-300">${formatINR(area.closingAmount)}</span>
                                 </div>
 
                                 <!-- Sub-Branch under Closing Amount: Customer Paid & Outstanding -->
                                 <div class="tree-branch space-y-2 pt-1">
                                     <!-- Customer Paid Amount -->
-                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item flex items-center justify-between p-2 rounded-lg bg-emerald-950/25 border border-emerald-500/25 hover:border-emerald-500/50 cursor-pointer">
-                                        <span class="text-emerald-300 font-semibold">${dict.paidAmountLabel}</span>
-                                        <span class="text-sm font-extrabold text-emerald-400">${formatINR(area.paidAmount)}</span>
+                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item metric-row flex items-center justify-between p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30 hover:border-emerald-400 cursor-pointer">
+                                        <span class="text-emerald-300 font-bold">${dict.paidAmountLabel}</span>
+                                        <span class="text-sm font-black text-emerald-400">${formatINR(area.paidAmount)}</span>
                                     </div>
 
                                     <!-- Outstanding Amount -->
-                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item flex items-center justify-between p-2 rounded-lg bg-amber-950/25 border border-amber-500/25 hover:border-amber-500/50 cursor-pointer">
-                                        <span class="text-amber-300 font-semibold">${dict.outstandingAmountLabel}</span>
-                                        <span class="text-sm font-extrabold text-amber-400">${formatINR(area.outstandingAmount)}</span>
+                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item metric-row flex items-center justify-between p-2 rounded-lg bg-amber-950/30 border border-amber-500/30 hover:border-amber-400 cursor-pointer">
+                                        <span class="text-amber-300 font-bold">${dict.outstandingAmountLabel}</span>
+                                        <span class="text-sm font-black text-amber-400">${formatINR(area.outstandingAmount)}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- 3. HOLD AMOUNT -->
-                            <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-slate-800/80 cursor-pointer">
-                                <span class="font-semibold text-rose-300 flex items-center gap-2">
+                            <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 hover:bg-slate-900 border border-slate-800/90 cursor-pointer">
+                                <span class="font-bold text-rose-300 flex items-center gap-2">
                                     <i class="fa-solid fa-arrow-right-long text-rose-400"></i>
                                     ${dict.holdAmountLabel}
                                 </span>
-                                <span class="text-sm font-extrabold text-rose-400">${formatINR(area.holdAmount)}</span>
+                                <span class="text-sm font-black text-rose-400">${formatINR(area.holdAmount)}</span>
                             </div>
                         </div>
 
-                        <!-- Recovery Progress Bar -->
+                        <!-- Animated Gaming Recovery Progress Bar -->
                         <div class="mb-4">
-                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1.5">
                                 <span>Collection Progress</span>
-                                <span class="text-slate-200 font-bold">${pct}% Paid</span>
+                                <span class="text-emerald-400 font-extrabold">${pct}% Paid</span>
                             </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+                            <div class="w-full h-2 bg-slate-950 border border-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 gaming-progress rounded-full transition-all duration-500" style="width: ${pct}%"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card Footer Buttons -->
-                    <div class="pt-3 border-t border-slate-800/80 flex items-center gap-2">
-                        <button onclick="openPaymentModal('${area.id}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+                    <!-- Card Footer Gaming Buttons -->
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center gap-2.5">
+                        <button onclick="openPaymentModal('${area.id}')" class="btn-gaming btn-glow-emerald flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md">
                             <i class="fa-solid fa-hand-holding-dollar"></i>
                             <span>${dict.receiveBtn}</span>
                         </button>
-                        <button onclick="openAreaModal('${area.id}')" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+                        <button onclick="openAreaModal('${area.id}')" class="btn-gaming btn-glow-cyan py-2.5 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-100 font-bold text-xs flex items-center gap-1.5">
                             <i class="fa-solid fa-sliders text-amber-400"></i>
                             <span>${dict.editAreaBtn}</span>
                         </button>
@@ -891,6 +1087,119 @@
                 </div>
                 `;
             }).join('');
+        }
+
+        // --- PROFESSIONAL EXCEL (.XLSX) EXPORT ---
+        function exportToExcel() {
+            try {
+                const todayStr = new Date().toISOString().slice(0, 10);
+
+                // Calculate Grand Totals
+                let totalMembers = 0, totalLoan = 0, totalClosing = 0, totalPaid = 0, totalOutstanding = 0, totalHold = 0;
+                appState.areas.forEach(a => {
+                    totalMembers += Number(a.members) || 0;
+                    totalLoan += Number(a.loanAmount) || 0;
+                    totalClosing += Number(a.closingAmount) || 0;
+                    totalPaid += Number(a.paidAmount) || 0;
+                    totalOutstanding += Number(a.outstandingAmount) || 0;
+                    totalHold += Number(a.holdAmount) || 0;
+                });
+
+                // Build Sheet 1: Area-Wise Report Data
+                const areaRows = [
+                    ['SHILABIZ NIDHI LIMITED — AREA-WISE FUND & COLLECTION REPORT'],
+                    ['Generated Date:', todayStr, '', 'Total Areas:', appState.areas.length, 'Total Members:', totalMembers],
+                    [],
+                    ['SL NO.', 'AREA NAME', 'MEMBERS COUNT', 'LOAN AMOUNT (₹)', 'CLOSING AMOUNT (₹)', 'CUSTOMER PAID AMOUNT (₹)', 'OUTSTANDING AMOUNT (₹)', 'HOLD AMOUNT (₹)', 'COLLECTION %', 'NOTE / REMARK']
+                ];
+
+                appState.areas.forEach((a, index) => {
+                    const base = Number(a.closingAmount) > 0 ? Number(a.closingAmount) : Number(a.loanAmount);
+                    const pct = base > 0 ? Math.round(((Number(a.paidAmount) || 0) / base) * 100) + '%' : '0%';
+                    areaRows.push([
+                        index + 1,
+                        a.name,
+                        Number(a.members) || 0,
+                        Number(a.loanAmount) || 0,
+                        Number(a.closingAmount) || 0,
+                        Number(a.paidAmount) || 0,
+                        Number(a.outstandingAmount) || 0,
+                        Number(a.holdAmount) || 0,
+                        pct,
+                        a.note || ''
+                    ]);
+                });
+
+                areaRows.push([]);
+                areaRows.push([
+                    '',
+                    'GRAND TOTAL',
+                    totalMembers,
+                    totalLoan,
+                    totalClosing,
+                    totalPaid,
+                    totalOutstanding,
+                    totalHold,
+                    (totalClosing > 0 ? Math.round((totalPaid / totalClosing) * 100) + '%' : '0%'),
+                    'Overall Summary'
+                ]);
+
+                // Build Sheet 2: Payment & Edit History
+                const historyRows = [
+                    ['SHILABIZ NIDHI LIMITED — PAYMENT & EDIT HISTORY LOG'],
+                    ['SL NO.', 'DATE', 'TIME', 'AREA NAME', 'ACTION TYPE', 'AMOUNT (₹)', 'OUTSTANDING AFTER (₹)', 'STATUS', 'NOTE / REMARK']
+                ];
+
+                appState.history.forEach((h, idx) => {
+                    historyRows.push([
+                        idx + 1,
+                        h.date || '',
+                        h.time || '',
+                        h.areaName || '',
+                        h.type || '',
+                        Number(h.amount) || 0,
+                        h.outstandingAfter !== undefined ? Number(h.outstandingAfter) : '',
+                        h.reverted ? 'REVERTED / CUT' : 'ACTIVE',
+                        h.note || ''
+                    ]);
+                });
+
+                if (typeof XLSX !== 'undefined') {
+                    const wb = XLSX.utils.book_new();
+
+                    const wsAreas = XLSX.utils.aoa_to_sheet(areaRows);
+                    wsAreas['!cols'] = [
+                        { wch: 8 }, { wch: 20 }, { wch: 16 }, { wch: 18 },
+                        { wch: 20 }, { wch: 25 }, { wch: 23 }, { wch: 18 },
+                        { wch: 15 }, { wch: 28 }
+                    ];
+                    XLSX.utils.book_append_sheet(wb, wsAreas, 'Area Breakdown');
+
+                    const wsHist = XLSX.utils.aoa_to_sheet(historyRows);
+                    wsHist['!cols'] = [
+                        { wch: 8 }, { wch: 14 }, { wch: 12 }, { wch: 18 },
+                        { wch: 16 }, { wch: 16 }, { wch: 22 }, { wch: 16 }, { wch: 36 }
+                    ];
+                    XLSX.utils.book_append_sheet(wb, wsHist, 'Payment History');
+
+                    XLSX.writeFile(wb, `SHILABIZ_NIDHI_LIMITED_Report_${todayStr}.xlsx`);
+                    showToast(appState.lang === 'bn' ? 'এক্সেল ফাইল সফলভাবে ডাউনলোড হয়েছে!' : 'Excel (.xlsx) Report Downloaded!');
+                } else {
+                    // Fallback CSV/Excel download if CDN is offline
+                    const csvContent = areaRows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+                    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `SHILABIZ_NIDHI_LIMITED_Report_${todayStr}.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    showToast('Excel CSV Report Downloaded!');
+                }
+            } catch (err) {
+                showToast('Error exporting Excel file');
+            }
         }
 
         // --- QUICK MEMBER ADJUSTMENT FROM CARD ---
@@ -1016,7 +1325,6 @@
             const closingInput = document.getElementById('areaClosingInput');
             let closing = Number(closingInput.value) || 0;
 
-            // If user typed Loan Amount and Closing is still empty/0, mirror Loan to Closing for convenience
             if (closing === 0 && loan > 0 && document.activeElement.id === 'areaLoanInput') {
                 closingInput.value = loan;
                 closing = loan;
@@ -1115,36 +1423,7 @@
             openModal('confirmModal');
         }
 
-        // --- MASTER TOTAL AMOUNT EDIT ---
-        function openTotalAmountModal() {
-            document.getElementById('masterTotalInput').value = appState.totalAmount;
-            openModal('totalAmountModal');
-        }
-
-        function submitTotalAmountModal(e) {
-            e.preventDefault();
-            const val = Number(document.getElementById('masterTotalInput').value) || 0;
-            appState.totalAmount = val;
-
-            appState.history.unshift({
-                id: 'h-' + Date.now(),
-                areaId: 'master',
-                areaName: 'TOTAL AMOUNT',
-                type: 'MASTER_EDIT',
-                amount: val,
-                date: new Date().toISOString().split('T')[0],
-                time: nowTime(),
-                note: `Master Total Amount updated to ${formatINR(val)}`,
-                reverted: false
-            });
-
-            saveState();
-            closeModal('totalAmountModal');
-            renderAll();
-            showToast('Total Amount updated');
-        }
-
-        // --- HISTORY RENDER & REVERT ("KATA JAI") ---
+        // --- DEDICATED HISTORY PAGE RENDER & REVERT ("KATA JAI") ---
         function updateHistoryFilterOptions() {
             const select = document.getElementById('historyFilterSelect');
             const prev = select.value;
@@ -1162,37 +1441,43 @@
             const dict = i18n[appState.lang] || i18n.en;
 
             const logs = appState.history.filter(h => filterId === 'all' || h.areaId === filterId);
-            document.getElementById('historyCountBadge').textContent = logs.length;
 
             if (logs.length === 0) {
-                listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No history records yet.</p>`;
+                listEl.innerHTML = `
+                    <div class="md:col-span-2 card-surface rounded-2xl p-10 text-center">
+                        <i class="fa-solid fa-clock-rotate-left text-3xl text-slate-600 mb-2"></i>
+                        <p class="text-sm text-slate-400">No history records found for this filter.</p>
+                    </div>
+                `;
                 return;
             }
 
-            listEl.innerHTML = logs.map(item => {
+            listEl.innerHTML = logs.map((item, idx) => {
                 const isRevertable = !item.reverted && (item.type === 'PAID_ADD' || item.type === 'PAID_DEDUCT');
                 const strike = item.reverted ? 'line-through opacity-50' : '';
-                let badge = 'bg-emerald-500/15 text-emerald-400';
-                if (item.type === 'PAID_DEDUCT') badge = 'bg-rose-500/15 text-rose-400';
-                if (item.type === 'AREA_EDIT' || item.type === 'MASTER_EDIT') badge = 'bg-amber-500/15 text-amber-400';
+                let badge = 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+                if (item.type === 'PAID_DEDUCT') badge = 'bg-rose-500/15 text-rose-400 border border-rose-500/30';
+                if (item.type === 'AREA_EDIT' || item.type === 'AREA_CREATE') badge = 'bg-amber-500/15 text-amber-400 border border-amber-500/30';
 
                 return `
-                <div class="p-3 rounded-xl bg-slate-950 border border-slate-800/90 text-xs space-y-1.5">
-                    <div class="flex items-center justify-between">
-                        <span class="font-extrabold text-white uppercase ${strike}">${escapeHtml(item.areaName)}</span>
-                        <span class="font-extrabold px-2 py-0.5 rounded ${badge} ${strike}">${formatINR(item.amount)}</span>
+                <div class="card-surface p-4 rounded-2xl text-xs space-y-2.5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 40}ms">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm font-black text-white uppercase ${strike}">${escapeHtml(item.areaName)}</span>
+                            <span class="text-sm font-black px-2.5 py-0.5 rounded-lg ${badge} ${strike}">${formatINR(item.amount)}</span>
+                        </div>
+                        <p class="text-slate-300 text-xs ${strike}">${escapeHtml(item.note)}</p>
                     </div>
-                    <p class="text-slate-300 text-[11px] ${strike}">${escapeHtml(item.note)}</p>
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-900 text-[10px] text-slate-500">
-                        <span>${item.date || ''} • ${item.time || ''}</span>
+                    <div class="flex items-center justify-between pt-2.5 border-t border-slate-800/80 text-[11px] text-slate-400">
+                        <span><i class="fa-regular fa-calendar mr-1"></i>${item.date || ''} • ${item.time || ''}</span>
                         <div class="flex items-center gap-2">
                             ${isRevertable ? `
-                                <button onclick="revertHistoryItem('${item.id}')" class="text-amber-400 hover:underline font-semibold">
-                                    <i class="fa-solid fa-rotate-left mr-0.5"></i>${dict.revertBtn}
+                                <button onclick="revertHistoryItem('${item.id}')" class="btn-gaming px-2.5 py-1 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 hover:bg-amber-500 hover:text-slate-950 font-extrabold transition-colors">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>${dict.revertBtn}
                                 </button>
                             ` : ''}
-                            ${item.reverted ? `<span class="text-rose-400 font-bold">[Reverted]</span>` : ''}
-                            <button onclick="deleteHistoryItem('${item.id}')" class="text-slate-500 hover:text-rose-400" title="Remove entry">
+                            ${item.reverted ? `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 font-bold">[Reverted]</span>` : ''}
+                            <button onclick="deleteHistoryItem('${item.id}')" class="btn-gaming w-7 h-7 rounded-lg bg-slate-900 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 flex items-center justify-center" title="Remove entry">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
@@ -1226,45 +1511,7 @@
         function deleteHistoryItem(histId) {
             appState.history = appState.history.filter(h => h.id !== histId);
             saveState();
-            renderHistory();
-        }
-
-        // --- BACKUP & RESTORE ---
-        function openBackupModal() {
-            document.getElementById('backupTextarea').value = JSON.stringify(appState, null, 2);
-            openModal('backupModal');
-        }
-
-        function copyBackupData() {
-            const el = document.getElementById('backupTextarea');
-            el.select();
-            document.execCommand('copy');
-            showToast('Backup JSON copied to clipboard');
-        }
-
-        function downloadBackupData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const a = document.createElement('a');
-            a.setAttribute("href", dataStr);
-            a.setAttribute("download", `shilabiz_nidhi_backup_${new Date().toISOString().slice(0, 10)}.json`);
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        }
-
-        function restoreBackupData() {
-            try {
-                const parsed = JSON.parse(document.getElementById('backupTextarea').value);
-                if (parsed && Array.isArray(parsed.areas)) {
-                    appState = parsed;
-                    saveState();
-                    closeModal('backupModal');
-                    renderAll();
-                    showToast('Data restored successfully');
-                }
-            } catch (e) {
-                showToast('Invalid Backup JSON');
-            }
+            renderAll();
         }
 
         // --- MODAL & TOAST HELPERS ---
@@ -1285,8 +1532,8 @@
         function showToast(msg) {
             const box = document.getElementById('toastBox');
             const t = document.createElement('div');
-            t.className = 'pointer-events-auto px-4 py-2.5 rounded-xl bg-slate-900 border border-amber-500/40 text-xs font-semibold text-white shadow-xl flex items-center gap-2';
-            t.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${escapeHtml(msg)}</span>`;
+            t.className = 'pointer-events-auto px-4 py-3 rounded-xl bg-slate-900/95 border border-amber-500/50 text-xs font-extrabold text-white shadow-2xl flex items-center gap-2.5 animate-page-in';
+            t.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i><span>${escapeHtml(msg)}</span>`;
             box.appendChild(t);
             setTimeout(() => t.remove(), 2600);
         }
