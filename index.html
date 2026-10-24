@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHILABIZ NIDHI LIMITED — Fund & Area Tracker</title>
+    <!-- App Favicon / Logo -->
+    <link rel="icon" type="image/png" href="logo.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -29,16 +31,16 @@
 
     <style>
         :root {
-            --bg-dark: #070b14;
+            --bg-dark: #060a12;
             --card-bg: #0f172a;
         }
 
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 12% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 35%),
-                radial-gradient(circle at 88% 20%, rgba(16, 185, 129, 0.07) 0%, transparent 35%),
-                radial-gradient(circle at 50% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+                radial-gradient(circle at 12% 15%, rgba(245, 158, 11, 0.09) 0%, transparent 35%),
+                radial-gradient(circle at 88% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 50% 85%, rgba(56, 189, 248, 0.07) 0%, transparent 40%);
             background-attachment: fixed;
             color: #f8fafc;
             font-family: 'Inter', 'Hind Siliguri', sans-serif;
@@ -72,13 +74,13 @@
                 box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 12px rgba(245, 158, 11, 0.08);
             }
             50% {
-                box-shadow: 0 0 28px rgba(245, 158, 11, 0.45), inset 0 0 20px rgba(245, 158, 11, 0.16);
+                box-shadow: 0 0 30px rgba(245, 158, 11, 0.48), inset 0 0 22px rgba(245, 158, 11, 0.16);
             }
         }
 
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-4px); }
+            50% { transform: translateY(-5px); }
         }
 
         @keyframes barStripes {
@@ -86,8 +88,48 @@
             100% { background-position: 28px 0; }
         }
 
+        @keyframes spinSlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes ownerPulseRing {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(245, 158, 11, 0.55), 0 0 55px rgba(16, 185, 129, 0.25);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(245, 158, 11, 0.85), 0 0 80px rgba(16, 185, 129, 0.45);
+                transform: scale(1.03);
+            }
+        }
+
         .animate-page-in {
             animation: cardEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Loader Spinning Rings */
+        .loader-ring-outer {
+            border: 3px solid transparent;
+            border-top-color: #f59e0b;
+            border-right-color: #10b981;
+            animation: spinSlow 2.6s linear infinite;
+        }
+
+        .loader-ring-inner {
+            border: 3px solid transparent;
+            border-bottom-color: #38bdf8;
+            border-left-color: #a855f7;
+            animation: spinReverse 2s linear infinite;
+        }
+
+        .owner-photo-glow {
+            animation: ownerPulseRing 3s ease-in-out infinite;
         }
 
         /* Gaming Card Surface with Animated Hover Elevation & Neon Edge */
@@ -109,7 +151,7 @@
             left: -150%;
             width: 65%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.045), transparent);
             transform: skewX(-25deg);
             transition: left 0.65s ease;
             pointer-events: none;
@@ -118,7 +160,7 @@
         .card-surface:hover {
             transform: translateY(-4px);
             border-color: rgba(245, 158, 11, 0.45);
-            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.85), 0 0 22px rgba(245, 158, 11, 0.12);
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.85), 0 0 22px rgba(245, 158, 11, 0.14);
         }
 
         .card-surface:hover::after {
@@ -127,8 +169,8 @@
 
         /* Hero Total Loan Banner Gaming Glow */
         .hero-loan-card {
-            background: linear-gradient(135deg, #111827 0%, #0f172a 55%, rgba(245, 158, 11, 0.14) 100%);
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            background: linear-gradient(135deg, #111827 0%, #0f172a 55%, rgba(245, 158, 11, 0.15) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.45);
             animation: pulseGlowAmber 4s infinite ease-in-out;
         }
 
@@ -189,17 +231,17 @@
             transform: translateX(4px);
         }
 
-        /* Notebook Tree Branch Connector */
+        /* Primary Tree Branch Connector (Under Closing Amount) */
         .tree-branch {
             position: relative;
-            padding-left: 1.25rem;
+            padding-left: 1.2rem;
         }
         .tree-branch::before {
             content: '';
             position: absolute;
             left: 0.35rem;
             top: -0.25rem;
-            bottom: 0.85rem;
+            bottom: 0.9rem;
             width: 2px;
             background: linear-gradient(to bottom, #8b5cf6, #10b981, #f59e0b);
             border-radius: 99px;
@@ -210,11 +252,39 @@
         .tree-item::before {
             content: '';
             position: absolute;
-            left: -0.9rem;
+            left: -0.85rem;
             top: 50%;
             width: 0.75rem;
             height: 2px;
             background: #475569;
+        }
+
+        /* Secondary Sub-Tree Connector (Under Outstanding Amount -> Running & Hold) */
+        .sub-tree-branch {
+            position: relative;
+            padding-left: 1.15rem;
+        }
+        .sub-tree-branch::before {
+            content: '';
+            position: absolute;
+            left: 0.35rem;
+            top: -0.15rem;
+            bottom: 0.75rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #f59e0b, #38bdf8, #f43f5e);
+            border-radius: 99px;
+        }
+        .sub-tree-item {
+            position: relative;
+        }
+        .sub-tree-item::before {
+            content: '';
+            position: absolute;
+            left: -0.8rem;
+            top: 50%;
+            width: 0.65rem;
+            height: 2px;
+            background: #64748b;
         }
 
         /* Gaming Progress Bar Stripes */
@@ -239,7 +309,7 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #070b14;
+            background: #060a12;
         }
         ::-webkit-scrollbar-thumb {
             background: #1e293b;
@@ -249,23 +319,85 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
+    <!-- =====================================================================
+         COOL GAMING LOADING SCREEN WITH OWNER PHOTO (owner.jpg) & LOGO (logo.png)
+         ===================================================================== -->
+    <div id="appLoadingScreen" class="fixed inset-0 z-50 bg-[#050811] flex flex-col items-center justify-center p-5 transition-opacity duration-500">
+        <!-- Ambient Neon Glows -->
+        <div class="absolute w-72 h-72 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
+        <div class="absolute w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col items-center max-w-sm w-full text-center">
+            <!-- Top App Logo Pill -->
+            <div class="mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 shadow-lg">
+                <img src="logo.png" alt="Logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/f59e0b/0f172a?text=SNL';" class="w-6 h-6 rounded-full object-cover">
+                <span class="text-[11px] font-black tracking-widest uppercase text-amber-400">SHILABIZ NIDHI LIMITED</span>
+            </div>
+
+            <!-- Animated Dual Neon Rings + App Owner Photo (owner.jpg) -->
+            <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center my-2">
+                <div class="absolute inset-0 rounded-full loader-ring-outer"></div>
+                <div class="absolute inset-2.5 rounded-full loader-ring-inner"></div>
+
+                <!-- Owner Image Frame -->
+                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-br from-amber-400 via-emerald-400 to-cyan-500 owner-photo-glow overflow-hidden relative">
+                    <img id="ownerSplashImg" src="owner.jpg" alt="App Owner"
+                         onerror="this.onerror=null;this.src='https://placehold.co/300x300/0f172a/f59e0b?text=owner.jpg';"
+                         class="w-full h-full object-cover rounded-full bg-slate-900">
+                </div>
+
+                <!-- Floating Crown/Verified Badge -->
+                <div class="float-badge absolute -bottom-1 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black text-[10px] uppercase tracking-wider px-3 py-0.5 rounded-full shadow-lg border border-slate-950">
+                    <i class="fa-solid fa-crown mr-1"></i>Official App
+                </div>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <h1 class="mt-4 text-lg sm:text-2xl font-black tracking-wider text-white uppercase">
+                SHILABIZ NIDHI LIMITED
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">
+                Smart Cloud Fund & Area-Wise Collection System
+            </p>
+
+            <!-- Gaming Progress Bar -->
+            <div class="w-full bg-slate-900/90 border border-slate-800 h-2.5 rounded-full overflow-hidden mt-5 p-0.5">
+                <div id="loaderProgressBar" class="h-full bg-gradient-to-r from-amber-500 via-emerald-400 to-cyan-400 gaming-progress rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+
+            <div class="flex items-center justify-between w-full mt-2 text-[11px] text-slate-400 font-semibold">
+                <span id="loaderStatusText"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i>Connecting Firebase Cloud...</span>
+                <button onclick="dismissLoadingScreen()" class="text-amber-400 hover:underline font-bold">Enter Now →</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= TOP HEADER (RESPONSIVE FOR MOBILE, LAPTOP & PC) ================= -->
     <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-6 py-3 shadow-lg">
         <div class="max-w-7xl mx-auto flex flex-col gap-3">
             
-            <!-- Top Row: Brand + Action Controls -->
+            <!-- Top Row: Brand Logo (logo.png) + Title + Action Controls -->
             <div class="flex flex-wrap items-center justify-between gap-2.5">
-                <!-- Brand Title -->
+                <!-- Brand Logo & Title -->
                 <div class="flex items-center gap-3">
-                    <div class="float-badge w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-amber-500/20">
-                        <i class="fa-solid fa-building-columns"></i>
+                    <div class="float-badge w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-600 p-0.5 flex items-center justify-center shadow-lg shadow-amber-500/20 overflow-hidden shrink-0">
+                        <img src="logo.png" alt="Logo"
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/0f172a/f59e0b?text=LOGO';"
+                             class="w-full h-full object-cover rounded-[10px] bg-slate-950">
                     </div>
                     <div>
-                        <h1 class="text-sm sm:text-xl font-black tracking-wider text-white uppercase">
-                            SHILABIZ NIDHI LIMITED
-                        </h1>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-sm sm:text-xl font-black tracking-wider text-white uppercase">
+                                SHILABIZ NIDHI LIMITED
+                            </h1>
+                            <!-- Live Cloud Sync Status Badge -->
+                            <span id="cloudStatusBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                <span id="cloudStatusText">Cloud Live</span>
+                            </span>
+                        </div>
                         <p id="headerSubtitle" class="text-[11px] sm:text-xs text-slate-400">
-                            Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker
+                            Area-Wise Loan, Closing, Paid & Outstanding (Running + Hold) Tracker
                         </p>
                     </div>
                 </div>
@@ -278,10 +410,10 @@
                         <span id="langToggleText">বাংলা ভাষা</span>
                     </button>
 
-                    <!-- 2. Direct Excel (.xlsx) Export Button (Replaces raw code button) -->
+                    <!-- 2. Direct Excel (.xlsx) Export Button -->
                     <button onclick="exportToExcel()" class="btn-gaming btn-glow-emerald flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-xs font-extrabold text-emerald-300" title="Download Complete Report in Excel Format">
                         <i class="fa-solid fa-file-excel text-emerald-400 text-sm"></i>
-                        <span data-i18n="excelBtn">Excel</span>
+                        <span data-i18n="excelBtn">Excel Export</span>
                     </button>
 
                     <!-- 3. Add New Area Button -->
@@ -309,58 +441,88 @@
     </header>
 
     <!-- ================= MAIN WORKSPACE ================= -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 sm:py-6">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
 
         <!-- =========================================================
-             PAGE 1: DASHBOARD VIEW (TOTAL LOAN HERO + 4 SUMMARY CARDS + AREA CARDS)
+             PAGE 1: DASHBOARD VIEW
              ========================================================= -->
-        <div id="dashboardPageView" class="space-y-6 animate-page-in">
+        <div id="dashboardPageView" class="space-y-5 animate-page-in">
 
-            <!-- 1. TOP HERO BANNER: TOTAL LOAN AMOUNT (Replaces Master Capital) -->
+            <!-- TOP ROW: COMPACT GROUP PHOTO CARD (group.jpg) + HERO TOTAL LOAN BANNER -->
             <section class="space-y-4">
-                <div class="card-surface hero-loan-card rounded-2xl p-4 sm:p-6 border-l-4 border-l-amber-500 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                    <div class="flex items-center gap-3.5 sm:gap-4">
-                        <div class="float-badge w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
-                            <i class="fa-solid fa-sack-dollar text-xl sm:text-2xl"></i>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+                    
+                    <!-- 1. COMPACT GROUP PHOTO CARD (group.jpg) -->
+                    <div onclick="openGroupPhotoModal()" class="lg:col-span-4 card-surface rounded-2xl p-3.5 border border-amber-500/30 flex items-center gap-3.5 cursor-pointer group">
+                        <div class="relative w-20 h-16 sm:w-24 sm:h-20 rounded-xl overflow-hidden border border-amber-400/40 shrink-0 bg-slate-950 shadow-md">
+                            <img src="group.jpg" alt="Group Photo"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/320x220/0f172a/f59e0b?text=group.jpg';"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-end p-1">
+                                <span class="w-5 h-5 rounded-md bg-slate-950/80 text-amber-400 flex items-center justify-center text-[10px]">
+                                    <i class="fa-solid fa-expand"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-amber-400" data-i18n="totalLoanBannerTitle">
-                                    TOTAL LOAN AMOUNT (TOTAL AMOUNT)
-                                </span>
-                                <span id="heroLoanShortBadge" class="text-[11px] px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold">
-                                    0
-                                </span>
-                            </div>
-                            <div class="flex items-baseline gap-3 mt-1">
-                                <h2 id="heroTotalLoanDisplay" class="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                                    ₹0
-                                </h2>
-                            </div>
+                        <div class="min-w-0 flex-1">
+                            <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                                <i class="fa-solid fa-people-group"></i>
+                                <span data-i18n="groupCardBadge">Official Team</span>
+                            </span>
+                            <h3 class="text-xs sm:text-sm font-black text-white truncate mt-1" data-i18n="groupCardTitle">
+                                SHILABIZ NIDHI GROUP
+                            </h3>
+                            <p class="text-[11px] text-slate-400 truncate" data-i18n="groupCardSub">
+                                Tap to view full group photo
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Right Side Quick Stats inside Hero Box -->
-                    <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/90 text-xs">
-                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
-                            <span class="text-slate-400 text-[11px] block" data-i18n="totalMembersLabel">Total Members</span>
-                            <span id="summaryTotalMembers" class="text-sm sm:text-lg font-black text-white">0</span>
+                    <!-- 2. HERO BANNER: TOTAL LOAN AMOUNT -->
+                    <div class="lg:col-span-8 card-surface hero-loan-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-amber-500 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="float-badge w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+                                <i class="fa-solid fa-sack-dollar text-xl sm:text-2xl"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-amber-400" data-i18n="totalLoanBannerTitle">
+                                        TOTAL LOAN AMOUNT (TOTAL AMOUNT)
+                                    </span>
+                                    <span id="heroLoanShortBadge" class="text-[11px] px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold">
+                                        0
+                                    </span>
+                                </div>
+                                <div class="flex items-baseline gap-3 mt-1">
+                                    <h2 id="heroTotalLoanDisplay" class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                                        ₹0
+                                    </h2>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
-                            <span class="text-slate-400 text-[11px] block" data-i18n="totalAreasLabel">Active Areas</span>
-                            <span id="summaryTotalAreas" class="text-sm sm:text-lg font-black text-cyan-400">0</span>
-                        </div>
-                        <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80">
-                            <span class="text-slate-400 text-[11px] block" data-i18n="recoveryRateLabel">Paid Recovery</span>
-                            <span id="summaryRecoveryRate" class="text-sm sm:text-lg font-black text-emerald-400">0%</span>
+
+                        <!-- Right Side Quick Stats inside Hero Box -->
+                        <div class="grid grid-cols-3 gap-2.5 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/90 text-xs">
+                            <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80 text-center">
+                                <span class="text-slate-400 text-[10px] block" data-i18n="totalMembersLabel">Members</span>
+                                <span id="summaryTotalMembers" class="text-sm sm:text-base font-black text-white">0</span>
+                            </div>
+                            <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80 text-center">
+                                <span class="text-slate-400 text-[10px] block" data-i18n="totalAreasLabel">Areas</span>
+                                <span id="summaryTotalAreas" class="text-sm sm:text-base font-black text-cyan-400">0</span>
+                            </div>
+                            <div class="bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/80 text-center">
+                                <span class="text-slate-400 text-[10px] block" data-i18n="recoveryRateLabel">Recovery</span>
+                                <span id="summaryRecoveryRate" class="text-sm sm:text-base font-black text-emerald-400">0%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 4 Clean Summary Strip Cards (2x2 on Mobile, 4 Columns on Laptop/PC) -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <!-- SUMMARY STRIP CARDS: CLOSING | CUSTOMER PAID | OUTSTANDING (WITH RUNNING & HOLD SPLIT) -->
+                <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4">
                     <!-- 1. Total Closing Amount -->
-                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-violet-500/70">
+                    <div class="col-span-1 lg:col-span-3 card-surface rounded-2xl p-4 border-b-2 border-b-violet-500/70">
                         <div class="flex items-center justify-between">
                             <span class="text-[11px] font-bold text-violet-300 uppercase tracking-wide" data-i18n="closingAmountLabel">Closing Amount</span>
                             <i class="fa-solid fa-file-invoice-dollar text-violet-400/80 text-xs"></i>
@@ -370,7 +532,7 @@
                     </div>
 
                     <!-- 2. Customer Paid Amount -->
-                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-emerald-500/70">
+                    <div class="col-span-1 lg:col-span-3 card-surface rounded-2xl p-4 border-b-2 border-b-emerald-500/70">
                         <div class="flex items-center justify-between">
                             <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wide" data-i18n="paidAmountLabel">Customer Paid Amount</span>
                             <i class="fa-solid fa-circle-check text-emerald-400/80 text-xs"></i>
@@ -379,36 +541,53 @@
                         <span id="sumPaidShort" class="text-[11px] text-emerald-500 font-semibold">0</span>
                     </div>
 
-                    <!-- 3. Outstanding Amount -->
-                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-amber-500/70">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wide" data-i18n="outstandingAmountLabel">Outstanding Amount</span>
-                            <i class="fa-solid fa-hourglass-half text-amber-400/80 text-xs"></i>
-                        </div>
-                        <p id="sumOutstandingAmount" class="text-lg sm:text-2xl font-black text-amber-400 mt-1.5">₹0</p>
-                        <span id="sumOutstandingShort" class="text-[11px] text-amber-500 font-semibold">0</span>
-                    </div>
+                    <!-- 3. Connected Outstanding Amount Box (Split into Running Amount & Hold Amount) -->
+                    <div class="col-span-2 lg:col-span-6 card-surface rounded-2xl p-4 border-b-2 border-b-amber-500/80 bg-gradient-to-br from-slate-900/95 via-slate-900 to-amber-950/20">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <!-- Total Outstanding Main Figure -->
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[11px] font-extrabold text-amber-400 uppercase tracking-wide" data-i18n="outstandingAmountLabel">Outstanding Amount (Total Due)</span>
+                                    <span id="sumOutstandingShort" class="text-[10px] px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold">0</span>
+                                </div>
+                                <p id="sumOutstandingAmount" class="text-xl sm:text-2xl font-black text-amber-400 mt-1">₹0</p>
+                            </div>
 
-                    <!-- 4. Hold Amount -->
-                    <div class="card-surface rounded-2xl p-4 border-b-2 border-b-rose-500/70">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wide" data-i18n="holdAmountLabel">Hold Amount</span>
-                            <i class="fa-solid fa-hand-holding-hand text-rose-400/80 text-xs"></i>
+                            <!-- 2 Sub-Parts of Outstanding: Running Amount & Hold Amount -->
+                            <div class="grid grid-cols-2 gap-2.5 sm:min-w-[290px] pt-2.5 sm:pt-0 border-t sm:border-t-0 sm:border-l border-slate-800 sm:pl-4">
+                                <!-- Sub-Part 1: Running Amount -->
+                                <div class="bg-sky-950/35 border border-sky-500/30 rounded-xl px-3 py-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-extrabold uppercase text-sky-300" data-i18n="runningAmountLabel">Running Amount</span>
+                                        <i class="fa-solid fa-bolt text-[10px] text-sky-400"></i>
+                                    </div>
+                                    <p id="sumRunningAmount" class="text-sm sm:text-base font-black text-sky-400 mt-0.5">₹0</p>
+                                    <span id="sumRunningShort" class="text-[10px] text-sky-400/80 font-semibold">0</span>
+                                </div>
+
+                                <!-- Sub-Part 2: Hold Amount -->
+                                <div class="bg-rose-950/35 border border-rose-500/30 rounded-xl px-3 py-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-extrabold uppercase text-rose-300" data-i18n="holdAmountLabel">Hold Amount</span>
+                                        <i class="fa-solid fa-hand-holding-hand text-[10px] text-rose-400"></i>
+                                    </div>
+                                    <p id="sumHoldAmount" class="text-sm sm:text-base font-black text-rose-400 mt-0.5">₹0</p>
+                                    <span id="sumHoldShort" class="text-[10px] text-rose-400/80 font-semibold">0</span>
+                                </div>
+                            </div>
                         </div>
-                        <p id="sumHoldAmount" class="text-lg sm:text-2xl font-black text-rose-400 mt-1.5">₹0</p>
-                        <span id="sumHoldShort" class="text-[11px] text-rose-500 font-semibold">0</span>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. AREA WISE BREAKDOWN SECTION (FULL WIDTH ON MOBILE, 2 COLS ON LAPTOP, 3 COLS ON WIDESCREEN PC) -->
+            <!-- AREA WISE BREAKDOWN SECTION -->
             <section class="space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800/80">
                     <div class="flex items-center gap-2.5">
                         <div class="w-2 h-5 rounded-full bg-amber-500"></div>
                         <h3 class="text-base sm:text-lg font-extrabold text-white" data-i18n="areaListHeading">Area Wise Breakdown</h3>
                         <span id="areaCountPill" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-500/15 border border-amber-500/30 text-amber-400">
-                            2 Areas
+                            0 Areas
                         </span>
                     </div>
 
@@ -442,7 +621,7 @@
                             Payment & Edit History
                         </h2>
                         <p class="text-xs text-slate-400" data-i18n="historySubtitle">
-                            Every collection & change is saved here with instant Cut / Revert option
+                            Every collection & change is saved in Cloud Firestore with instant Cut / Revert option
                         </p>
                     </div>
                 </div>
@@ -467,7 +646,7 @@
                 </div>
             </div>
 
-            <!-- History Items Grid (Responsive 1 col mobile, 2 cols laptop/PC) -->
+            <!-- History Items Grid -->
             <div id="historyList" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <!-- Populated via JS -->
             </div>
@@ -477,7 +656,7 @@
 
     <!-- ================= MODALS ================= -->
 
-    <!-- 1. QUICK CUSTOMER PAYMENT / RECEIVE MODAL -->
+    <!-- 1. QUICK CUSTOMER PAYMENT & HOLD/RUNNING UPDATE MODAL -->
     <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="card-surface rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl animate-page-in">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -490,19 +669,31 @@
                 </button>
             </div>
 
-            <!-- Current Snapshot -->
-            <div class="grid grid-cols-3 gap-2 my-3.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
-                <div>
-                    <span class="text-[10px] text-slate-400 block" data-i18n="closingAmountLabel">Closing Amount</span>
-                    <span id="payModalClosing" class="text-xs font-extrabold text-white">₹0</span>
+            <!-- Current Snapshot including Outstanding -> Running & Hold -->
+            <div class="my-3.5 bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2.5">
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div>
+                        <span class="text-[10px] text-slate-400 block" data-i18n="closingAmountLabel">Closing Amount</span>
+                        <span id="payModalClosing" class="text-xs font-extrabold text-white">₹0</span>
+                    </div>
+                    <div class="border-x border-slate-800">
+                        <span class="text-[10px] text-emerald-400 block" data-i18n="paidAmountLabel">Customer Paid</span>
+                        <span id="payModalPaid" class="text-xs font-extrabold text-emerald-400">₹0</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-amber-400 block" data-i18n="outstandingAmountLabel">Outstanding</span>
+                        <span id="payModalOutstanding" class="text-xs font-extrabold text-amber-400">₹0</span>
+                    </div>
                 </div>
-                <div class="border-x border-slate-800">
-                    <span class="text-[10px] text-emerald-400 block" data-i18n="paidAmountLabel">Customer Paid</span>
-                    <span id="payModalPaid" class="text-xs font-extrabold text-emerald-400">₹0</span>
-                </div>
-                <div>
-                    <span class="text-[10px] text-amber-400 block" data-i18n="outstandingAmountLabel">Outstanding</span>
-                    <span id="payModalOutstanding" class="text-xs font-extrabold text-amber-400">₹0</span>
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-center">
+                    <div class="bg-sky-950/30 border border-sky-500/20 rounded-lg py-1">
+                        <span class="text-[10px] text-sky-300 block" data-i18n="runningAmountLabel">Running Amount</span>
+                        <span id="payModalRunning" class="text-xs font-black text-sky-400">₹0</span>
+                    </div>
+                    <div class="bg-rose-950/30 border border-rose-500/20 rounded-lg py-1">
+                        <span class="text-[10px] text-rose-300 block" data-i18n="holdAmountLabel">Hold Amount</span>
+                        <span id="payModalHold" class="text-xs font-black text-rose-400">₹0</span>
+                    </div>
                 </div>
             </div>
 
@@ -529,9 +720,15 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="text-xs font-semibold text-slate-300" data-i18n="amountLabel">Amount (₹)</label>
-                        <button type="button" onclick="fillFullOutstanding()" class="text-[11px] text-amber-400 hover:underline font-bold" data-i18n="fillOutstandingBtn">
-                            Fill Full Outstanding
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="fillRunningOutstanding()" class="text-[11px] text-sky-400 hover:underline font-bold">
+                                Fill Running
+                            </button>
+                            <span class="text-slate-600">|</span>
+                            <button type="button" onclick="fillFullOutstanding()" class="text-[11px] text-amber-400 hover:underline font-bold" data-i18n="fillOutstandingBtn">
+                                Fill Total Due
+                            </button>
+                        </div>
                     </div>
                     <input id="payAmountInput" type="number" step="any" min="1" required placeholder="e.g. 10000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-black text-base focus:outline-none focus:border-emerald-500">
                 </div>
@@ -550,20 +747,20 @@
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
                     <button type="button" onclick="closeModal('paymentModal')" class="btn-gaming px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
                     <button type="submit" class="btn-gaming btn-glow-emerald px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs" data-i18n="savePaymentBtn">
-                        Save & Update History
+                        Save & Update Cloud
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 2. ADD / EDIT AREA MODAL (WITH ALL 5 FIELDS + MEMBERS COUNT) -->
+    <!-- 2. ADD / EDIT AREA MODAL (WITH CONNECTED OUTSTANDING -> RUNNING & HOLD) -->
     <div id="areaModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl max-h-[92vh] overflow-y-auto animate-page-in">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div>
                     <h3 id="areaModalHeading" class="text-base font-extrabold text-white">Add / Edit Area Details</h3>
-                    <p class="text-xs text-slate-400" data-i18n="areaModalSub">Set Members, Loan, Closing, Paid, Outstanding & Hold Amount</p>
+                    <p class="text-xs text-slate-400" data-i18n="areaModalSub">Set Members, Loan, Closing, Paid & Outstanding (Running + Hold)</p>
                 </div>
                 <button onclick="closeModal('areaModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
@@ -591,46 +788,59 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
                         <label class="block text-xs font-semibold text-cyan-300 mb-1" data-i18n="loanAmountLabel">Loan Amount (₹)</label>
-                        <input id="areaLoanInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-cyan-500">
+                        <input id="areaLoanInput" oninput="syncAreaModalCalculations('loan')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-cyan-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-violet-300 mb-1" data-i18n="closingAmountLabel">Closing Amount (₹)</label>
-                        <input id="areaClosingInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-violet-500">
+                        <input id="areaClosingInput" oninput="syncAreaModalCalculations('closing')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-violet-500">
                     </div>
                 </div>
 
-                <!-- Tree Box: Customer Paid & Outstanding (Under Closing/Loan) -->
+                <!-- Tree Box 1: Customer Paid & Outstanding (Under Closing Amount) -->
                 <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
                     <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400" data-i18n="closingBreakdownLabel">Closing / Collection Breakdown</span>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-violet-300" data-i18n="closingBreakdownLabel">1. Closing Amount Breakdown</span>
                         <label class="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
-                            <input id="autoCalcOutstandingToggle" type="checkbox" checked onchange="syncAreaModalOutstanding()" class="rounded accent-amber-500">
-                            <span data-i18n="autoCalcText">Auto-calculate Outstanding</span>
+                            <input id="autoCalcOutstandingToggle" type="checkbox" checked onchange="syncAreaModalCalculations('toggle')" class="rounded accent-amber-500">
+                            <span data-i18n="autoCalcText">Auto-calculate</span>
                         </label>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-emerald-400 mb-1" data-i18n="paidAmountLabel">Customer Paid Amount (₹)</label>
-                            <input id="areaPaidInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+                            <input id="areaPaidInput" oninput="syncAreaModalCalculations('paid')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-amber-400 mb-1" data-i18n="outstandingAmountLabel">Outstanding Amount (₹)</label>
-                            <input id="areaOutstandingInput" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500">
+                            <input id="areaOutstandingInput" oninput="syncAreaModalCalculations('outstanding')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+
+                    <!-- Tree Box 2: Outstanding Breakdown -> Running Amount & Hold Amount -->
+                    <div class="pt-3 border-t border-slate-800/90 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-400" data-i18n="outstandingSplitHeading">
+                                ↳ 2. Outstanding Split (Running + Hold = Outstanding)
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-sky-400 mb-1" data-i18n="runningAmountLabel">Running Amount (₹)</label>
+                                <input id="areaRunningInput" oninput="syncAreaModalCalculations('running')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-sky-950/30 border border-sky-500/40 text-sm font-bold text-sky-300 focus:outline-none focus:border-sky-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-rose-400 mb-1" data-i18n="holdAmountLabel">Hold Amount (₹)</label>
+                                <input id="areaHoldInput" oninput="syncAreaModalCalculations('hold')" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-rose-950/30 border border-rose-500/40 text-sm font-bold text-rose-300 focus:outline-none focus:border-rose-400">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hold Amount & Note -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-rose-400 mb-1" data-i18n="holdAmountLabel">Hold Amount (₹)</label>
-                        <input id="areaHoldInput" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-rose-400 focus:outline-none focus:border-rose-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="noteLabel">Note / Remark</label>
-                        <input id="areaNoteInput" type="text" placeholder="Optional note..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
-                    </div>
+                <!-- Optional Note -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="noteLabel">Note / Remark</label>
+                    <input id="areaNoteInput" type="text" placeholder="Optional note..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
                 </div>
 
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
@@ -643,11 +853,34 @@
         </div>
     </div>
 
-    <!-- 3. CONFIRM DELETE MODAL -->
+    <!-- 3. FULL GROUP PHOTO LIGHTBOX MODAL (group.jpg) -->
+    <div id="groupPhotoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-2xl w-full p-4 border border-amber-500/40 shadow-2xl animate-page-in">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <img src="logo.png" alt="Logo" onerror="this.onerror=null;this.src='https://placehold.co/60x60/0f172a/f59e0b?text=SNL';" class="w-7 h-7 rounded-lg object-cover">
+                    <div>
+                        <h4 class="text-sm font-black text-white uppercase">SHILABIZ NIDHI LIMITED — Official Group</h4>
+                        <p class="text-[11px] text-slate-400">File in GitHub repo: <code class="text-amber-400 font-bold">group.jpg</code></p>
+                    </div>
+                </div>
+                <button onclick="closeModal('groupPhotoModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="mt-3 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 max-h-[70vh] flex items-center justify-center">
+                <img src="group.jpg" alt="Group Photo Full"
+                     onerror="this.onerror=null;this.src='https://placehold.co/800x500/0f172a/f59e0b?text=Upload+group.jpg+to+GitHub';"
+                     class="w-full h-auto max-h-[68vh] object-contain">
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. CONFIRM DELETE MODAL -->
     <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="card-surface rounded-2xl max-w-xs w-full p-5 border border-rose-500/40 text-center animate-page-in">
             <h4 id="confirmTitle" class="text-sm font-extrabold text-white">Delete Area?</h4>
-            <p id="confirmDesc" class="text-xs text-slate-400 mt-1">This will remove the area from your dashboard.</p>
+            <p id="confirmDesc" class="text-xs text-slate-400 mt-1">This will remove the area from your cloud dashboard.</p>
             <div class="flex justify-center gap-2 mt-4">
                 <button onclick="closeModal('confirmModal')" class="btn-gaming px-4 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300">Cancel</button>
                 <button id="confirmActionBtn" class="btn-gaming px-4 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-bold">Delete</button>
@@ -658,95 +891,135 @@
     <!-- TOAST CONTAINER -->
     <div id="toastBox" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
-    <!-- ================= APPLICATION SCRIPT ================= -->
-    <script>
-        const STORAGE_KEY = 'shilabiz_nidhi_state_v1';
-        let currentPage = 'dashboard';
+    <!-- ================= FIREBASE FIRESTORE + APPLICATION SCRIPT ================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Default Initial State matching the user's notebook diagram (1. ADHATA, 2. CHAKDHA)
-        const defaultState = {
-            lang: 'en',
-            areas: [
-                {
-                    id: 'area-adhata',
-                    name: 'ADHATA',
-                    members: 42,
-                    loanAmount: 50000,
-                    closingAmount: 50000,
-                    paidAmount: 30000,
-                    outstandingAmount: 20000,
-                    holdAmount: 5000,
-                    note: 'Adhata Group Collection'
-                },
-                {
-                    id: 'area-chakdha',
-                    name: 'CHAKDHA',
-                    members: 65,
-                    loanAmount: 120000,
-                    closingAmount: 120000,
-                    paidAmount: 75000,
-                    outstandingAmount: 45000,
-                    holdAmount: 8000,
-                    note: 'Chakdha Branch'
-                }
-            ],
-            history: [
-                {
-                    id: 'h-102',
-                    areaId: 'area-adhata',
-                    areaName: 'ADHATA',
-                    type: 'PAID_ADD',
-                    amount: 30000,
-                    outstandingAfter: 20000,
-                    date: new Date().toISOString().split('T')[0],
-                    time: '10:30 AM',
-                    note: 'Customer paid amount received (₹30,000)',
-                    reverted: false
-                },
-                {
-                    id: 'h-101',
-                    areaId: 'area-chakdha',
-                    areaName: 'CHAKDHA',
-                    type: 'PAID_ADD',
-                    amount: 75000,
-                    outstandingAfter: 45000,
-                    date: new Date().toISOString().split('T')[0],
-                    time: '09:15 AM',
-                    note: 'Customer paid collection',
-                    reverted: false
-                }
-            ]
+        // User's provided SHILABIZ NIDHI LIMITED Firebase configuration
+        const userProvidedFirebaseConfig = {
+            apiKey: "AIzaSyBC2OciYqhi0L-2kESO1EJ62XjwwjW6LUI",
+            authDomain: "shilabij-sarup.firebaseapp.com",
+            projectId: "shilabij-sarup",
+            storageBucket: "shilabij-sarup.firebasestorage.app",
+            messagingSenderId: "494144567809",
+            appId: "1:494144567809:web:c952d8866c051d93be9e00"
         };
 
-        let appState = loadState();
+        const firebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : userProvidedFirebaseConfig;
 
-        function loadState() {
-            try {
-                const saved = window.localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && Array.isArray(parsed.areas)) {
-                        return parsed;
-                    }
-                }
-            } catch (e) {
-                // Fallback if storage is restricted
-            }
-            return JSON.parse(JSON.stringify(defaultState));
-        }
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'shilabiz-nidhi-tracker';
 
-        function saveState() {
-            try {
-                window.localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-            } catch (e) {
-                // Ignore storage errors in restricted sandboxes
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let firestoreReady = false;
+        let currentPage = 'dashboard';
+
+        // Default seed data (used only if Firestore collection is completely empty on first launch)
+        const initialSeedAreas = [
+            {
+                id: 'area-adhata',
+                name: 'ADHATA',
+                members: 42,
+                loanAmount: 50000,
+                closingAmount: 50000,
+                paidAmount: 30000,
+                outstandingAmount: 20000,
+                runningAmount: 15000,
+                holdAmount: 5000,
+                note: 'Adhata Group Collection',
+                orderIndex: 1
+            },
+            {
+                id: 'area-chakdha',
+                name: 'CHAKDHA',
+                members: 65,
+                loanAmount: 120000,
+                closingAmount: 120000,
+                paidAmount: 75000,
+                outstandingAmount: 45000,
+                runningAmount: 37000,
+                holdAmount: 8000,
+                note: 'Chakdha Branch',
+                orderIndex: 2
             }
+        ];
+
+        const initialSeedHistory = [
+            {
+                id: 'h-102',
+                areaId: 'area-adhata',
+                areaName: 'ADHATA',
+                type: 'PAID_ADD',
+                amount: 30000,
+                outstandingAfter: 20000,
+                date: new Date().toISOString().split('T')[0],
+                time: '10:30 AM',
+                timestamp: Date.now() - 3600000,
+                note: 'Customer paid amount received (₹30,000)',
+                reverted: false
+            },
+            {
+                id: 'h-101',
+                areaId: 'area-chakdha',
+                areaName: 'CHAKDHA',
+                type: 'PAID_ADD',
+                amount: 75000,
+                outstandingAfter: 45000,
+                date: new Date().toISOString().split('T')[0],
+                time: '09:15 AM',
+                timestamp: Date.now() - 7200000,
+                note: 'Customer paid collection',
+                reverted: false
+            }
+        ];
+
+        // In-memory state synchronized with Firestore
+        let appState = {
+            lang: 'en',
+            areas: [...initialSeedAreas],
+            history: [...initialSeedHistory]
+        };
+
+        // Ensure every area object has consistent Outstanding = Running + Hold math
+        function normalizeArea(raw) {
+            const loanAmount = Number(raw.loanAmount) || 0;
+            const closingAmount = Number(raw.closingAmount) || 0;
+            const paidAmount = Number(raw.paidAmount) || 0;
+            const base = closingAmount > 0 ? closingAmount : loanAmount;
+            const outstandingAmount = raw.outstandingAmount !== undefined
+                ? Number(raw.outstandingAmount)
+                : Math.max(0, base - paidAmount);
+            const holdAmount = Math.min(outstandingAmount, Math.max(0, Number(raw.holdAmount) || 0));
+            const runningAmount = raw.runningAmount !== undefined
+                ? Math.max(0, Number(raw.runningAmount))
+                : Math.max(0, outstandingAmount - holdAmount);
+
+            return {
+                id: raw.id,
+                name: String(raw.name || 'AREA').toUpperCase(),
+                members: Number(raw.members) || 0,
+                loanAmount,
+                closingAmount,
+                paidAmount,
+                outstandingAmount,
+                runningAmount,
+                holdAmount,
+                note: raw.note || '',
+                orderIndex: Number(raw.orderIndex) || Date.now()
+            };
         }
 
         // --- BILINGUAL DICTIONARY (ENGLISH DEFAULT + BENGALI) ---
         const i18n = {
             en: {
-                headerSubtitle: 'Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker',
+                headerSubtitle: 'Area-Wise Loan, Closing, Paid & Outstanding (Running + Hold) Tracker',
                 langToggleText: 'বাংলা ভাষা',
                 excelBtn: 'Excel Export',
                 exportExcelFullBtn: 'Download Excel',
@@ -754,39 +1027,44 @@
                 navDashboard: 'Dashboard',
                 navHistory: 'History Page',
                 backToDashboardBtn: 'Back to Dashboard',
+                groupCardBadge: 'Official Team',
+                groupCardTitle: 'SHILABIZ NIDHI GROUP',
+                groupCardSub: 'Tap to view full group photo',
                 totalLoanBannerTitle: 'TOTAL LOAN AMOUNT (TOTAL AMOUNT)',
-                totalMembersLabel: 'Total Members',
-                totalAreasLabel: 'Active Areas',
-                recoveryRateLabel: 'Paid Recovery',
+                totalMembersLabel: 'Members',
+                totalAreasLabel: 'Areas',
+                recoveryRateLabel: 'Recovery',
                 loanAmountLabel: 'Loan Amount',
                 closingAmountLabel: 'Closing Amount',
                 paidAmountLabel: 'Customer Paid Amount',
                 outstandingAmountLabel: 'Outstanding Amount',
+                runningAmountLabel: 'Running Amount',
                 holdAmountLabel: 'Hold Amount',
                 areaListHeading: 'Area Wise Breakdown',
                 historyTitle: 'Payment & Edit History',
-                historySubtitle: 'Every collection & change is saved here with instant Cut / Revert option',
+                historySubtitle: 'Every collection & change is saved in Cloud Firestore with instant Cut / Revert option',
                 recordPaymentTitle: 'Record Customer Payment',
                 addPaidRadio: 'Add Customer Paid',
                 deductPaidRadio: 'Deduct / Cut Paid',
                 amountLabel: 'Amount (₹)',
-                fillOutstandingBtn: 'Fill Full Outstanding',
+                fillOutstandingBtn: 'Fill Total Due',
                 dateLabel: 'Date',
                 noteLabel: 'Note / Remark',
                 cancelBtn: 'Cancel',
-                savePaymentBtn: 'Save & Update History',
-                areaModalSub: 'Set Members, Loan, Closing, Paid, Outstanding & Hold Amount',
+                savePaymentBtn: 'Save & Update Cloud',
+                areaModalSub: 'Set Members, Loan, Closing, Paid & Outstanding (Running + Hold)',
                 areaNameLabel: 'Area Name *',
                 membersCountLabel: 'Members Count',
-                closingBreakdownLabel: 'Closing Amount Breakdown',
-                autoCalcText: 'Auto-calculate Outstanding',
+                closingBreakdownLabel: '1. Closing Amount Breakdown',
+                outstandingSplitHeading: '↳ 2. Outstanding Split (Running + Hold = Outstanding)',
+                autoCalcText: 'Auto-calculate',
                 saveAreaBtn: 'Save Area',
                 receiveBtn: 'Receive / Paid',
                 editAreaBtn: 'Edit / Modify',
                 revertBtn: 'Cut / Revert'
             },
             bn: {
-                headerSubtitle: 'এলাকা ভিত্তিক লোন, ক্লোজিং, কাস্টমার পেইড, আউটস্ট্যান্ডিং ও হোল্ড ট্র্যাকার',
+                headerSubtitle: 'এলাকা ভিত্তিক লোন, ক্লোজিং, কাস্টমার পেইড ও আউটস্ট্যান্ডিং (রানিং + হোল্ড) ট্র্যাকার',
                 langToggleText: 'English',
                 excelBtn: 'এক্সেল ডাউনলোড',
                 exportExcelFullBtn: 'এক্সেল ফাইল নামান',
@@ -794,32 +1072,37 @@
                 navDashboard: 'ড্যাশবোর্ড পেজ',
                 navHistory: 'হিস্ট্রি পেজ (History)',
                 backToDashboardBtn: 'ড্যাশবোর্ডে ফিরুন',
+                groupCardBadge: 'অফিসিয়াল টিম',
+                groupCardTitle: 'শিলাবিজ নিধি গ্রুপ ফটো',
+                groupCardSub: 'বড় করে গ্রুপ ছবি দেখতে ক্লিক করুন',
                 totalLoanBannerTitle: 'মোট লোন অ্যামাউন্ট (TOTAL LOAN AMOUNT)',
-                totalMembersLabel: 'মোট সদস্য (Members)',
+                totalMembersLabel: 'মোট সদস্য',
                 totalAreasLabel: 'মোট এলাকা',
                 recoveryRateLabel: 'আদায়ের হার',
                 loanAmountLabel: 'লোন অ্যামাউন্ট (Loan)',
                 closingAmountLabel: 'ক্লোজিং অ্যামাউন্ট (Closing)',
                 paidAmountLabel: 'কাস্টমার পেইড (Customer Paid)',
-                outstandingAmountLabel: 'আউটস্ট্যান্ডিং (Outstanding)',
-                holdAmountLabel: 'হোল্ড অ্যামাউন্ট (Hold)',
+                outstandingAmountLabel: 'আউটস্ট্যান্ডিং বকেয়া (Outstanding)',
+                runningAmountLabel: 'রানিং বকেয়া (Running)',
+                holdAmountLabel: 'হোল্ড বকেয়া (Hold)',
                 areaListHeading: 'এলাকা ভিত্তিক হিসাব (Area Breakdown)',
                 historyTitle: 'লেনদেন ও পরিবর্তনের সম্পূর্ণ ইতিহাস',
-                historySubtitle: 'টাকা জমা ও এডিটের সম্পূর্ণ রেকর্ড (ভুল হলে কাটুন / Revert করুন)',
+                historySubtitle: 'টাকা জমা ও এডিটের সম্পূর্ণ ক্লাউড রেকর্ড (ভুল হলে কাটুন / Revert করুন)',
                 recordPaymentTitle: 'কাস্টমার পেইড জমা / পরিবর্তন',
                 addPaidRadio: 'জমা যোগ করুন (Add Paid)',
                 deductPaidRadio: 'জমা কমান / কাটুন',
                 amountLabel: 'টাকার পরিমাণ (₹)',
-                fillOutstandingBtn: 'পুরো বকেয়া বসিয়ে দিন',
+                fillOutstandingBtn: 'পুরো বকেয়া বসান',
                 dateLabel: 'তারিখ',
                 noteLabel: 'নোট / বিবরণ',
                 cancelBtn: 'বাতিল',
-                savePaymentBtn: 'সেভ করুন',
-                areaModalSub: 'সদস্য সংখ্যা, লোন, ক্লোজিং, পেইড, আউটস্ট্যান্ডিং এবং হোল্ড সেট করুন',
+                savePaymentBtn: 'ক্লাউডে সেভ করুন',
+                areaModalSub: 'সদস্য সংখ্যা, লোন, ক্লোজিং, পেইড এবং আউটস্ট্যান্ডিং (রানিং ও হোল্ড) সেট করুন',
                 areaNameLabel: 'এলাকার নাম *',
                 membersCountLabel: 'সদস্য সংখ্যা (Members)',
-                closingBreakdownLabel: 'ক্লোজিং অ্যামাউন্টের বিস্তারিত হিসাব',
-                autoCalcText: 'স্বয়ংক্রিয় বকেয়া হিসাব',
+                closingBreakdownLabel: '১. ক্লোজিং অ্যামাউন্টের হিসাব',
+                outstandingSplitHeading: '↳ ২. আউটস্ট্যান্ডিং বকেয়ার ২টি ভাগ (রানিং + হোল্ড)',
+                autoCalcText: 'স্বয়ংক্রিয় হিসাব',
                 saveAreaBtn: 'সেভ করুন',
                 receiveBtn: 'টাকা জমা (Paid)',
                 editAreaBtn: 'এডিট / মডিফাই',
@@ -827,7 +1110,160 @@
             }
         };
 
-        // --- PAGE NAVIGATION (DASHBOARD PAGE vs DEDICATED HISTORY PAGE) ---
+        // --- LOADING SCREEN CONTROLLER ---
+        function updateLoaderProgress(pct, text) {
+            const bar = document.getElementById('loaderProgressBar');
+            const status = document.getElementById('loaderStatusText');
+            if (bar) bar.style.width = pct + '%';
+            if (status && text) status.innerHTML = `<i class="fa-solid fa-bolt text-amber-400 mr-1"></i>${text}`;
+        }
+
+        function dismissLoadingScreen() {
+            const loader = document.getElementById('appLoadingScreen');
+            if (!loader || loader.classList.contains('hidden')) return;
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 450);
+        }
+
+        function setCloudStatus(online, label) {
+            const badge = document.getElementById('cloudStatusBadge');
+            const textEl = document.getElementById('cloudStatusText');
+            if (!badge || !textEl) return;
+            textEl.textContent = label;
+            if (online) {
+                badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400';
+            } else {
+                badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500/15 border border-amber-500/30 text-amber-400';
+            }
+        }
+
+        // --- FIREBASE INITIALIZATION & REAL-TIME LISTENERS ---
+        async function initFirebaseCloud() {
+            updateLoaderProgress(55, 'Authenticating SHILABIZ Cloud...');
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const cred = await signInWithCustomToken(auth, __initial_auth_token);
+                    currentUser = cred.user;
+                } else {
+                    const cred = await signInAnonymously(auth);
+                    currentUser = cred.user;
+                }
+            } catch (authErr) {
+                // If Anonymous Auth is not yet enabled on the user's custom Firebase console,
+                // create a fallback session user object so Firestore open rules still work seamlessly.
+                currentUser = auth.currentUser || { uid: 'shilabiz-admin-user' };
+            }
+
+            updateLoaderProgress(85, 'Syncing Area & Collection Data...');
+            if (!currentUser) return;
+
+            const areasColRef = collection(db, 'artifacts', appId, 'public', 'data', 'areas');
+            const historyColRef = collection(db, 'artifacts', appId, 'public', 'data', 'history');
+
+            let areasSeeded = false;
+
+            onSnapshot(
+                areasColRef,
+                async (snapshot) => {
+                    firestoreReady = true;
+                    setCloudStatus(true, 'Firestore Live');
+
+                    if (snapshot.empty && !areasSeeded) {
+                        areasSeeded = true;
+                        // Seed initial areas & history into Firestore on first ever load
+                        for (const area of initialSeedAreas) {
+                            await saveAreaToFirestore(area);
+                        }
+                        for (const h of initialSeedHistory) {
+                            await saveHistoryToFirestore(h);
+                        }
+                        return;
+                    }
+
+                    const loadedAreas = [];
+                    snapshot.forEach(docSnap => {
+                        loadedAreas.push(normalizeArea({ id: docSnap.id, ...docSnap.data() }));
+                    });
+
+                    // Sort in memory by orderIndex
+                    loadedAreas.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+                    appState.areas = loadedAreas;
+                    renderAll();
+                    updateLoaderProgress(100, 'Ready!');
+                    setTimeout(dismissLoadingScreen, 650);
+                },
+                (err) => {
+                    console.warn('Firestore areas listener notice:', err);
+                    setCloudStatus(false, 'Cloud Standby');
+                    renderAll();
+                    updateLoaderProgress(100, 'Ready!');
+                    setTimeout(dismissLoadingScreen, 650);
+                }
+            );
+
+            onSnapshot(
+                historyColRef,
+                (snapshot) => {
+                    const loadedHistory = [];
+                    snapshot.forEach(docSnap => {
+                        loadedHistory.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    // Sort newest first in memory
+                    loadedHistory.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
+                    if (loadedHistory.length > 0 || firestoreReady) {
+                        appState.history = loadedHistory;
+                        renderAll();
+                    }
+                },
+                (err) => {
+                    console.warn('Firestore history listener notice:', err);
+                }
+            );
+        }
+
+        async function saveAreaToFirestore(areaObj) {
+            if (!currentUser) return;
+            try {
+                const areaDoc = doc(db, 'artifacts', appId, 'public', 'data', 'areas', areaObj.id);
+                await setDoc(areaDoc, normalizeArea(areaObj));
+            } catch (e) {
+                console.warn('Could not write area to Firestore:', e);
+            }
+        }
+
+        async function removeAreaFromFirestore(areaId) {
+            if (!currentUser) return;
+            try {
+                const areaDoc = doc(db, 'artifacts', appId, 'public', 'data', 'areas', areaId);
+                await deleteDoc(areaDoc);
+            } catch (e) {
+                console.warn('Could not delete area from Firestore:', e);
+            }
+        }
+
+        async function saveHistoryToFirestore(histObj) {
+            if (!currentUser) return;
+            try {
+                const histDoc = doc(db, 'artifacts', appId, 'public', 'data', 'history', histObj.id);
+                await setDoc(histDoc, histObj);
+            } catch (e) {
+                console.warn('Could not write history to Firestore:', e);
+            }
+        }
+
+        async function removeHistoryFromFirestore(histId) {
+            if (!currentUser) return;
+            try {
+                const histDoc = doc(db, 'artifacts', appId, 'public', 'data', 'history', histId);
+                await deleteDoc(histDoc);
+            } catch (e) {
+                console.warn('Could not delete history from Firestore:', e);
+            }
+        }
+
+        // --- PAGE NAVIGATION ---
         function switchPage(pageName) {
             currentPage = pageName;
             const dashEl = document.getElementById('dashboardPageView');
@@ -892,7 +1328,6 @@
 
         function toggleLanguage() {
             appState.lang = appState.lang === 'en' ? 'bn' : 'en';
-            saveState();
             applyTranslations();
             renderAll();
             showToast(appState.lang === 'bn' ? 'বাংলা ভাষা চালু করা হয়েছে' : 'Switched to English');
@@ -908,15 +1343,18 @@
             let totalClosing = 0;
             let totalPaid = 0;
             let totalOutstanding = 0;
+            let totalRunning = 0;
             let totalHold = 0;
 
-            appState.areas.forEach(a => {
-                totalMembers += Number(a.members) || 0;
-                totalLoan += Number(a.loanAmount) || 0;
-                totalClosing += Number(a.closingAmount) || 0;
-                totalPaid += Number(a.paidAmount) || 0;
-                totalOutstanding += Number(a.outstandingAmount) || 0;
-                totalHold += Number(a.holdAmount) || 0;
+            appState.areas.forEach(rawArea => {
+                const a = normalizeArea(rawArea);
+                totalMembers += a.members;
+                totalLoan += a.loanAmount;
+                totalClosing += a.closingAmount;
+                totalPaid += a.paidAmount;
+                totalOutstanding += a.outstandingAmount;
+                totalRunning += a.runningAmount;
+                totalHold += a.holdAmount;
             });
 
             const recoveryBase = totalClosing > 0 ? totalClosing : totalLoan;
@@ -929,7 +1367,7 @@
             document.getElementById('summaryTotalAreas').textContent = appState.areas.length;
             document.getElementById('summaryRecoveryRate').textContent = recoveryPct + '%';
 
-            // Update 4 Summary Cards
+            // Update Summary Cards (Closing, Paid, and Connected Outstanding -> Running + Hold)
             document.getElementById('sumClosingAmount').textContent = formatINR(totalClosing);
             document.getElementById('sumClosingShort').textContent = formatShort(totalClosing);
 
@@ -938,6 +1376,9 @@
 
             document.getElementById('sumOutstandingAmount').textContent = formatINR(totalOutstanding);
             document.getElementById('sumOutstandingShort').textContent = formatShort(totalOutstanding);
+
+            document.getElementById('sumRunningAmount').textContent = formatINR(totalRunning);
+            document.getElementById('sumRunningShort').textContent = formatShort(totalRunning);
 
             document.getElementById('sumHoldAmount').textContent = formatINR(totalHold);
             document.getElementById('sumHoldShort').textContent = formatShort(totalHold);
@@ -953,12 +1394,12 @@
             renderHistory();
         }
 
-        // --- RENDER AREA CARDS (EXACT NOTEBOOK DIAGRAM STRUCTURE + GAMING ANIMATION) ---
+        // --- RENDER AREA CARDS (WITH OUTSTANDING -> RUNNING & HOLD SUB-BRANCHES) ---
         function renderAreaCards(dict) {
             const container = document.getElementById('areaCardsContainer');
             const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
 
-            const filtered = appState.areas.filter(a => 
+            const filtered = appState.areas.map(normalizeArea).filter(a => 
                 a.name.toLowerCase().includes(q) || (a.note && a.note.toLowerCase().includes(q))
             );
 
@@ -973,11 +1414,11 @@
             }
 
             container.innerHTML = filtered.map((area, idx) => {
-                const baseTarget = Number(area.closingAmount) > 0 ? Number(area.closingAmount) : Number(area.loanAmount);
-                const pct = baseTarget > 0 ? Math.min(100, Math.round((Number(area.paidAmount) / baseTarget) * 100)) : 0;
+                const baseTarget = area.closingAmount > 0 ? area.closingAmount : area.loanAmount;
+                const pct = baseTarget > 0 ? Math.min(100, Math.round((area.paidAmount / baseTarget) * 100)) : 0;
 
                 return `
-                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 60}ms">
+                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 55}ms">
                     <div>
                         <!-- Card Header: Numbered Area Name + Members Counter + Edit/Delete -->
                         <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800/90">
@@ -993,13 +1434,13 @@
                                 ${area.note ? `<p class="text-[11px] text-slate-400 mt-1">${escapeHtml(area.note)}</p>` : ''}
                             </div>
 
-                            <!-- Members Counter (Click +/- or edit directly) & Actions -->
+                            <!-- Members Counter & Actions -->
                             <div class="flex items-center gap-1.5">
                                 <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 gap-1.5" title="Members in this area">
                                     <button onclick="adjustMembers('${area.id}', -1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">-</button>
                                     <div onclick="openAreaModal('${area.id}')" class="cursor-pointer text-center px-1">
                                         <i class="fa-solid fa-users text-amber-400 text-[10px] mr-1"></i>
-                                        <span class="text-xs font-black text-white">${Number(area.members) || 0}</span>
+                                        <span class="text-xs font-black text-white">${area.members}</span>
                                     </div>
                                     <button onclick="adjustMembers('${area.id}', 1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">+</button>
                                 </div>
@@ -1013,7 +1454,7 @@
                             </div>
                         </div>
 
-                        <!-- Notebook Diagram Tree Structure -->
+                        <!-- Connected Diagram Tree Structure -->
                         <div class="my-4 space-y-2.5 text-xs">
                             
                             <!-- 1. LOAN AMOUNT -->
@@ -1025,7 +1466,7 @@
                                 <span class="text-sm font-black text-white">${formatINR(area.loanAmount)}</span>
                             </div>
 
-                            <!-- 2. CLOSING AMOUNT (With Sub-Tree for Paid & Outstanding) -->
+                            <!-- 2. CLOSING AMOUNT (With Sub-Tree for Paid & Connected Outstanding) -->
                             <div class="p-2.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
                                 <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between cursor-pointer">
                                     <span class="font-bold text-violet-300 flex items-center gap-2">
@@ -1035,7 +1476,7 @@
                                     <span class="text-sm font-black text-violet-300">${formatINR(area.closingAmount)}</span>
                                 </div>
 
-                                <!-- Sub-Branch under Closing Amount: Customer Paid & Outstanding -->
+                                <!-- Branch under Closing Amount: Customer Paid & Outstanding -->
                                 <div class="tree-branch space-y-2 pt-1">
                                     <!-- Customer Paid Amount -->
                                     <div onclick="openPaymentModal('${area.id}')" class="tree-item metric-row flex items-center justify-between p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30 hover:border-emerald-400 cursor-pointer">
@@ -1043,21 +1484,37 @@
                                         <span class="text-sm font-black text-emerald-400">${formatINR(area.paidAmount)}</span>
                                     </div>
 
-                                    <!-- Outstanding Amount -->
-                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item metric-row flex items-center justify-between p-2 rounded-lg bg-amber-950/30 border border-amber-500/30 hover:border-amber-400 cursor-pointer">
-                                        <span class="text-amber-300 font-bold">${dict.outstandingAmountLabel}</span>
-                                        <span class="text-sm font-black text-amber-400">${formatINR(area.outstandingAmount)}</span>
+                                    <!-- Outstanding Amount (Parent of Running Amount & Hold Amount) -->
+                                    <div class="tree-item rounded-xl bg-amber-950/20 border border-amber-500/35 p-2 space-y-2">
+                                        <div onclick="openPaymentModal('${area.id}')" class="metric-row flex items-center justify-between cursor-pointer">
+                                            <span class="text-amber-300 font-extrabold flex items-center gap-1.5">
+                                                ${dict.outstandingAmountLabel}
+                                            </span>
+                                            <span class="text-sm font-black text-amber-400">${formatINR(area.outstandingAmount)}</span>
+                                        </div>
+
+                                        <!-- 2 Sub-Divisions of Outstanding Amount: Running & Hold -->
+                                        <div class="sub-tree-branch space-y-1.5 pt-0.5">
+                                            <!-- Running Amount -->
+                                            <div onclick="openAreaModal('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-sky-950/40 border border-sky-500/30 hover:border-sky-400 cursor-pointer">
+                                                <span class="text-[11px] font-bold text-sky-300 flex items-center gap-1.5">
+                                                    <i class="fa-solid fa-circle-play text-[9px] text-sky-400"></i>
+                                                    ${dict.runningAmountLabel}
+                                                </span>
+                                                <span class="text-xs font-black text-sky-400">${formatINR(area.runningAmount)}</span>
+                                            </div>
+
+                                            <!-- Hold Amount -->
+                                            <div onclick="openAreaModal('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-rose-950/40 border border-rose-500/30 hover:border-rose-400 cursor-pointer">
+                                                <span class="text-[11px] font-bold text-rose-300 flex items-center gap-1.5">
+                                                    <i class="fa-solid fa-circle-pause text-[9px] text-rose-400"></i>
+                                                    ${dict.holdAmountLabel}
+                                                </span>
+                                                <span class="text-xs font-black text-rose-400">${formatINR(area.holdAmount)}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- 3. HOLD AMOUNT -->
-                            <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 hover:bg-slate-900 border border-slate-800/90 cursor-pointer">
-                                <span class="font-bold text-rose-300 flex items-center gap-2">
-                                    <i class="fa-solid fa-arrow-right-long text-rose-400"></i>
-                                    ${dict.holdAmountLabel}
-                                </span>
-                                <span class="text-sm font-black text-rose-400">${formatINR(area.holdAmount)}</span>
                             </div>
                         </div>
 
@@ -1094,37 +1551,37 @@
             try {
                 const todayStr = new Date().toISOString().slice(0, 10);
 
-                // Calculate Grand Totals
-                let totalMembers = 0, totalLoan = 0, totalClosing = 0, totalPaid = 0, totalOutstanding = 0, totalHold = 0;
-                appState.areas.forEach(a => {
-                    totalMembers += Number(a.members) || 0;
-                    totalLoan += Number(a.loanAmount) || 0;
-                    totalClosing += Number(a.closingAmount) || 0;
-                    totalPaid += Number(a.paidAmount) || 0;
-                    totalOutstanding += Number(a.outstandingAmount) || 0;
-                    totalHold += Number(a.holdAmount) || 0;
+                let totalMembers = 0, totalLoan = 0, totalClosing = 0, totalPaid = 0, totalOutstanding = 0, totalRunning = 0, totalHold = 0;
+                appState.areas.map(normalizeArea).forEach(a => {
+                    totalMembers += a.members;
+                    totalLoan += a.loanAmount;
+                    totalClosing += a.closingAmount;
+                    totalPaid += a.paidAmount;
+                    totalOutstanding += a.outstandingAmount;
+                    totalRunning += a.runningAmount;
+                    totalHold += a.holdAmount;
                 });
 
-                // Build Sheet 1: Area-Wise Report Data
                 const areaRows = [
                     ['SHILABIZ NIDHI LIMITED — AREA-WISE FUND & COLLECTION REPORT'],
                     ['Generated Date:', todayStr, '', 'Total Areas:', appState.areas.length, 'Total Members:', totalMembers],
                     [],
-                    ['SL NO.', 'AREA NAME', 'MEMBERS COUNT', 'LOAN AMOUNT (₹)', 'CLOSING AMOUNT (₹)', 'CUSTOMER PAID AMOUNT (₹)', 'OUTSTANDING AMOUNT (₹)', 'HOLD AMOUNT (₹)', 'COLLECTION %', 'NOTE / REMARK']
+                    ['SL NO.', 'AREA NAME', 'MEMBERS COUNT', 'LOAN AMOUNT (₹)', 'CLOSING AMOUNT (₹)', 'CUSTOMER PAID AMOUNT (₹)', 'OUTSTANDING AMOUNT (₹)', 'RUNNING AMOUNT (OUTSTANDING ₹)', 'HOLD AMOUNT (OUTSTANDING ₹)', 'COLLECTION %', 'NOTE / REMARK']
                 ];
 
-                appState.areas.forEach((a, index) => {
-                    const base = Number(a.closingAmount) > 0 ? Number(a.closingAmount) : Number(a.loanAmount);
-                    const pct = base > 0 ? Math.round(((Number(a.paidAmount) || 0) / base) * 100) + '%' : '0%';
+                appState.areas.map(normalizeArea).forEach((a, index) => {
+                    const base = a.closingAmount > 0 ? a.closingAmount : a.loanAmount;
+                    const pct = base > 0 ? Math.round((a.paidAmount / base) * 100) + '%' : '0%';
                     areaRows.push([
                         index + 1,
                         a.name,
-                        Number(a.members) || 0,
-                        Number(a.loanAmount) || 0,
-                        Number(a.closingAmount) || 0,
-                        Number(a.paidAmount) || 0,
-                        Number(a.outstandingAmount) || 0,
-                        Number(a.holdAmount) || 0,
+                        a.members,
+                        a.loanAmount,
+                        a.closingAmount,
+                        a.paidAmount,
+                        a.outstandingAmount,
+                        a.runningAmount,
+                        a.holdAmount,
                         pct,
                         a.note || ''
                     ]);
@@ -1139,12 +1596,12 @@
                     totalClosing,
                     totalPaid,
                     totalOutstanding,
+                    totalRunning,
                     totalHold,
                     (totalClosing > 0 ? Math.round((totalPaid / totalClosing) * 100) + '%' : '0%'),
                     'Overall Summary'
                 ]);
 
-                // Build Sheet 2: Payment & Edit History
                 const historyRows = [
                     ['SHILABIZ NIDHI LIMITED — PAYMENT & EDIT HISTORY LOG'],
                     ['SL NO.', 'DATE', 'TIME', 'AREA NAME', 'ACTION TYPE', 'AMOUNT (₹)', 'OUTSTANDING AFTER (₹)', 'STATUS', 'NOTE / REMARK']
@@ -1170,8 +1627,8 @@
                     const wsAreas = XLSX.utils.aoa_to_sheet(areaRows);
                     wsAreas['!cols'] = [
                         { wch: 8 }, { wch: 20 }, { wch: 16 }, { wch: 18 },
-                        { wch: 20 }, { wch: 25 }, { wch: 23 }, { wch: 18 },
-                        { wch: 15 }, { wch: 28 }
+                        { wch: 20 }, { wch: 25 }, { wch: 23 }, { wch: 26 },
+                        { wch: 24 }, { wch: 15 }, { wch: 28 }
                     ];
                     XLSX.utils.book_append_sheet(wb, wsAreas, 'Area Breakdown');
 
@@ -1184,18 +1641,6 @@
 
                     XLSX.writeFile(wb, `SHILABIZ_NIDHI_LIMITED_Report_${todayStr}.xlsx`);
                     showToast(appState.lang === 'bn' ? 'এক্সেল ফাইল সফলভাবে ডাউনলোড হয়েছে!' : 'Excel (.xlsx) Report Downloaded!');
-                } else {
-                    // Fallback CSV/Excel download if CDN is offline
-                    const csvContent = areaRows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-                    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `SHILABIZ_NIDHI_LIMITED_Report_${todayStr}.csv`;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    showToast('Excel CSV Report Downloaded!');
                 }
             } catch (err) {
                 showToast('Error exporting Excel file');
@@ -1203,24 +1648,29 @@
         }
 
         // --- QUICK MEMBER ADJUSTMENT FROM CARD ---
-        function adjustMembers(areaId, delta) {
-            const area = appState.areas.find(a => a.id === areaId);
-            if (!area) return;
-            area.members = Math.max(0, (Number(area.members) || 0) + delta);
-            saveState();
+        async function adjustMembers(areaId, delta) {
+            const idx = appState.areas.findIndex(a => a.id === areaId);
+            if (idx === -1) return;
+            const updated = normalizeArea(appState.areas[idx]);
+            updated.members = Math.max(0, updated.members + delta);
+            appState.areas[idx] = updated;
             renderAll();
+            await saveAreaToFirestore(updated);
         }
 
         // --- CUSTOMER PAID / COLLECTION MODAL ---
         function openPaymentModal(areaId) {
-            const area = appState.areas.find(a => a.id === areaId);
-            if (!area) return;
+            const raw = appState.areas.find(a => a.id === areaId);
+            if (!raw) return;
+            const area = normalizeArea(raw);
 
             document.getElementById('payModalAreaId').value = area.id;
             document.getElementById('payModalAreaName').textContent = area.name;
             document.getElementById('payModalClosing').textContent = formatINR(area.closingAmount);
             document.getElementById('payModalPaid').textContent = formatINR(area.paidAmount);
             document.getElementById('payModalOutstanding').textContent = formatINR(area.outstandingAmount);
+            document.getElementById('payModalRunning').textContent = formatINR(area.runningAmount);
+            document.getElementById('payModalHold').textContent = formatINR(area.holdAmount);
 
             document.getElementById('payAmountInput').value = '';
             document.getElementById('payDateInput').value = new Date().toISOString().split('T')[0];
@@ -1230,19 +1680,29 @@
             openModal('paymentModal');
         }
 
-        function fillFullOutstanding() {
+        function fillRunningOutstanding() {
             const areaId = document.getElementById('payModalAreaId').value;
-            const area = appState.areas.find(a => a.id === areaId);
-            if (!area) return;
-            document.getElementById('payAmountInput').value = Math.max(0, Number(area.outstandingAmount) || 0);
+            const raw = appState.areas.find(a => a.id === areaId);
+            if (!raw) return;
+            const area = normalizeArea(raw);
+            document.getElementById('payAmountInput').value = Math.max(0, area.runningAmount);
         }
 
-        function submitPaymentForm(e) {
+        function fillFullOutstanding() {
+            const areaId = document.getElementById('payModalAreaId').value;
+            const raw = appState.areas.find(a => a.id === areaId);
+            if (!raw) return;
+            const area = normalizeArea(raw);
+            document.getElementById('payAmountInput').value = Math.max(0, area.outstandingAmount);
+        }
+
+        async function submitPaymentForm(e) {
             e.preventDefault();
             const areaId = document.getElementById('payModalAreaId').value;
-            const area = appState.areas.find(a => a.id === areaId);
-            if (!area) return;
+            const idx = appState.areas.findIndex(a => a.id === areaId);
+            if (idx === -1) return;
 
+            const area = normalizeArea(appState.areas[idx]);
             const action = document.querySelector('input[name="payActionType"]:checked').value;
             const amount = Number(document.getElementById('payAmountInput').value) || 0;
             const date = document.getElementById('payDateInput').value;
@@ -1250,35 +1710,53 @@
 
             if (amount <= 0) return;
 
+            const prevHold = area.holdAmount;
+            const prevRunning = area.runningAmount;
+
             if (action === 'add_paid') {
-                area.paidAmount = (Number(area.paidAmount) || 0) + amount;
-                area.outstandingAmount = Math.max(0, (Number(area.outstandingAmount) || 0) - amount);
+                area.paidAmount = area.paidAmount + amount;
+                area.outstandingAmount = Math.max(0, area.outstandingAmount - amount);
+                // Keep Hold Amount intact unless total Outstanding drops below Hold Amount
+                area.holdAmount = Math.min(area.outstandingAmount, area.holdAmount);
+                area.runningAmount = Math.max(0, area.outstandingAmount - area.holdAmount);
             } else {
-                area.paidAmount = Math.max(0, (Number(area.paidAmount) || 0) - amount);
-                const base = Number(area.closingAmount) > 0 ? Number(area.closingAmount) : Number(area.loanAmount);
+                area.paidAmount = Math.max(0, area.paidAmount - amount);
+                const base = area.closingAmount > 0 ? area.closingAmount : area.loanAmount;
                 area.outstandingAmount = Math.max(0, base - area.paidAmount);
+                area.holdAmount = Math.min(area.outstandingAmount, area.holdAmount);
+                area.runningAmount = Math.max(0, area.outstandingAmount - area.holdAmount);
             }
 
-            appState.history.unshift({
+            const newHist = {
                 id: 'h-' + Date.now(),
                 areaId: area.id,
                 areaName: area.name,
                 type: action === 'add_paid' ? 'PAID_ADD' : 'PAID_DEDUCT',
                 amount: amount,
+                prevHold: prevHold,
+                prevRunning: prevRunning,
                 outstandingAfter: area.outstandingAmount,
                 date: date,
                 time: nowTime(),
-                note: note || (action === 'add_paid' ? `Customer paid ${formatINR(amount)}` : `Deducted ${formatINR(amount)} from paid`),
+                timestamp: Date.now(),
+                note: note || (action === 'add_paid'
+                    ? `Customer paid ${formatINR(amount)} (Running Due: ${formatINR(area.runningAmount)}, Hold: ${formatINR(area.holdAmount)})`
+                    : `Deducted ${formatINR(amount)} from paid`),
                 reverted: false
-            });
+            };
 
-            saveState();
+            appState.areas[idx] = area;
+            appState.history.unshift(newHist);
+
             closeModal('paymentModal');
             renderAll();
-            showToast(`${area.name}: ${formatINR(amount)} updated & saved in history`);
+            showToast(`${area.name}: ${formatINR(amount)} saved to Cloud`);
+
+            await saveAreaToFirestore(area);
+            await saveHistoryToFirestore(newHist);
         }
 
-        // --- ADD / EDIT AREA MODAL ---
+        // --- ADD / EDIT AREA MODAL (CONNECTED OUTSTANDING = RUNNING + HOLD) ---
         function openAreaModal(areaId = null) {
             const idEl = document.getElementById('areaModalId');
             const nameEl = document.getElementById('areaNameInput');
@@ -1287,20 +1765,23 @@
             const closingEl = document.getElementById('areaClosingInput');
             const paidEl = document.getElementById('areaPaidInput');
             const outEl = document.getElementById('areaOutstandingInput');
+            const runningEl = document.getElementById('areaRunningInput');
             const holdEl = document.getElementById('areaHoldInput');
             const noteEl = document.getElementById('areaNoteInput');
 
             if (areaId) {
-                const area = appState.areas.find(a => a.id === areaId);
-                if (!area) return;
+                const raw = appState.areas.find(a => a.id === areaId);
+                if (!raw) return;
+                const area = normalizeArea(raw);
                 idEl.value = area.id;
                 nameEl.value = area.name;
-                membersEl.value = Number(area.members) || 0;
-                loanEl.value = Number(area.loanAmount) || 0;
-                closingEl.value = Number(area.closingAmount) || 0;
-                paidEl.value = Number(area.paidAmount) || 0;
-                outEl.value = Number(area.outstandingAmount) || 0;
-                holdEl.value = Number(area.holdAmount) || 0;
+                membersEl.value = area.members;
+                loanEl.value = area.loanAmount;
+                closingEl.value = area.closingAmount;
+                paidEl.value = area.paidAmount;
+                outEl.value = area.outstandingAmount;
+                runningEl.value = area.runningAmount;
+                holdEl.value = area.holdAmount;
                 noteEl.value = area.note || '';
             } else {
                 idEl.value = '';
@@ -1310,6 +1791,7 @@
                 closingEl.value = '';
                 paidEl.value = 0;
                 outEl.value = 0;
+                runningEl.value = 0;
                 holdEl.value = 0;
                 noteEl.value = '';
             }
@@ -1317,25 +1799,56 @@
             openModal('areaModal');
         }
 
-        function syncAreaModalOutstanding() {
+        // Real-time two-way calculator inside Area Modal so Outstanding = Running + Hold always stays accurate
+        function syncAreaModalCalculations(sourceField) {
             const autoCalc = document.getElementById('autoCalcOutstandingToggle').checked;
-            if (!autoCalc) return;
-
-            const loan = Number(document.getElementById('areaLoanInput').value) || 0;
+            const loanInput = document.getElementById('areaLoanInput');
             const closingInput = document.getElementById('areaClosingInput');
+            const paidInput = document.getElementById('areaPaidInput');
+            const outInput = document.getElementById('areaOutstandingInput');
+            const runningInput = document.getElementById('areaRunningInput');
+            const holdInput = document.getElementById('areaHoldInput');
+
+            const loan = Number(loanInput.value) || 0;
             let closing = Number(closingInput.value) || 0;
 
-            if (closing === 0 && loan > 0 && document.activeElement.id === 'areaLoanInput') {
+            if (sourceField === 'loan' && closing === 0 && loan > 0) {
                 closingInput.value = loan;
                 closing = loan;
             }
 
-            const paid = Number(document.getElementById('areaPaidInput').value) || 0;
+            const paid = Number(paidInput.value) || 0;
             const base = closing > 0 ? closing : loan;
-            document.getElementById('areaOutstandingInput').value = Math.max(0, base - paid);
+
+            let outstanding = Number(outInput.value) || 0;
+            if (autoCalc && (sourceField === 'loan' || sourceField === 'closing' || sourceField === 'paid' || sourceField === 'toggle')) {
+                outstanding = Math.max(0, base - paid);
+                outInput.value = outstanding;
+            }
+
+            let hold = Math.max(0, Number(holdInput.value) || 0);
+            let running = Math.max(0, Number(runningInput.value) || 0);
+
+            if (sourceField === 'running') {
+                // User typed Running Amount -> adjust Hold Amount = Outstanding - Running
+                if (running > outstanding) {
+                    running = outstanding;
+                    runningInput.value = running;
+                }
+                hold = Math.max(0, outstanding - running);
+                holdInput.value = hold;
+            } else {
+                // User typed Hold Amount or Outstanding changed -> adjust Running Amount = Outstanding - Hold
+                if (hold > outstanding) {
+                    hold = outstanding;
+                    holdInput.value = hold;
+                }
+                running = Math.max(0, outstanding - hold);
+                runningInput.value = running;
+            }
         }
 
-        function submitAreaModal(e) {
+        async function submitAreaModal(e) {
             e.preventDefault();
             const id = document.getElementById('areaModalId').value;
             const name = document.getElementById('areaNameInput').value.trim().toUpperCase();
@@ -1344,36 +1857,46 @@
             const closingAmount = Number(document.getElementById('areaClosingInput').value) || 0;
             const paidAmount = Number(document.getElementById('areaPaidInput').value) || 0;
             const outstandingAmount = Number(document.getElementById('areaOutstandingInput').value) || 0;
+            const runningAmount = Number(document.getElementById('areaRunningInput').value) || 0;
             const holdAmount = Number(document.getElementById('areaHoldInput').value) || 0;
             const note = document.getElementById('areaNoteInput').value.trim();
 
-            if (id) {
-                const area = appState.areas.find(a => a.id === id);
-                if (area) {
-                    area.name = name;
-                    area.members = members;
-                    area.loanAmount = loanAmount;
-                    area.closingAmount = closingAmount;
-                    area.paidAmount = paidAmount;
-                    area.outstandingAmount = outstandingAmount;
-                    area.holdAmount = holdAmount;
-                    area.note = note;
+            let targetArea = null;
+            let histEntry = null;
 
-                    appState.history.unshift({
+            if (id) {
+                const idx = appState.areas.findIndex(a => a.id === id);
+                if (idx !== -1) {
+                    targetArea = normalizeArea({
+                        ...appState.areas[idx],
+                        name,
+                        members,
+                        loanAmount,
+                        closingAmount,
+                        paidAmount,
+                        outstandingAmount,
+                        runningAmount,
+                        holdAmount,
+                        note
+                    });
+                    appState.areas[idx] = targetArea;
+
+                    histEntry = {
                         id: 'h-' + Date.now(),
-                        areaId: area.id,
-                        areaName: area.name,
+                        areaId: targetArea.id,
+                        areaName: targetArea.name,
                         type: 'AREA_EDIT',
                         amount: paidAmount,
                         outstandingAfter: outstandingAmount,
                         date: new Date().toISOString().split('T')[0],
                         time: nowTime(),
-                        note: `Modified Area — Members: ${members}, Loan: ${formatINR(loanAmount)}, Closing: ${formatINR(closingAmount)}, Paid: ${formatINR(paidAmount)}, Hold: ${formatINR(holdAmount)}`,
+                        timestamp: Date.now(),
+                        note: `Modified Area — Loan: ${formatINR(loanAmount)}, Closing: ${formatINR(closingAmount)}, Paid: ${formatINR(paidAmount)}, Outstanding: ${formatINR(outstandingAmount)} (Running: ${formatINR(runningAmount)}, Hold: ${formatINR(holdAmount)})`,
                         reverted: false
-                    });
+                    };
                 }
             } else {
-                const newArea = {
+                targetArea = normalizeArea({
                     id: 'area-' + Date.now(),
                     name,
                     members,
@@ -1381,29 +1904,36 @@
                     closingAmount,
                     paidAmount,
                     outstandingAmount,
+                    runningAmount,
                     holdAmount,
-                    note
-                };
-                appState.areas.push(newArea);
+                    note,
+                    orderIndex: appState.areas.length + 1
+                });
+                appState.areas.push(targetArea);
 
-                appState.history.unshift({
+                histEntry = {
                     id: 'h-' + Date.now(),
-                    areaId: newArea.id,
-                    areaName: newArea.name,
+                    areaId: targetArea.id,
+                    areaName: targetArea.name,
                     type: 'AREA_CREATE',
                     amount: loanAmount,
                     outstandingAfter: outstandingAmount,
                     date: new Date().toISOString().split('T')[0],
                     time: nowTime(),
-                    note: `New Area Added — Members: ${members}, Loan: ${formatINR(loanAmount)}`,
+                    timestamp: Date.now(),
+                    note: `New Area Added — Members: ${members}, Loan: ${formatINR(loanAmount)}, Running: ${formatINR(runningAmount)}, Hold: ${formatINR(holdAmount)}`,
                     reverted: false
-                });
+                };
             }
 
-            saveState();
+            if (histEntry) appState.history.unshift(histEntry);
+
             closeModal('areaModal');
             renderAll();
-            showToast(`${name} saved successfully`);
+            showToast(`${name} saved to Cloud`);
+
+            if (targetArea) await saveAreaToFirestore(targetArea);
+            if (histEntry) await saveHistoryToFirestore(histEntry);
         }
 
         // --- DELETE AREA ---
@@ -1412,13 +1942,13 @@
             if (!area) return;
 
             document.getElementById('confirmTitle').textContent = `Delete "${area.name}"?`;
-            document.getElementById('confirmDesc').textContent = `This will remove ${area.name} from the dashboard.`;
-            document.getElementById('confirmActionBtn').onclick = () => {
+            document.getElementById('confirmDesc').textContent = `This will remove ${area.name} from the cloud dashboard.`;
+            document.getElementById('confirmActionBtn').onclick = async () => {
                 appState.areas = appState.areas.filter(a => a.id !== areaId);
-                saveState();
                 closeModal('confirmModal');
                 renderAll();
                 showToast(`${area.name} deleted`);
+                await removeAreaFromFirestore(areaId);
             };
             openModal('confirmModal');
         }
@@ -1487,31 +2017,47 @@
             }).join('');
         }
 
-        function revertHistoryItem(histId) {
+        async function revertHistoryItem(histId) {
             const item = appState.history.find(h => h.id === histId);
             if (!item || item.reverted) return;
 
-            const area = appState.areas.find(a => a.id === item.areaId);
-            if (area) {
+            const idx = appState.areas.findIndex(a => a.id === item.areaId);
+            let updatedArea = null;
+
+            if (idx !== -1) {
+                const area = normalizeArea(appState.areas[idx]);
                 if (item.type === 'PAID_ADD') {
-                    area.paidAmount = Math.max(0, (Number(area.paidAmount) || 0) - item.amount);
-                    area.outstandingAmount = (Number(area.outstandingAmount) || 0) + item.amount;
+                    area.paidAmount = Math.max(0, area.paidAmount - Number(item.amount));
+                    area.outstandingAmount = area.outstandingAmount + Number(item.amount);
                 } else if (item.type === 'PAID_DEDUCT') {
-                    area.paidAmount = (Number(area.paidAmount) || 0) + item.amount;
-                    area.outstandingAmount = Math.max(0, (Number(area.outstandingAmount) || 0) - item.amount);
+                    area.paidAmount = area.paidAmount + Number(item.amount);
+                    area.outstandingAmount = Math.max(0, area.outstandingAmount - Number(item.amount));
                 }
+                if (item.prevHold !== undefined) {
+                    area.holdAmount = Math.min(area.outstandingAmount, Number(item.prevHold));
+                }
+                area.runningAmount = Math.max(0, area.outstandingAmount - area.holdAmount);
+                updatedArea = area;
+                appState.areas[idx] = updatedArea;
             }
 
             item.reverted = true;
-            saveState();
             renderAll();
             showToast('Transaction reverted and area balance restored');
+
+            if (updatedArea) await saveAreaToFirestore(updatedArea);
+            await saveHistoryToFirestore(item);
         }
 
-        function deleteHistoryItem(histId) {
+        async function deleteHistoryItem(histId) {
             appState.history = appState.history.filter(h => h.id !== histId);
-            saveState();
             renderAll();
+            await removeHistoryFromFirestore(histId);
+        }
+
+        // --- GROUP PHOTO MODAL ---
+        function openGroupPhotoModal() {
+            openModal('groupPhotoModal');
         }
 
         // --- MODAL & TOAST HELPERS ---
@@ -1538,9 +2084,33 @@
             setTimeout(() => t.remove(), 2600);
         }
 
-        window.onload = function () {
+        // Expose functions to global window scope for HTML inline handlers
+        Object.assign(window, {
+            toggleLanguage,
+            exportToExcel,
+            openAreaModal,
+            switchPage,
+            openGroupPhotoModal,
+            renderAll,
+            renderHistory,
+            closeModal,
+            submitPaymentForm,
+            fillRunningOutstanding,
+            fillFullOutstanding,
+            syncAreaModalCalculations,
+            submitAreaModal,
+            adjustMembers,
+            openPaymentModal,
+            confirmDeleteArea,
+            revertHistoryItem,
+            deleteHistoryItem,
+            dismissLoadingScreen
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
             renderAll();
-        };
+            initFirebaseCloud();
+        });
     </script>
 </body>
 </html>
