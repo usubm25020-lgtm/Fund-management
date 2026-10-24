@@ -3,42 +3,22 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>InvestoPro - Premium Money Manager</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHILABIZ NIDHI LIMITED — Fund & Area Tracker</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js for Dashboards -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- SheetJS for Excel Export -->
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-    
-    <!-- jsPDF for PDF Export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter & Hind Siliguri -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        darkBg: '#0b1120',
-                        darkCard: '#1e293b',
-                        lightBg: '#f8fafc',
-                        neonCyan: '#06b6d4',
-                        neonPurple: '#a855f7',
-                        neonGreen: '#10b981',
-                        neonRed: '#f43f5e',
-                        neonGold: '#fbbf24',
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['"Inter"', '"Hind Siliguri"', 'sans-serif']
                     }
                 }
             }
@@ -46,1176 +26,1274 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        
-        /* Prevent body scroll, handle scroll in specific container */
-        html, body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            height: 100%;
-            height: 100dvh;
-            margin: 0;
-            overflow: hidden; 
+        body {
+            background-color: #090d16;
+            color: #f8fafc;
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Classes (Optimized for Speed) */
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-            will-change: transform, opacity;
+        .card-surface {
+            background: #111827;
+            border: 1px solid #1f2937;
+            transition: border-color 0.15s ease, transform 0.15s ease;
         }
-        
-        /* Light Theme Adjustments */
-        .light .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        .card-surface:hover {
+            border-color: #374151;
         }
 
-        /* Hardware Accelerated Animations */
-        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        .tree-branch {
+            position: relative;
+            padding-left: 1.25rem;
+        }
+        .tree-branch::before {
+            content: '';
+            position: absolute;
+            left: 0.35rem;
+            top: -0.35rem;
+            bottom: 0.85rem;
+            width: 2px;
+            background: #334155;
+        }
+        .tree-item {
+            position: relative;
+        }
+        .tree-item::before {
+            content: '';
+            position: absolute;
+            left: -0.9rem;
+            top: 50%;
+            width: 0.75rem;
+            height: 2px;
+            background: #334155;
         }
 
-        /* Custom Scrollbar for inner containers */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
-
-        .hidden-view { display: none !important; }
-
-        /* Interactive Card Hover */
-        .interactive-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-        .interactive-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.3);
+        ::-webkit-scrollbar-track {
+            background: #090d16;
         }
-        .light .interactive-card:hover {
-            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.2);
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 9999px;
         }
     </style>
 </head>
-<body class="bg-lightBg text-gray-900 dark:bg-darkBg dark:text-gray-100 flex w-screen transition-colors duration-300">
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- Mobile Sidebar Overlay -->
-    <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-40 hidden opacity-0 transition-opacity duration-300" onclick="toggleSidebar()"></div>
-
-    <!-- Sidebar Drawer -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 glass-panel flex flex-col z-50 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out border-r border-gray-200 dark:border-gray-800 shrink-0">
-        <div class="p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
-            <h1 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-neonCyan to-neonPurple tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-chart-line"></i>InvestoPro
-            </h1>
-            <button class="md:hidden text-gray-500 hover:text-red-500 p-2" onclick="toggleSidebar()">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </div>
-        
-        <nav id="sidebar-nav" class="flex flex-col gap-2 p-4 flex-grow overflow-y-auto custom-scrollbar">
-            <button onclick="switchView('dashboard')" class="nav-btn active flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 bg-gray-200 dark:bg-gray-800 text-neonCyan font-semibold">
-                <i class="fa-solid fa-border-all text-lg w-5"></i> <span data-i18n="dashboard">Dashboard</span>
-            </button>
-            <button onclick="switchView('areas')" class="nav-btn flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 font-semibold">
-                <i class="fa-solid fa-map-location-dot text-lg w-5"></i> <span data-i18n="area_mgt">Manage Areas</span>
-            </button>
-            <button onclick="switchView('transactions')" class="nav-btn flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 font-semibold">
-                <i class="fa-solid fa-clock-rotate-left text-lg w-5"></i> <span data-i18n="history">History & Logs</span>
-            </button>
-        </nav>
-
-        <div class="p-4 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-3 shrink-0">
-            <!-- Utility Buttons -->
-            <button onclick="toggleLanguage()" class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800/80 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-neonCyan font-bold shadow-sm" title="Change Language">
-                <span class="flex items-center gap-2"><i class="fa-solid fa-language text-lg"></i> <span data-i18n="lang_switch">English / বাংলা</span></span>
-                <kbd class="hidden md:inline-block px-2 py-0.5 bg-gray-300 dark:bg-gray-600 rounded text-xs text-gray-700 dark:text-gray-300">Ctrl+L</kbd>
-            </button>
-            <button onclick="toggleTheme()" class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800/80 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-bold text-gray-700 dark:text-gray-300 shadow-sm" title="Toggle Theme">
-                <span class="flex items-center gap-2"><i id="theme-icon" class="fa-solid fa-sun text-yellow-500 text-lg w-5"></i> <span id="theme-text">Light Mode</span></span>
-                <kbd class="hidden md:inline-block px-2 py-0.5 bg-gray-300 dark:bg-gray-600 rounded text-xs text-gray-700 dark:text-gray-300">Ctrl+T</kbd>
-            </button>
-        </div>
-    </aside>
-
-    <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative w-full">
-        
-        <!-- Mobile Top Header -->
-        <header class="md:hidden glass-panel flex-shrink-0 z-30 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
+    <!-- ================= TOP HEADER ================= -->
+    <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 py-3.5">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Title (SHILABIZ NIDHI LIMITED) -->
             <div class="flex items-center gap-3">
-                <button onclick="toggleSidebar()" class="text-gray-600 dark:text-gray-300 focus:outline-none p-1">
-                    <i class="fa-solid fa-bars text-2xl"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-extrabold text-lg shadow-md">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-xl font-extrabold tracking-wide text-white uppercase">
+                        SHILABIZ NIDHI LIMITED
+                    </h1>
+                    <p id="headerSubtitle" class="text-xs text-slate-400">Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons & Language Switcher -->
+            <div class="flex items-center gap-2">
+                <!-- Language Toggle Button (Default English -> Bengali) -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-amber-400 transition-colors">
+                    <i class="fa-solid fa-language text-sm"></i>
+                    <span id="langToggleText">বাংলা ভাষা</span>
                 </button>
-                <span class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonPurple">InvestoPro</span>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="openModal('shortcut-modal')" class="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-neonPurple w-10 h-10 flex items-center justify-center shadow-sm transition-transform active:scale-95">
-                    <i class="fa-solid fa-keyboard"></i>
+
+                <!-- Backup / Restore -->
+                <button onclick="openBackupModal()" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-slate-300 flex items-center gap-1.5" title="Backup or Restore Data">
+                    <i class="fa-solid fa-download text-cyan-400"></i>
+                    <span class="hidden md:inline" data-i18n="backupBtn">Backup</span>
+                </button>
+
+                <!-- Add New Area Button -->
+                <button onclick="openAreaModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition-all">
+                    <i class="fa-solid fa-plus"></i>
+                    <span data-i18n="addAreaBtn">Add Area</span>
                 </button>
             </div>
-        </header>
-
-        <!-- Scrollable Content -->
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 pb-32 custom-scrollbar w-full" id="main-scroll-area">
-            
-            <!-- Global Investment Setup Banner (Fixed Mobile Overflow) -->
-            <div id="setup-banner" class="glass-panel p-5 sm:p-6 rounded-2xl mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-l-4 border-neonPurple hidden-view fade-in gap-4">
-                <div class="flex-1 w-full">
-                    <h2 class="text-xl font-bold mb-1 dark:text-white text-gray-800" data-i18n="set_global">Set Total Global Investment</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="set_global_sub">Define your root capital (e.g., 2 Cr) to track overall ROI.</p>
-                </div>
-                <!-- FIXED: Changed to flex-col on small screens so it stacks perfectly, preventing cut-offs -->
-                <div class="flex flex-col sm:flex-row w-full md:w-auto gap-3 shrink-0">
-                    <input type="number" id="global-invest-input" placeholder="Amount (e.g. 20000000)" class="w-full sm:w-56 px-4 py-3 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan text-gray-800 dark:text-white font-semibold shadow-inner">
-                    <button onclick="setGlobalInvestment()" class="w-full sm:w-auto bg-gradient-to-r from-neonCyan to-blue-500 text-white px-6 py-3 sm:py-2 rounded-xl font-bold shadow-lg hover:opacity-90 transition active:scale-95" data-i18n="save">Save</button>
-                </div>
-            </div>
-
-            <div id="view-dashboard" class="view-section fade-in">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                    <h2 class="text-3xl font-extrabold tracking-tight dark:text-white text-gray-900" data-i18n="overview">Overview</h2>
-                    <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
-                        <button onclick="exportData('excel')" class="flex-1 sm:flex-none bg-green-600/10 dark:bg-green-600/20 text-green-700 dark:text-green-400 border border-green-600/30 px-5 py-2.5 rounded-xl hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm active:scale-95">
-                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exp_excel">Excel</span>
-                        </button>
-                        <button onclick="exportData('pdf')" class="flex-1 sm:flex-none bg-red-600/10 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-600/30 px-5 py-2.5 rounded-xl hover:bg-red-600 hover:text-white transition flex items-center justify-center gap-2 font-bold shadow-sm active:scale-95">
-                            <i class="fa-solid fa-file-pdf"></i> <span data-i18n="exp_pdf">PDF</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- KPI Cards Grid (Clickable for details) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 mb-8">
-                    <!-- Investment Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card" onclick="openDetailsModal('invest')">
-                        <div class="absolute -right-6 -top-6 text-neonPurple opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-wallet text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_invest">Total Investment</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2" id="kpi-investment">₹0</p>
-                        <p class="text-sm text-neonCyan font-medium flex justify-between items-center bg-cyan-50 dark:bg-cyan-900/20 p-2 rounded-lg inline-flex w-full">
-                            <span id="kpi-allocated">Allocated: ₹0</span>
-                            <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                        </p>
-                    </div>
-                    <!-- Collected Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonGreen" onclick="openDetailsModal('collected')">
-                        <div class="absolute -right-6 -top-6 text-neonGreen opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-money-bill-trend-up text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_collected">Total Collected</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-green-600 dark:text-neonGreen mb-2" id="kpi-collected">₹0</p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
-                            <span id="kpi-collect-percent">0% of Expected</span>
-                            <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                        </p>
-                    </div>
-                    <!-- Due Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonRed" onclick="openDetailsModal('due')">
-                        <div class="absolute -right-6 -top-6 text-neonRed opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-triangle-exclamation text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="total_due">Total Due</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-red-600 dark:text-neonRed mb-2" id="kpi-due">₹0</p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
-                            <span id="kpi-active-areas">0 Active Areas</span>
-                            <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                        </p>
-                    </div>
-                    <!-- Total Profit Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group interactive-card border-t-4 border-neonGold" onclick="openDetailsModal('profit')">
-                        <div class="absolute -right-6 -top-6 text-neonGold opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-sack-dollar text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="earned_profit">Total Earned Profit</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-yellow-600 dark:text-neonGold mb-2" id="kpi-profit-total">₹0</p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium flex justify-between items-center bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full">
-                            <span id="kpi-profit-projected">Projected: ₹0</span>
-                            <i class="fa-solid fa-arrow-right text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                        </p>
-                    </div>
-                    <!-- Monthly Profit Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-6 -top-6 text-blue-500 opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-calendar-days text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="monthly_profit">Monthly Profit</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2" id="kpi-profit-monthly">₹0</p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full" data-i18n="last_30">Last 30 Days</p>
-                    </div>
-                    <!-- Weekly Profit Card -->
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-6 -top-6 text-indigo-500 opacity-10 group-hover:scale-110 transition-transform duration-500"><i class="fa-solid fa-bolt text-9xl"></i></div>
-                        <h3 class="text-gray-600 dark:text-gray-400 font-semibold mb-1" data-i18n="weekly_profit">Weekly Profit</h3>
-                        <p class="text-3xl sm:text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2" id="kpi-profit-weekly">₹0</p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-800/80 p-2 rounded-lg w-full" data-i18n="last_7">Last 7 Days</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="glass-panel p-5 sm:p-6 rounded-2xl xl:col-span-2 shadow-xl border border-gray-200 dark:border-gray-800">
-                        <h3 class="font-bold mb-4 text-lg text-gray-800 dark:text-white" data-i18n="chart_area">Area-wise Collection vs Due</h3>
-                        <div class="relative h-64 sm:h-72 w-full">
-                            <canvas id="mainChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-5 sm:p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800">
-                        <h3 class="font-bold mb-4 text-lg text-gray-800 dark:text-white" data-i18n="chart_timeline">Profit Timeline</h3>
-                        <div class="relative h-64 sm:h-72 w-full">
-                            <canvas id="timelineChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="view-areas" class="view-section hidden-view fade-in">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" data-i18n="area_mgt">Manage Areas</h2>
-                    <button onclick="openModal('add-area-modal')" class="w-full sm:w-auto bg-gradient-to-r from-neonCyan to-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 active:scale-95">
-                        <i class="fa-solid fa-plus"></i> <span data-i18n="create_area">Create New Area</span>
-                    </button>
-                </div>
-
-                <!-- Areas Grid -->
-                <div id="areas-grid" class="grid grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6">
-                    <!-- Area cards injected via JS strings for speed -->
-                </div>
-            </div>
-
-            <div id="view-transactions" class="view-section hidden-view fade-in">
-                <h2 class="text-3xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white" data-i18n="history">History & Logs</h2>
-                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left border-collapse min-w-[700px]">
-                            <thead>
-                                <tr class="bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                                    <th class="p-4 font-semibold" data-i18n="date_time">Date & Time</th>
-                                    <th class="p-4 font-semibold" data-i18n="area">Area</th>
-                                    <th class="p-4 font-semibold" data-i18n="person_no">Person No.</th>
-                                    <th class="p-4 font-semibold text-right" data-i18n="amount">Amount</th>
-                                    <th class="p-4 font-semibold text-center" data-i18n="action">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transactions-body" class="divide-y divide-gray-200 dark:divide-gray-800">
-                                <!-- Transactions injected here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        <!-- 1. TOP MASTER BOX: TOTAL AMOUNT & OVERALL SUMMARY -->
+        <section class="space-y-4">
+            <!-- Master Total Amount Banner (Matches top box in notebook) -->
+            <div class="card-surface rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/20 border-l-4 border-l-amber-500 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                        <i class="fa-solid fa-vault text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-400" data-i18n="totalAmountBoxTitle">TOTAL AMOUNT (MASTER CAPITAL)</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-medium" id="totalShortBadge">2.00 Crore</span>
+                        </div>
+                        <div class="flex items-baseline gap-3 mt-1">
+                            <h2 id="masterTotalDisplay" onclick="openTotalAmountModal()" class="text-2xl sm:text-3xl font-extrabold text-white cursor-pointer hover:text-amber-300 transition-colors" title="Click to Edit Total Amount">
+                                ₹2,00,00,000
+                            </h2>
+                            <button onclick="openTotalAmountModal()" class="text-xs text-slate-400 hover:text-white underline flex items-center gap-1">
+                                <i class="fa-solid fa-pen text-[10px]"></i> <span data-i18n="editText">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side quick balance breakdown -->
+                <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800 text-xs">
+                    <div>
+                        <span class="text-slate-400 block" data-i18n="totalMembersLabel">Total Members</span>
+                        <span id="summaryTotalMembers" class="text-base font-extrabold text-white">0</span>
+                    </div>
+                    <div class="h-8 w-px bg-slate-800 hidden sm:block"></div>
+                    <div>
+                        <span class="text-slate-400 block" data-i18n="remainingCapitalLabel">Available Balance (After Loan)</span>
+                        <span id="summaryRemainingCapital" class="text-base font-extrabold text-cyan-400">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 Clean Summary Strip Cards matching the 5 Notebook Metrics -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                <!-- 1. Total Loan Amount -->
+                <div class="card-surface rounded-xl p-3.5">
+                    <span class="text-[11px] font-semibold text-slate-400 uppercase block" data-i18n="loanAmountLabel">Loan Amount</span>
+                    <p id="sumLoanAmount" class="text-lg sm:text-xl font-extrabold text-white mt-1">₹0</p>
+                    <span id="sumLoanShort" class="text-[11px] text-cyan-400 font-medium">0</span>
+                </div>
+
+                <!-- 2. Total Closing Amount -->
+                <div class="card-surface rounded-xl p-3.5">
+                    <span class="text-[11px] font-semibold text-slate-400 uppercase block" data-i18n="closingAmountLabel">Closing Amount</span>
+                    <p id="sumClosingAmount" class="text-lg sm:text-xl font-extrabold text-violet-300 mt-1">₹0</p>
+                    <span id="sumClosingShort" class="text-[11px] text-violet-400 font-medium">0</span>
+                </div>
+
+                <!-- 3. Customer Paid Amount -->
+                <div class="card-surface rounded-xl p-3.5 border-b-2 border-b-emerald-500/60">
+                    <span class="text-[11px] font-semibold text-emerald-400 uppercase block" data-i18n="paidAmountLabel">Customer Paid Amount</span>
+                    <p id="sumPaidAmount" class="text-lg sm:text-xl font-extrabold text-emerald-400 mt-1">₹0</p>
+                    <span id="sumPaidShort" class="text-[11px] text-emerald-500 font-medium">0</span>
+                </div>
+
+                <!-- 4. Outstanding Amount -->
+                <div class="card-surface rounded-xl p-3.5 border-b-2 border-b-amber-500/60">
+                    <span class="text-[11px] font-semibold text-amber-400 uppercase block" data-i18n="outstandingAmountLabel">Outstanding Amount</span>
+                    <p id="sumOutstandingAmount" class="text-lg sm:text-xl font-extrabold text-amber-400 mt-1">₹0</p>
+                    <span id="sumOutstandingShort" class="text-[11px] text-amber-500 font-medium">0</span>
+                </div>
+
+                <!-- 5. Hold Amount -->
+                <div class="card-surface rounded-xl p-3.5 col-span-2 sm:col-span-1 border-b-2 border-b-rose-500/60">
+                    <span class="text-[11px] font-semibold text-rose-400 uppercase block" data-i18n="holdAmountLabel">Hold Amount</span>
+                    <p id="sumHoldAmount" class="text-lg sm:text-xl font-extrabold text-rose-400 mt-1">₹0</p>
+                    <span id="sumHoldShort" class="text-[11px] text-rose-500 font-medium">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MAIN WORKSPACE: AREA CARDS (LEFT) & TRANSACTION HISTORY (RIGHT) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- LEFT 8 COLUMNS: AREAS LIST (1. ADHATA, 2. CHAKDHA, etc.) -->
+            <div class="lg:col-span-8 space-y-4">
+                <!-- Clean Search & Section Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-base font-bold text-white" data-i18n="areaListHeading">Area Wise Breakdown</h3>
+                        <span id="areaCountPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-amber-400">2 Areas</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <div class="relative flex-1 sm:w-60">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                            <input id="searchInput" oninput="renderAll()" type="text" placeholder="Search area (e.g. Adhata, Chakdha)..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Area Cards Grid -->
+                <div id="areaCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+
+            <!-- RIGHT 4 COLUMNS: CLEAN HISTORY LOG -->
+            <div class="lg:col-span-4 card-surface rounded-2xl p-4 sm:p-5 sticky top-20">
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                    <div>
+                        <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+                            <span data-i18n="historyTitle">Payment & Edit History</span>
+                        </h3>
+                        <p class="text-[11px] text-slate-400" data-i18n="historySubtitle">Every collection & change is saved here</p>
+                    </div>
+                    <span id="historyCountBadge" class="px-2 py-0.5 rounded-md text-xs font-bold bg-slate-800 text-slate-300">0</span>
+                </div>
+
+                <!-- Filter by Area -->
+                <select id="historyFilterSelect" onchange="renderHistory()" class="w-full mb-3 px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 focus:outline-none focus:border-amber-500">
+                    <option value="all">All Areas History</option>
+                </select>
+
+                <!-- History Items -->
+                <div id="historyList" class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+        </section>
     </main>
 
-    <!-- Shortcuts Modal (Fixed Design) -->
-    <div id="shortcut-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[70] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonPurple relative">
-            <div class="flex justify-between items-center mb-5">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-keyboard text-neonPurple text-2xl"></i> Shortcuts Chart</h3>
-                <button onclick="closeModal('shortcut-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300 font-medium">
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Dashboard View</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + D</kbd></li>
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Manage Areas</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + M</kbd></li>
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>History & Logs</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + H</kbd></li>
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Create New Area</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + B</kbd></li>
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Toggle Language</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + L</kbd></li>
-                <li class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-neonPurple transition-colors"><span>Toggle Theme</span> <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-xs font-bold font-mono text-neonPurple">Ctrl + T</kbd></li>
-            </ul>
-        </div>
-    </div>
+    <!-- ================= MODALS ================= -->
 
-    <!-- Deep Dive Details Modal -->
-    <div id="details-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 max-h-[85vh] flex flex-col relative border-t-4 border-neonCyan">
-            <div class="flex justify-between items-center mb-5 shrink-0">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2" id="details-modal-title"><i class="fa-solid fa-list text-neonCyan"></i> Details</h3>
-                <button onclick="closeModal('details-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="overflow-y-auto custom-scrollbar flex-grow pr-2">
-                <ul id="details-modal-list" class="space-y-3">
-                    <!-- Injected via JS -->
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Area Modal -->
-    <div id="add-area-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity py-4">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonCyan max-h-full overflow-y-auto custom-scrollbar">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="create_area">Create Area</h3>
-                <button onclick="closeModal('add-area-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="form-add-area" onsubmit="handleAddArea(event)">
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="area_name">Area Name (e.g. Gayespur)</label>
-                        <input type="text" id="input-area-name" required class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-medium shadow-inner transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="principal_amt">Principal Amount (₹ Invested)</label>
-                        <input type="number" id="input-area-principal" required min="1" placeholder="e.g. 5000000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-bold shadow-inner transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="interest_rate">Interest Rate (%) (Your Profit)</label>
-                        <input type="number" id="input-area-interest" required min="0" step="0.1" placeholder="e.g. 10 for 10%" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-bold text-neonGold shadow-inner transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="num_people">Number of People</label>
-                        <input type="number" id="input-area-people" required min="1" max="1000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan text-gray-900 dark:text-white font-medium shadow-inner transition-colors">
-                        <p class="text-xs text-gray-500 mt-2 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 p-2 rounded-lg" data-i18n="auto_gen_hint">App will auto-generate IDs (1, 2, 3...) and split Target equally.</p>
-                    </div>
-                </div>
-                <button type="submit" class="w-full mt-8 bg-gradient-to-r from-neonCyan to-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition transform hover:-translate-y-0.5 active:scale-95 tracking-wide text-lg" data-i18n="save">Create & Save</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Collect Payment Modal -->
-    <div id="collect-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity py-4">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-neonGreen">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-green-600 dark:text-neonGreen" data-i18n="collect_payment">Collect Payment</h3>
-                <button onclick="closeModal('collect-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="form-collect" onsubmit="handleCollect(event)">
-                <input type="hidden" id="collect-area-id">
-                <input type="hidden" id="collect-person-id">
-                
-                <div class="bg-gray-50 dark:bg-gray-800/80 p-5 rounded-2xl mb-6 border border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><span data-i18n="area">Area</span>: <span id="lbl-collect-area" class="font-bold text-gray-900 dark:text-white text-base"></span></p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400"><span data-i18n="person_no">Person No</span>: <span id="lbl-collect-person" class="font-bold text-gray-900 dark:text-white text-base bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded"></span></p>
-                    <hr class="my-3 border-gray-200 dark:border-gray-700">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold" data-i18n="target">Target</p>
-                            <p class="font-bold text-gray-800 dark:text-gray-200 text-lg">₹<span id="lbl-collect-target"></span></p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold" data-i18n="current_due">Current Due</p>
-                            <p class="font-bold text-red-600 dark:text-neonRed text-2xl">₹<span id="lbl-collect-due"></span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="enter_amount">Enter Amount Received (₹)</label>
-                        <input type="number" id="input-collect-amount" required min="1" step="0.01" class="w-full text-3xl font-bold text-center px-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-neonGreen focus:ring-1 focus:ring-neonGreen text-green-600 dark:text-neonGreen shadow-inner transition-colors">
-                    </div>
-                </div>
-                <button type="submit" class="w-full mt-8 bg-green-600 dark:bg-neonGreen text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition transform hover:-translate-y-0.5 active:scale-95 tracking-wide text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-check-circle"></i> <span data-i18n="confirm_pay">Confirm Payment</span></button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Person Modal -->
-    <div id="edit-person-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex justify-center items-center hidden-view opacity-0 transition-opacity">
-        <div class="glass-panel bg-white dark:bg-darkCard w-full max-w-sm p-6 sm:p-8 rounded-3xl shadow-2xl transform scale-95 transition-transform duration-300 mx-4 border-t-4 border-blue-500">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="edit_target">Edit Person Target</h3>
-                <button onclick="closeModal('edit-person-modal')" class="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-gray-800 p-2 rounded-full transition-colors w-8 h-8 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="form-edit-person" onsubmit="handleEditPerson(event)">
-                <input type="hidden" id="edit-area-id">
-                <input type="hidden" id="edit-person-id">
+    <!-- 1. QUICK CUSTOMER PAYMENT / RECEIVE MODAL -->
+    <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="card-surface rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div>
-                    <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300" data-i18n="new_target">New Target Amount (₹)</label>
-                    <input type="number" id="input-edit-target" required min="0" step="0.01" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-900 dark:text-white font-bold shadow-inner transition-colors">
+                    <h3 class="text-base font-bold text-white" data-i18n="recordPaymentTitle">Record Customer Payment / Update</h3>
+                    <p id="payModalAreaName" class="text-xs text-amber-400 font-semibold mt-0.5">ADHATA</p>
                 </div>
-                <button type="submit" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition active:scale-95" data-i18n="update">Update</button>
+                <button onclick="closeModal('paymentModal')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Current Snapshot -->
+            <div class="grid grid-cols-3 gap-2 my-3.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                <div>
+                    <span class="text-[10px] text-slate-400 block" data-i18n="closingAmountLabel">Closing Amount</span>
+                    <span id="payModalClosing" class="text-xs font-bold text-white">₹0</span>
+                </div>
+                <div class="border-x border-slate-800">
+                    <span class="text-[10px] text-emerald-400 block" data-i18n="paidAmountLabel">Customer Paid</span>
+                    <span id="payModalPaid" class="text-xs font-bold text-emerald-400">₹0</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-amber-400 block" data-i18n="outstandingAmountLabel">Outstanding</span>
+                    <span id="payModalOutstanding" class="text-xs font-bold text-amber-400">₹0</span>
+                </div>
+            </div>
+
+            <form onsubmit="submitPaymentForm(event)" class="space-y-3.5">
+                <input type="hidden" id="payModalAreaId">
+
+                <!-- Action Type -->
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="payActionType" value="add_paid" checked class="peer hidden">
+                        <div class="py-2 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/15 peer-checked:text-emerald-300">
+                            <i class="fa-solid fa-plus-circle mr-1"></i> <span data-i18n="addPaidRadio">Add Customer Paid</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="payActionType" value="deduct_paid" class="peer hidden">
+                        <div class="py-2 px-3 rounded-xl border border-slate-800 bg-slate-950 text-center text-xs font-bold text-slate-400 peer-checked:border-rose-500 peer-checked:bg-rose-500/15 peer-checked:text-rose-300">
+                            <i class="fa-solid fa-minus-circle mr-1"></i> <span data-i18n="deductPaidRadio">Deduct / Cut Paid</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Amount Input -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-xs font-semibold text-slate-300" data-i18n="amountLabel">Amount (₹)</label>
+                        <button type="button" onclick="fillFullOutstanding()" class="text-[11px] text-amber-400 hover:underline font-semibold" data-i18n="fillOutstandingBtn">
+                            Fill Full Outstanding
+                        </button>
+                    </div>
+                    <input id="payAmountInput" type="number" step="any" min="1" required placeholder="e.g. 10000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold text-base focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="dateLabel">Date</label>
+                        <input id="payDateInput" type="date" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="noteLabel">Note / Remark</label>
+                        <input id="payNoteInput" type="text" placeholder="e.g. Cash collected" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('paymentModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs" data-i18n="savePaymentBtn">
+                        Save & Update History
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Custom Alert/Message Box -->
-    <div id="custom-alert" class="fixed top-4 right-4 z-[80] transform translate-x-[150%] transition-transform duration-300 flex items-center gap-4 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl min-w-[250px]">
-        <i id="alert-icon" class="text-2xl"></i>
-        <div>
-            <h4 id="alert-title" class="font-bold text-sm text-gray-900 dark:text-white">Notification</h4>
-            <p id="alert-message" class="text-xs text-gray-600 dark:text-gray-400 font-medium"></p>
+    <!-- 2. ADD / EDIT AREA MODAL (WITH ALL 5 FIELDS + MEMBERS COUNT) -->
+    <div id="areaModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl max-h-[92vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div>
+                    <h3 id="areaModalHeading" class="text-base font-bold text-white">Add / Edit Area Details</h3>
+                    <p class="text-xs text-slate-400" data-i18n="areaModalSub">Set Members, Loan, Closing, Paid, Outstanding & Hold Amount</p>
+                </div>
+                <button onclick="closeModal('areaModal')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="submitAreaModal(event)" class="space-y-3.5 mt-4">
+                <input type="hidden" id="areaModalId">
+
+                <!-- Area Name & Members Count -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="areaNameLabel">Area Name *</label>
+                        <input id="areaNameInput" type="text" required placeholder="e.g. ADHATA or CHAKDHA" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-400 mb-1">
+                            <i class="fa-solid fa-users mr-1"></i><span data-i18n="membersCountLabel">Members Count</span>
+                        </label>
+                        <input id="areaMembersInput" type="number" min="0" step="1" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <!-- 1. Loan Amount & 2. Closing Amount -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div>
+                        <label class="block text-xs font-semibold text-cyan-300 mb-1" data-i18n="loanAmountLabel">Loan Amount (₹)</label>
+                        <input id="areaLoanInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-violet-300 mb-1" data-i18n="closingAmountLabel">Closing Amount (₹)</label>
+                        <input id="areaClosingInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-violet-500">
+                    </div>
+                </div>
+
+                <!-- Tree Box: Customer Paid & Outstanding (Under Closing/Loan) -->
+                <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400" data-i18n="closingBreakdownLabel">Closing / Collection Breakdown</span>
+                        <label class="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
+                            <input id="autoCalcOutstandingToggle" type="checkbox" checked onchange="syncAreaModalOutstanding()" class="rounded accent-amber-500">
+                            <span data-i18n="autoCalcText">Auto-calculate Outstanding</span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-emerald-400 mb-1" data-i18n="paidAmountLabel">Customer Paid Amount (₹)</label>
+                            <input id="areaPaidInput" oninput="syncAreaModalOutstanding()" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-amber-400 mb-1" data-i18n="outstandingAmountLabel">Outstanding Amount (₹)</label>
+                            <input id="areaOutstandingInput" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hold Amount & Note -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-rose-400 mb-1" data-i18n="holdAmountLabel">Hold Amount (₹)</label>
+                        <input id="areaHoldInput" type="number" step="any" min="0" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-rose-400 focus:outline-none focus:border-rose-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="noteLabel">Note / Remark</label>
+                        <input id="areaNoteInput" type="text" placeholder="Optional note..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('areaModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs" data-i18n="saveAreaBtn">
+                        Save Area
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
+    <!-- 3. EDIT TOTAL AMOUNT MODAL -->
+    <div id="totalAmountModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="card-surface rounded-2xl max-w-sm w-full p-5 border border-slate-700 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white" data-i18n="totalAmountBoxTitle">TOTAL AMOUNT (MASTER CAPITAL)</h3>
+                <button onclick="closeModal('totalAmountModal')" class="w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form onsubmit="submitTotalAmountModal(event)" class="space-y-4 mt-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="enterTotalAmountLabel">Total Capital Amount (₹)</label>
+                    <input id="masterTotalInput" type="number" step="any" min="0" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-lg font-extrabold text-white focus:outline-none focus:border-amber-500">
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 5000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">50 Lakh</button>
+                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 10000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">1 Crore</button>
+                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 20000000" class="px-2 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-[11px] text-amber-300 font-bold">2 Crore</button>
+                        <button type="button" onclick="document.getElementById('masterTotalInput').value = 50000000" class="px-2 py-1 rounded bg-slate-800 text-[11px] text-slate-300 hover:bg-slate-700">5 Crore</button>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('totalAmountModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300" data-i18n="cancelBtn">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs" data-i18n="updateBtn">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. CONFIRM DELETE MODAL -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="card-surface rounded-2xl max-w-xs w-full p-5 border border-rose-500/40 text-center">
+            <h4 id="confirmTitle" class="text-sm font-bold text-white">Delete Area?</h4>
+            <p id="confirmDesc" class="text-xs text-slate-400 mt-1">This will remove the area from your dashboard.</p>
+            <div class="flex justify-center gap-2 mt-4">
+                <button onclick="closeModal('confirmModal')" class="px-4 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300">Cancel</button>
+                <button id="confirmActionBtn" class="px-4 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-bold">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. BACKUP / RESTORE MODAL -->
+    <div id="backupModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white">Backup & Restore Data</h3>
+                <button onclick="closeModal('backupModal')" class="w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-3 mt-3 text-xs text-slate-300">
+                <p>Copy or download your complete Shilabiz Nidhi Limited data, or paste backup JSON below to restore.</p>
+                <textarea id="backupTextarea" rows="5" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono text-[11px] text-amber-300 focus:outline-none"></textarea>
+                <div class="flex flex-wrap justify-between gap-2 pt-2">
+                    <div class="flex gap-2">
+                        <button onclick="copyBackupData()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold text-white">Copy JSON</button>
+                        <button onclick="downloadBackupData()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold">Download File</button>
+                    </div>
+                    <button onclick="restoreBackupData()" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold">Restore Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastBox" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
+
+    <!-- ================= APPLICATION SCRIPT ================= -->
     <script>
-        // Translations Dictionary (Bengali and English)
-        const i18n = {
-            en: {
-                dashboard: "Dashboard", area_mgt: "Manage Areas", history: "History & Logs", lang_switch: "English / বাংলা",
-                set_global: "Set Total Global Investment", set_global_sub: "Define your root capital (e.g., 2 Cr) to track overall ROI.",
-                save: "Save", overview: "Overview", exp_excel: "Excel", exp_pdf: "PDF",
-                total_invest: "Total Investment", total_collected: "Total Collected", total_due: "Total Due",
-                earned_profit: "Total Earned Profit", monthly_profit: "Monthly Profit", weekly_profit: "Weekly Profit",
-                last_30: "Last 30 Days", last_7: "Last 7 Days",
-                chart_area: "Area-wise Collection vs Due", chart_timeline: "Profit Timeline",
-                create_area: "Create New Area", area_name: "Area Name", principal_amt: "Principal Amount (₹ Invested)",
-                interest_rate: "Interest Rate (%) (Your Profit)", num_people: "Number of People",
-                auto_gen_hint: "App will auto-generate IDs (1, 2, 3...) and split Target equally.",
-                recent_trans: "Recent Transactions", date_time: "Date & Time", area: "Area", person_no: "Person No.",
-                amount: "Amount", action: "Action",
-                collect_payment: "Collect Payment", target: "Target", current_due: "Current Due",
-                enter_amount: "Enter Amount Received (₹)", confirm_pay: "Confirm Payment",
-                edit_target: "Edit Person Target", new_target: "New Target Amount (₹)", update: "Update",
-                details_invest: "Investment Details", details_collected: "Collection Details", details_due: "Due Breakdown", details_profit: "Profit Breakdown",
-                light_mode: "Light Mode", dark_mode: "Dark Mode"
-            },
-            bn: {
-                dashboard: "ড্যাশবোর্ড", area_mgt: "এলাকা পরিচালনা", history: "লগ ও ইতিহাস", lang_switch: "English / বাংলা",
-                set_global: "মোট মূলধন সেট করুন", set_global_sub: "আপনার মোট পুঁজি (যেমন ২ কোটি) সংজ্ঞায়িত করুন।",
-                save: "সেভ করুন", overview: "ওভারভিউ", exp_excel: "এক্সেল", exp_pdf: "পিডিএফ",
-                total_invest: "মোট বিনিয়োগ", total_collected: "মোট আদায়", total_due: "মোট বাকি (Due)",
-                earned_profit: "অর্জিত লাভ (Profit)", monthly_profit: "মাসিক লাভ", weekly_profit: "সাপ্তাহিক লাভ",
-                last_30: "গত ৩০ দিন", last_7: "গত ৭ দিন",
-                chart_area: "এলাকা ভিত্তিক আদায় বনাম বাকি", chart_timeline: "লাভের টাইমলাইন",
-                create_area: "নতুন এলাকা যোগ করুন", area_name: "এলাকার নাম", principal_amt: "আসল পরিমাণ (₹ বিনিয়োগ)",
-                interest_rate: "সুদের হার (%) (আপনার লাভ)", num_people: "লোকের সংখ্যা",
-                auto_gen_hint: "অ্যাপটি স্বয়ংক্রিয়ভাবে আইডি তৈরি করবে এবং টার্গেট সমানভাবে ভাগ করবে।",
-                recent_trans: "সাম্প্রতিক লেনদেন", date_time: "তারিখ ও সময়", area: "এলাকা", person_no: "ব্যক্তি নং",
-                amount: "পরিমাণ", action: "অ্যাকশন",
-                collect_payment: "পেমেন্ট গ্রহণ করুন", target: "টার্গেট", current_due: "বর্তমান বাকি",
-                enter_amount: "প্রাপ্ত পরিমাণ লিখুন (₹)", confirm_pay: "পেমেন্ট নিশ্চিত করুন",
-                edit_target: "টার্গেট পরিবর্তন করুন", new_target: "নতুন টার্গেট (₹)", update: "আপডেট",
-                details_invest: "বিনিয়োগের বিস্তারিত", details_collected: "আদায়ের বিস্তারিত", details_due: "বাকি টাকার বিস্তারিত", details_profit: "লাভের বিস্তারিত",
-                light_mode: "লাইট মোড", dark_mode: "ডার্ক মোড"
-            }
+        const STORAGE_KEY = 'shilabiz_nidhi_state_v1';
+
+        // Default Initial State matching the user's notebook diagram (1. ADHATA, 2. CHAKDHA) & 50k/30k/20k example
+        const defaultState = {
+            lang: 'en', // Default language is English
+            totalAmount: 20000000, // 2 Crore
+            areas: [
+                {
+                    id: 'area-adhata',
+                    name: 'ADHATA',
+                    members: 42,
+                    loanAmount: 50000,
+                    closingAmount: 50000,
+                    paidAmount: 30000,
+                    outstandingAmount: 20000,
+                    holdAmount: 5000,
+                    note: 'Adhata Group Collection'
+                },
+                {
+                    id: 'area-chakdha',
+                    name: 'CHAKDHA',
+                    members: 65,
+                    loanAmount: 120000,
+                    closingAmount: 120000,
+                    paidAmount: 75000,
+                    outstandingAmount: 45000,
+                    holdAmount: 8000,
+                    note: 'Chakdha Branch'
+                }
+            ],
+            history: [
+                {
+                    id: 'h-102',
+                    areaId: 'area-adhata',
+                    areaName: 'ADHATA',
+                    type: 'PAID_ADD',
+                    amount: 30000,
+                    outstandingAfter: 20000,
+                    date: new Date().toISOString().split('T')[0],
+                    time: '10:30 AM',
+                    note: 'Customer paid amount received (₹30,000)',
+                    reverted: false
+                },
+                {
+                    id: 'h-101',
+                    areaId: 'area-chakdha',
+                    areaName: 'CHAKDHA',
+                    type: 'PAID_ADD',
+                    amount: 75000,
+                    outstandingAfter: 45000,
+                    date: new Date().toISOString().split('T')[0],
+                    time: '09:15 AM',
+                    note: 'Customer paid collection',
+                    reverted: false
+                }
+            ]
         };
 
-        const DEFAULT_STATE = {
-            globalInvestment: 0,
-            settings: { theme: 'dark', language: 'en' },
-            areas: [], 
-            transactions: [] 
-        };
+        let appState = loadState();
 
-        // Initialize state from local storage securely
-        let appState = null;
-        try {
-            appState = JSON.parse(localStorage.getItem('investoProStateV3'));
-        } catch (e) {
-            console.error("Storage format error, resetting to default");
-        }
-        
-        // Data Migration & Integrity Check
-        if(!appState) {
-            let oldState = JSON.parse(localStorage.getItem('investoProStateV2')) || JSON.parse(localStorage.getItem('investoProState'));
-            if(oldState) {
-                appState = { ...DEFAULT_STATE, ...oldState };
-                appState.areas.forEach(a => {
-                    if(a.principal === undefined) {
-                        a.principal = a.totalAmount || 0;
-                        a.interestRate = 0;
-                        a.totalExpected = a.principal;
+        function loadState() {
+            try {
+                const saved = window.localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed && Array.isArray(parsed.areas)) {
+                        return parsed;
                     }
-                });
-            } else {
-                appState = DEFAULT_STATE;
+                }
+            } catch (e) {
+                // Fallback if storage is restricted
             }
-        }
-        if(!appState.settings) appState.settings = { theme: 'dark', language: 'en' };
-
-        let mainChartInst = null;
-        let timelineChartInst = null;
-        let isSidebarOpen = false;
-
-        function initApp() {
-            applyTheme(appState.settings.theme);
-            applyLanguage(appState.settings.language);
-            checkGlobalInvestment();
-            renderDashboard();
-            setupShortcuts();
+            return JSON.parse(JSON.stringify(defaultState));
         }
 
         function saveState() {
-            localStorage.setItem('investoProStateV3', JSON.stringify(appState));
-        }
-
-        // Optimized Sidebar Toggle for Mobile View
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobile-overlay');
-            
-            if(isSidebarOpen) {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-                isSidebarOpen = false;
-            } else {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
-                isSidebarOpen = true;
+            try {
+                window.localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {
+                // Ignore storage errors in restricted sandboxes
             }
         }
 
-        function setupShortcuts() {
-            document.addEventListener('keydown', (e) => {
-                if(e.ctrlKey) {
-                    switch(e.key.toLowerCase()) {
-                        case 'd': e.preventDefault(); switchView('dashboard'); break;
-                        case 'm': e.preventDefault(); switchView('areas'); break;
-                        case 'h': e.preventDefault(); switchView('transactions'); break;
-                        case 'b': e.preventDefault(); openModal('add-area-modal'); break;
-                        case 'l': e.preventDefault(); toggleLanguage(); break;
-                        case 't': e.preventDefault(); toggleTheme(); break;
-                    }
-                }
+        // --- BILINGUAL DICTIONARY (ENGLISH DEFAULT + BENGALI) ---
+        const i18n = {
+            en: {
+                headerSubtitle: 'Area-Wise Loan, Closing, Paid, Outstanding & Hold Tracker',
+                langToggleText: 'বাংলা ভাষা',
+                backupBtn: 'Backup',
+                addAreaBtn: 'Add Area',
+                totalAmountBoxTitle: 'TOTAL AMOUNT (MASTER CAPITAL)',
+                editText: 'Edit',
+                totalMembersLabel: 'Total Members',
+                remainingCapitalLabel: 'Available Balance (After Loan)',
+                loanAmountLabel: 'Loan Amount',
+                closingAmountLabel: 'Closing Amount',
+                paidAmountLabel: 'Customer Paid Amount',
+                outstandingAmountLabel: 'Outstanding Amount',
+                holdAmountLabel: 'Hold Amount',
+                areaListHeading: 'Area Wise Breakdown',
+                historyTitle: 'Payment & Edit History',
+                historySubtitle: 'Every collection & change is saved here',
+                recordPaymentTitle: 'Record Customer Payment',
+                addPaidRadio: 'Add Customer Paid',
+                deductPaidRadio: 'Deduct / Cut Paid',
+                amountLabel: 'Amount (₹)',
+                fillOutstandingBtn: 'Fill Full Outstanding',
+                dateLabel: 'Date',
+                noteLabel: 'Note / Remark',
+                cancelBtn: 'Cancel',
+                savePaymentBtn: 'Save & Update History',
+                areaModalSub: 'Set Members, Loan, Closing, Paid, Outstanding & Hold Amount',
+                areaNameLabel: 'Area Name *',
+                membersCountLabel: 'Members Count',
+                closingBreakdownLabel: 'Closing Amount Breakdown',
+                autoCalcText: 'Auto-calculate Outstanding',
+                saveAreaBtn: 'Save Area',
+                enterTotalAmountLabel: 'Total Capital Amount (₹)',
+                updateBtn: 'Update',
+                membersWord: 'Members',
+                receiveBtn: 'Receive / Paid',
+                editAreaBtn: 'Edit / Modify',
+                revertBtn: 'Cut / Revert'
+            },
+            bn: {
+                headerSubtitle: 'এলাকা ভিত্তিক লোন, ক্লোজিং, কাস্টমার পেইড, আউটস্ট্যান্ডিং ও হোল্ড ট্র্যাকার',
+                langToggleText: 'English',
+                backupBtn: 'ব্যাকআপ',
+                addAreaBtn: 'নতুন এলাকা যোগ করুন',
+                totalAmountBoxTitle: 'মোট তহবিল (TOTAL AMOUNT)',
+                editText: 'এডিট',
+                totalMembersLabel: 'মোট সদস্য (Members)',
+                remainingCapitalLabel: 'অবশিষ্ট তহবিল (লোন দেওয়ার পর)',
+                loanAmountLabel: 'লোন অ্যামাউন্ট (Loan)',
+                closingAmountLabel: 'ক্লোজিং অ্যামাউন্ট (Closing)',
+                paidAmountLabel: 'কাস্টমার পেইড (Customer Paid)',
+                outstandingAmountLabel: 'আউটস্ট্যান্ডিং (Outstanding)',
+                holdAmountLabel: 'হোল্ড অ্যামাউন্ট (Hold)',
+                areaListHeading: 'এলাকা ভিত্তিক হিসাব (Area Breakdown)',
+                historyTitle: 'লেনদেন ও পরিবর্তনের ইতিহাস',
+                historySubtitle: 'টাকা জমা ও এডিটের সম্পূর্ণ রেকর্ড',
+                recordPaymentTitle: 'কাস্টমার পেইড জমা / পরিবর্তন',
+                addPaidRadio: 'জমা যোগ করুন (Add Paid)',
+                deductPaidRadio: 'জমা কমান / কাটুন',
+                amountLabel: 'টাকার পরিমাণ (₹)',
+                fillOutstandingBtn: 'পুরো বকেয়া বসিয়ে দিন',
+                dateLabel: 'তারিখ',
+                noteLabel: 'নোট / বিবরণ',
+                cancelBtn: 'বাতিল',
+                savePaymentBtn: 'সেভ করুন',
+                areaModalSub: 'সদস্য সংখ্যা, লোন, ক্লোজিং, পেইড, আউটস্ট্যান্ডিং এবং হোল্ড সেট করুন',
+                areaNameLabel: 'এলাকার নাম *',
+                membersCountLabel: 'সদস্য সংখ্যা (Members)',
+                closingBreakdownLabel: 'ক্লোজিং অ্যামাউন্টের বিস্তারিত হিসাব',
+                autoCalcText: 'স্বয়ংক্রিয় বকেয়া হিসাব',
+                saveAreaBtn: 'সেভ করুন',
+                enterTotalAmountLabel: 'মোট মূল তহবিল (₹)',
+                updateBtn: 'আপডেট করুন',
+                membersWord: 'জন সদস্য',
+                receiveBtn: 'টাকা জমা (Paid)',
+                editAreaBtn: 'এডিট / মডিফাই',
+                revertBtn: 'কাটুন (Revert)'
+            }
+        };
+
+        // --- FORMATTING HELPERS ---
+        function formatINR(val) {
+            const num = Number(val) || 0;
+            return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        }
+
+        function formatShort(val) {
+            const num = Math.abs(Number(val) || 0);
+            if (num >= 10000000) return (num / 10000000).toFixed(2) + ' Cr';
+            if (num >= 100000) return (num / 100000).toFixed(2) + ' Lakh';
+            if (num >= 1000) return (num / 1000).toFixed(1) + ' K';
+            return formatINR(num);
+        }
+
+        function nowTime() {
+            return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // --- LANGUAGE TOGGLE ---
+        function applyTranslations() {
+            const dict = i18n[appState.lang] || i18n.en;
+            document.getElementById('headerSubtitle').textContent = dict.headerSubtitle;
+            document.getElementById('langToggleText').textContent = dict.langToggleText;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
             });
         }
 
         function toggleLanguage() {
-            appState.settings.language = appState.settings.language === 'en' ? 'bn' : 'en';
+            appState.lang = appState.lang === 'en' ? 'bn' : 'en';
             saveState();
-            applyLanguage(appState.settings.language);
+            applyTranslations();
+            renderAll();
+            showToast(appState.lang === 'bn' ? 'বাংলা ভাষা চালু করা হয়েছে' : 'Switched to English');
         }
 
-        function applyLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(i18n[lang][key]) {
-                    // Protect innerHTML elements if they exist inside spans
-                    if(el.children.length === 0) {
-                        el.innerText = i18n[lang][key];
-                    }
-                }
-            });
-            document.getElementById('input-area-principal').placeholder = lang === 'en' ? 'e.g. 5000000' : 'যেমন ৫ লাখ';
-            
-            // Re-render strings dynamically
-            if(!document.getElementById('view-areas').classList.contains('hidden-view')) renderAreas();
-            if(!document.getElementById('view-transactions').classList.contains('hidden-view')) renderTransactions();
-            renderDashboard();
-            
-            // Update Theme Text inside Language Update too
-            const isDark = appState.settings.theme === 'dark';
-            document.getElementById('theme-text').innerText = isDark ? i18n[lang]['light_mode'] : i18n[lang]['dark_mode'];
-        }
+        // --- RENDER EVERYTHING ---
+        function renderAll() {
+            applyTranslations();
+            const dict = i18n[appState.lang] || i18n.en;
 
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const newTheme = isDark ? 'light' : 'dark';
-            appState.settings.theme = newTheme;
-            saveState();
-            applyTheme(newTheme);
-        }
+            let totalMembers = 0;
+            let totalLoan = 0;
+            let totalClosing = 0;
+            let totalPaid = 0;
+            let totalOutstanding = 0;
+            let totalHold = 0;
 
-        function applyTheme(theme) {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            const textEl = document.getElementById('theme-text');
-            const lang = appState.settings.language;
-            
-            if (theme === 'dark') {
-                html.classList.add('dark');
-                if(icon) icon.className = 'fa-solid fa-sun text-yellow-500 text-lg w-5';
-                if(textEl) textEl.innerText = i18n[lang]['light_mode'];
-            } else {
-                html.classList.remove('dark');
-                if(icon) icon.className = 'fa-solid fa-moon text-indigo-600 text-lg w-5';
-                if(textEl) textEl.innerText = i18n[lang]['dark_mode'];
-            }
-            if(mainChartInst) renderCharts();
-        }
-
-        function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden-view'));
-            document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('active', 'bg-gray-200', 'dark:bg-gray-800', 'text-neonCyan');
-                el.classList.add('text-gray-600', 'dark:text-gray-400');
-            });
-            
-            document.getElementById(`view-${viewId}`).classList.remove('hidden-view');
-            
-            const btn = document.querySelector(`.nav-btn[onclick="switchView('${viewId}')"]`);
-            if(btn) {
-                btn.classList.add('active', 'bg-gray-200', 'dark:bg-gray-800', 'text-neonCyan');
-                btn.classList.remove('text-gray-600', 'dark:text-gray-400');
-            }
-
-            if(viewId === 'dashboard') renderDashboard();
-            if(viewId === 'areas') renderAreas();
-            if(viewId === 'transactions') renderTransactions();
-            
-            if(window.innerWidth < 768 && isSidebarOpen) toggleSidebar();
-            
-            // Correct scroll top logic for fixed structure
-            document.getElementById('main-scroll-area').scrollTop = 0;
-        }
-
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('hidden-view');
-            void modal.offsetWidth; // Force Reflow
-            modal.classList.remove('opacity-0');
-            modal.querySelector('.glass-panel').classList.remove('scale-95');
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.add('opacity-0');
-            modal.querySelector('.glass-panel').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden-view');
-            }, 300);
-            const form = modal.querySelector('form');
-            if(form) form.reset();
-        }
-
-        function showAlert(title, message, type = 'success') {
-            const alertBox = document.getElementById('custom-alert');
-            const icon = document.getElementById('alert-icon');
-            
-            document.getElementById('alert-title').innerText = title;
-            document.getElementById('alert-message').innerText = message;
-            
-            alertBox.className = `fixed top-4 right-4 z-[80] transform transition-transform duration-300 flex items-center gap-4 glass-panel bg-white dark:bg-darkCard p-4 rounded-xl border-l-4 shadow-2xl min-w-[250px]`;
-            
-            if (type === 'success') {
-                alertBox.classList.add('border-neonGreen');
-                icon.className = 'fa-solid fa-circle-check text-green-500 dark:text-neonGreen';
-            } else if (type === 'error') {
-                alertBox.classList.add('border-neonRed');
-                icon.className = 'fa-solid fa-circle-exclamation text-red-500 dark:text-neonRed';
-            }
-
-            alertBox.classList.remove('translate-x-[150%]');
-            setTimeout(() => alertBox.classList.add('translate-x-[150%]'), 3500);
-        }
-
-        function checkGlobalInvestment() {
-            const banner = document.getElementById('setup-banner');
-            if (appState.globalInvestment <= 0) banner.classList.remove('hidden-view');
-            else banner.classList.add('hidden-view');
-        }
-
-        function setGlobalInvestment() {
-            const val = parseFloat(document.getElementById('global-invest-input').value);
-            if (val > 0) {
-                appState.globalInvestment = val;
-                saveState();
-                checkGlobalInvestment();
-                renderDashboard();
-                showAlert('Success', 'Global investment updated successfully.');
-            }
-        }
-
-        function formatMoney(num) {
-            if(num >= 10000000) return (num/10000000).toFixed(2) + ' Cr';
-            if(num >= 100000) return (num/100000).toFixed(2) + ' L';
-            if(num >= 1000) return (num/1000).toFixed(1) + ' K';
-            return num.toFixed(0);
-        }
-        
-        function formatExact(num) {
-            return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-        }
-
-        function getCalculatedStats() {
-            let totalAllocatedPrincipal = 0, totalExpected = 0, totalCollected = 0, totalDue = 0, totalEarnedProfit = 0;
-            let areaStats = [];
-
-            appState.areas.forEach(area => {
-                totalAllocatedPrincipal += area.principal;
-                let areaExpected = 0, areaCol = 0, areaDue = 0;
-                
-                area.people.forEach(p => { areaExpected += p.target; areaCol += p.paid; areaDue += p.due; });
-                
-                totalExpected += areaExpected;
-                totalCollected += areaCol;
-                totalDue += areaDue;
-
-                const expectedProfit = areaExpected - area.principal;
-                let areaEarnedProfit = 0;
-                if(areaExpected > 0 && expectedProfit > 0) {
-                    areaEarnedProfit = areaCol * (expectedProfit / areaExpected);
-                    totalEarnedProfit += areaEarnedProfit;
-                }
-
-                areaStats.push({ name: area.name, principal: area.principal, expected: areaExpected, collected: areaCol, due: areaDue, profit: areaEarnedProfit });
-            });
-
-            const now = new Date();
-            const oneWeekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
-            const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-
-            let weeklyProfit = 0, monthlyProfit = 0;
-
-            appState.transactions.forEach(t => {
-                const tDate = new Date(t.date);
-                if (t.profitContribution) {
-                    if (tDate >= oneWeekAgo) weeklyProfit += t.profitContribution;
-                    if (tDate >= oneMonthAgo) monthlyProfit += t.profitContribution;
-                }
-            });
-
-            return { totalAllocatedPrincipal, totalExpected, totalCollected, totalDue, totalEarnedProfit, projectedProfit: (totalExpected - totalAllocatedPrincipal), weeklyProfit, monthlyProfit, areaStats };
-        }
-
-        function openDetailsModal(type) {
-            const stats = getCalculatedStats();
-            const lang = appState.settings.language;
-            const titleEl = document.getElementById('details-modal-title');
-            const listEl = document.getElementById('details-modal-list');
-            listEl.innerHTML = '';
-
-            let titleKey = '';
-            let itemsHTML = '';
-            let iconHTML = '';
-
-            if(type === 'invest') {
-                titleKey = 'details_invest';
-                iconHTML = '<i class="fa-solid fa-wallet text-neonPurple"></i>';
-                itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3.5 bg-gray-50 dark:bg-gray-800/80 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
-                        <span class="font-extrabold text-neonPurple text-lg">${formatExact(a.principal)}</span>
-                    </li>
-                `).join('');
-                itemsHTML += `<li class="flex justify-between p-4 mt-3 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-md border border-gray-300 dark:border-gray-600"><span class="font-bold uppercase tracking-wider text-sm">Total Allocated</span><span class="font-black text-xl">${formatExact(stats.totalAllocatedPrincipal)}</span></li>`;
-            } else if (type === 'collected') {
-                titleKey = 'details_collected';
-                iconHTML = '<i class="fa-solid fa-money-bill-trend-up text-neonGreen"></i>';
-                itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3.5 bg-green-50 dark:bg-green-900/10 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
-                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
-                        <span class="font-extrabold text-green-600 dark:text-neonGreen text-lg">${formatExact(a.collected)}</span>
-                    </li>
-                `).join('');
-            } else if (type === 'due') {
-                titleKey = 'details_due';
-                iconHTML = '<i class="fa-solid fa-triangle-exclamation text-neonRed"></i>';
-                itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3.5 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 shadow-sm">
-                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
-                        <span class="font-extrabold text-red-600 dark:text-neonRed text-lg">${formatExact(a.due)}</span>
-                    </li>
-                `).join('');
-            } else if (type === 'profit') {
-                titleKey = 'details_profit';
-                iconHTML = '<i class="fa-solid fa-sack-dollar text-neonGold"></i>';
-                itemsHTML = stats.areaStats.map(a => `
-                    <li class="flex justify-between p-3.5 bg-yellow-50 dark:bg-yellow-900/10 rounded-xl border border-yellow-100 dark:border-yellow-900/30 shadow-sm">
-                        <span class="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> ${a.name}</span>
-                        <span class="font-extrabold text-yellow-600 dark:text-neonGold text-lg">${formatExact(a.profit)}</span>
-                    </li>
-                `).join('');
-            }
-
-            titleEl.innerHTML = `${iconHTML} ${i18n[lang][titleKey]}`;
-            if(itemsHTML === '') {
-                listEl.innerHTML = `<li class="text-center p-6 text-gray-500 font-bold bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600">No data available yet</li>`;
-            } else {
-                listEl.innerHTML = itemsHTML;
-            }
-            openModal('details-modal');
-        }
-
-        function renderDashboard() {
-            const stats = getCalculatedStats();
-            const lang = appState.settings.language;
-            
-            document.getElementById('kpi-investment').innerText = formatExact(appState.globalInvestment);
-            document.getElementById('kpi-allocated').innerText = `${lang === 'en' ? 'Allocated: ' : 'বরাদ্দকৃত: '}${formatExact(stats.totalAllocatedPrincipal)}`;
-            
-            document.getElementById('kpi-collected').innerText = formatExact(stats.totalCollected);
-            const percent = stats.totalExpected > 0 ? ((stats.totalCollected / stats.totalExpected) * 100).toFixed(1) : 0;
-            document.getElementById('kpi-collect-percent').innerText = `${percent}% ${lang === 'en' ? 'of Expected' : 'প্রত্যাশিত এর'} (${formatMoney(stats.totalExpected)})`;
-            
-            document.getElementById('kpi-due').innerText = formatExact(stats.totalDue);
-            document.getElementById('kpi-active-areas').innerText = `${appState.areas.length} ${lang === 'en' ? 'Active Areas' : 'সক্রিয় এলাকা'}`;
-            
-            document.getElementById('kpi-profit-total').innerText = formatExact(stats.totalEarnedProfit);
-            document.getElementById('kpi-profit-projected').innerText = `${lang === 'en' ? 'Projected: ' : 'প্রত্যাশিত: '}${formatExact(stats.projectedProfit)}`;
-            
-            document.getElementById('kpi-profit-monthly').innerText = formatExact(stats.monthlyProfit);
-            document.getElementById('kpi-profit-weekly').innerText = formatExact(stats.weeklyProfit);
-
-            renderCharts();
-        }
-
-        function renderCharts() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#94a3b8' : '#475569';
-            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
-            const lang = appState.settings.language;
-
-            const labels = [], collectedData = [], dueData = [];
             appState.areas.forEach(a => {
-                labels.push(a.name);
-                let col = 0, d = 0;
-                a.people.forEach(p => { col += p.paid; d += p.due; });
-                collectedData.push(col); dueData.push(d);
+                totalMembers += Number(a.members) || 0;
+                totalLoan += Number(a.loanAmount) || 0;
+                totalClosing += Number(a.closingAmount) || 0;
+                totalPaid += Number(a.paidAmount) || 0;
+                totalOutstanding += Number(a.outstandingAmount) || 0;
+                totalHold += Number(a.holdAmount) || 0;
             });
 
-            const ctxMain = document.getElementById('mainChart').getContext('2d');
-            if(mainChartInst) mainChartInst.destroy();
-            mainChartInst = new Chart(ctxMain, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: lang==='en'?'Collected':'আদায়', data: collectedData, backgroundColor: '#10b981', borderRadius: 6, maxBarThickness: 40 },
-                        { label: lang==='en'?'Due':'বাকি', data: dueData, backgroundColor: '#f43f5e', borderRadius: 6, maxBarThickness: 40 }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    scales: {
-                        y: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { color: gridColor } },
-                        x: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { display: false } }
-                    },
-                    plugins: { legend: { labels: { color: textColor, font: {family: 'Inter', weight: 'bold'} } } }
-                }
-            });
+            const remainingCapital = appState.totalAmount - totalLoan;
 
-            const dates = {};
-            for(let i=6; i>=0; i--) {
-                let d = new Date(); d.setDate(d.getDate() - i);
-                dates[d.toISOString().split('T')[0]] = 0;
-            }
-            appState.transactions.forEach(t => {
-                const dStr = t.date.split('T')[0];
-                if(dates[dStr] !== undefined && t.profitContribution) dates[dStr] += t.profitContribution;
-            });
+            // Update Top Master Bar
+            document.getElementById('masterTotalDisplay').textContent = formatINR(appState.totalAmount);
+            document.getElementById('totalShortBadge').textContent = formatShort(appState.totalAmount);
+            document.getElementById('summaryTotalMembers').textContent = totalMembers.toLocaleString('en-IN');
+            document.getElementById('summaryRemainingCapital').textContent = formatINR(remainingCapital);
 
-            const ctxTime = document.getElementById('timelineChart').getContext('2d');
-            if(timelineChartInst) timelineChartInst.destroy();
-            timelineChartInst = new Chart(ctxTime, {
-                type: 'line',
-                data: {
-                    labels: Object.keys(dates).map(d => d.split('-').slice(1).join('/')),
-                    datasets: [{
-                        label: lang==='en'?'Daily Profit':'দৈনিক লাভ',
-                        data: Object.values(dates),
-                        borderColor: '#fbbf24',
-                        backgroundColor: 'rgba(251, 191, 36, 0.2)',
-                        fill: true, tension: 0.4, pointBackgroundColor: '#fbbf24', borderWidth: 3, pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        y: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { color: gridColor } },
-                        x: { ticks: { color: textColor, font: {family: 'Inter', weight: 'bold'} }, grid: { display: false } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
+            // Update 5 Summary Cards
+            document.getElementById('sumLoanAmount').textContent = formatINR(totalLoan);
+            document.getElementById('sumLoanShort').textContent = formatShort(totalLoan);
+
+            document.getElementById('sumClosingAmount').textContent = formatINR(totalClosing);
+            document.getElementById('sumClosingShort').textContent = formatShort(totalClosing);
+
+            document.getElementById('sumPaidAmount').textContent = formatINR(totalPaid);
+            document.getElementById('sumPaidShort').textContent = formatShort(totalPaid);
+
+            document.getElementById('sumOutstandingAmount').textContent = formatINR(totalOutstanding);
+            document.getElementById('sumOutstandingShort').textContent = formatShort(totalOutstanding);
+
+            document.getElementById('sumHoldAmount').textContent = formatINR(totalHold);
+            document.getElementById('sumHoldShort').textContent = formatShort(totalHold);
+
+            document.getElementById('areaCountPill').textContent = appState.lang === 'bn'
+                ? `${appState.areas.length} টি এলাকা`
+                : `${appState.areas.length} Areas`;
+
+            renderAreaCards(dict);
+            updateHistoryFilterOptions();
+            renderHistory();
         }
 
-        function renderAreas() {
-            const grid = document.getElementById('areas-grid');
-            const lang = appState.settings.language;
+        // --- RENDER AREA CARDS (EXACT NOTEBOOK DIAGRAM STRUCTURE) ---
+        function renderAreaCards(dict) {
+            const container = document.getElementById('areaCardsContainer');
+            const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
 
-            if (appState.areas.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center p-12 text-gray-500 font-bold bg-gray-100 dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700">${lang === 'en' ? "No areas found. Create one." : "কোনো এলাকা পাওয়া যায়নি।"}</div>`;
+            const filtered = appState.areas.filter(a => 
+                a.name.toLowerCase().includes(q) || (a.note && a.note.toLowerCase().includes(q))
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="md:col-span-2 card-surface rounded-2xl p-8 text-center">
+                        <p class="text-sm text-slate-400 mb-3">No matching areas found.</p>
+                        <button onclick="openAreaModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">+ Add New Area</button>
+                    </div>
+                `;
                 return;
             }
 
-            let htmlString = '';
-            appState.areas.forEach(area => {
-                let col = 0, due = 0, exp = 0;
-                area.people.forEach(p => { exp+=p.target; col += p.paid; due += p.due; });
-                const progress = exp > 0 ? (col / exp) * 100 : 0;
-                const expectedProfit = exp - area.principal;
-                const earnedProfit = exp > 0 ? col * (expectedProfit / exp) : 0;
+            container.innerHTML = filtered.map((area, idx) => {
+                const baseTarget = Number(area.closingAmount) > 0 ? Number(area.closingAmount) : Number(area.loanAmount);
+                const pct = baseTarget > 0 ? Math.min(100, Math.round((Number(area.paidAmount) / baseTarget) * 100)) : 0;
 
-                htmlString += `
-                    <div class="glass-panel bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="p-5 sm:p-6 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" onclick="toggleAreaDetails('${area.id}')">
-                            <div class="truncate pr-2">
-                                <h3 class="text-xl sm:text-2xl font-extrabold flex items-center gap-2 text-gray-900 dark:text-white truncate"><i class="fa-solid fa-location-dot text-neonCyan"></i> ${area.name}</h3>
-                                <p class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-1 bg-gray-100 dark:bg-gray-800 inline-block px-2 py-1 rounded">Inv: ${formatMoney(area.principal)} • Int: ${area.interestRate}%</p>
-                            </div>
-                            <div class="flex items-center gap-4 shrink-0">
-                                <div class="text-right hidden sm:block bg-gray-50 dark:bg-gray-900 p-2 rounded-lg border border-gray-200 dark:border-gray-700">
-                                    <p class="text-sm font-bold text-green-600 dark:text-neonGreen">Col: ${formatMoney(col)}</p>
-                                    <p class="text-sm font-bold text-red-600 dark:text-neonRed">Due: ${formatMoney(due)}</p>
+                return `
+                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between">
+                    <div>
+                        <!-- Card Header: Numbered Area Name + Members Pill + Edit/Delete -->
+                        <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-extrabold flex items-center justify-center">
+                                        ${idx + 1}
+                                    </span>
+                                    <h4 class="text-base sm:text-lg font-extrabold text-white tracking-wide uppercase">
+                                        ${escapeHtml(area.name)}
+                                    </h4>
                                 </div>
-                                <button onclick="event.stopPropagation(); deleteArea('${area.id}')" class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white transition-all flex items-center justify-center shadow-sm active:scale-90">
-                                    <i class="fa-solid fa-trash text-sm"></i>
+                                ${area.note ? `<p class="text-[11px] text-slate-400 mt-1">${escapeHtml(area.note)}</p>` : ''}
+                            </div>
+
+                            <!-- Members Counter (Click +/- or edit directly) & Actions -->
+                            <div class="flex items-center gap-1.5">
+                                <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl px-2 py-1 gap-1.5" title="Members in this area">
+                                    <button onclick="adjustMembers('${area.id}', -1)" class="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">-</button>
+                                    <div onclick="openAreaModal('${area.id}')" class="cursor-pointer text-center px-1">
+                                        <i class="fa-solid fa-users text-amber-400 text-[10px] mr-1"></i>
+                                        <span class="text-xs font-extrabold text-white">${Number(area.members) || 0}</span>
+                                    </div>
+                                    <button onclick="adjustMembers('${area.id}', 1)" class="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">+</button>
+                                </div>
+
+                                <button onclick="openAreaModal('${area.id}')" class="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" title="Edit Area">
+                                    <i class="fa-solid fa-pen text-xs"></i>
                                 </button>
-                                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center transition-transform duration-300" id="icon-${area.id}">
-                                    <i class="fa-solid fa-chevron-down text-gray-600 dark:text-gray-400 text-sm"></i>
+                                <button onclick="confirmDeleteArea('${area.id}')" class="w-8 h-8 rounded-xl bg-slate-900 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 flex items-center justify-center" title="Delete Area">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Notebook Diagram Tree Structure -->
+                        <div class="my-4 space-y-2.5 text-xs">
+                            
+                            <!-- 1. LOAN AMOUNT -->
+                            <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-slate-800/80 cursor-pointer">
+                                <span class="font-semibold text-slate-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
+                                    ${dict.loanAmountLabel}
+                                </span>
+                                <span class="text-sm font-extrabold text-white">${formatINR(area.loanAmount)}</span>
+                            </div>
+
+                            <!-- 2. CLOSING AMOUNT (With Sub-Tree for Paid & Outstanding) -->
+                            <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/80 space-y-2">
+                                <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between cursor-pointer">
+                                    <span class="font-semibold text-violet-300 flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-right-long text-violet-400"></i>
+                                        ${dict.closingAmountLabel}
+                                    </span>
+                                    <span class="text-sm font-extrabold text-violet-300">${formatINR(area.closingAmount)}</span>
+                                </div>
+
+                                <!-- Sub-Branch under Closing Amount: Customer Paid & Outstanding -->
+                                <div class="tree-branch space-y-2 pt-1">
+                                    <!-- Customer Paid Amount -->
+                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item flex items-center justify-between p-2 rounded-lg bg-emerald-950/25 border border-emerald-500/25 hover:border-emerald-500/50 cursor-pointer">
+                                        <span class="text-emerald-300 font-semibold">${dict.paidAmountLabel}</span>
+                                        <span class="text-sm font-extrabold text-emerald-400">${formatINR(area.paidAmount)}</span>
+                                    </div>
+
+                                    <!-- Outstanding Amount -->
+                                    <div onclick="openPaymentModal('${area.id}')" class="tree-item flex items-center justify-between p-2 rounded-lg bg-amber-950/25 border border-amber-500/25 hover:border-amber-500/50 cursor-pointer">
+                                        <span class="text-amber-300 font-semibold">${dict.outstandingAmountLabel}</span>
+                                        <span class="text-sm font-extrabold text-amber-400">${formatINR(area.outstandingAmount)}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="h-2 w-full bg-gray-200 dark:bg-gray-800">
-                            <div class="h-full bg-gradient-to-r from-neonCyan to-neonGreen transition-all duration-700 ease-out shadow-[0_0_10px_rgba(16,185,129,0.5)]" style="width: ${progress}%"></div>
-                        </div>
-                        <div class="px-5 py-3 bg-gray-100 dark:bg-gray-800/80 flex justify-between text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-bold border-b border-gray-200 dark:border-gray-800 shadow-inner">
-                            <span>Projected: ₹${expectedProfit.toFixed(0)}</span>
-                            <span class="text-yellow-600 dark:text-neonGold flex items-center gap-1"><i class="fa-solid fa-star"></i> Earned: ₹${earnedProfit.toFixed(0)}</span>
-                        </div>
-                        <div id="details-${area.id}" class="hidden bg-white/50 dark:bg-[#0f172a]/50 flex flex-col max-h-[450px]">
-                            <div class="p-3 sm:p-4 flex justify-between items-center bg-gray-200/80 dark:bg-gray-800/90 text-xs sm:text-sm font-extrabold text-gray-800 dark:text-gray-200 uppercase sticky top-0 z-10 shadow-sm backdrop-blur-md">
-                                <span class="w-10 text-center">No.</span>
-                                <span class="w-20 text-center">Target</span>
-                                <span class="w-20 text-center hidden sm:block">Paid</span>
-                                <span class="w-20 text-center text-red-500">Due</span>
-                                <span class="w-20 text-center">Act</span>
+
+                            <!-- 3. HOLD AMOUNT -->
+                            <div onclick="openAreaModal('${area.id}')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-slate-800/80 cursor-pointer">
+                                <span class="font-semibold text-rose-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-arrow-right-long text-rose-400"></i>
+                                    ${dict.holdAmountLabel}
+                                </span>
+                                <span class="text-sm font-extrabold text-rose-400">${formatINR(area.holdAmount)}</span>
                             </div>
-                            <div class="overflow-y-auto custom-scrollbar flex-grow" id="people-list-${area.id}"></div>
+                        </div>
+
+                        <!-- Recovery Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                <span>Collection Progress</span>
+                                <span class="text-slate-200 font-bold">${pct}% Paid</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Card Footer Buttons -->
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center gap-2">
+                        <button onclick="openPaymentModal('${area.id}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                            <span>${dict.receiveBtn}</span>
+                        </button>
+                        <button onclick="openAreaModal('${area.id}')" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-sliders text-amber-400"></i>
+                            <span>${dict.editAreaBtn}</span>
+                        </button>
+                    </div>
+                </div>
                 `;
-            });
-            grid.innerHTML = htmlString;
+            }).join('');
         }
 
-        function toggleAreaDetails(areaId) {
-            const details = document.getElementById(`details-${areaId}`);
-            const icon = document.getElementById(`icon-${areaId}`);
-            if (details.classList.contains('hidden')) {
-                details.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-                renderPeople(areaId); 
-            } else {
-                details.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        function renderPeople(areaId) {
+        // --- QUICK MEMBER ADJUSTMENT FROM CARD ---
+        function adjustMembers(areaId, delta) {
             const area = appState.areas.find(a => a.id === areaId);
-            const list = document.getElementById(`people-list-${areaId}`);
-            
-            let htmlString = '';
-            area.people.forEach(p => {
-                const isComplete = p.due <= 0;
-                const bgClass = isComplete ? 'bg-green-50/50 dark:bg-green-900/10' : '';
-                htmlString += `
-                    <div class="p-3 sm:p-4 border-b border-gray-200 dark:border-gray-800/80 flex justify-between items-center text-sm sm:text-base ${bgClass} hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors">
-                        <div class="font-extrabold w-10 text-center rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-1.5 shadow-sm text-xs sm:text-sm">#${p.id}</div>
-                        <div class="w-20 text-center cursor-pointer text-gray-800 dark:text-gray-200 hover:text-blue-600 font-bold bg-gray-100 dark:bg-gray-900/50 py-1 rounded transition-colors" onclick="openEditPerson('${areaId}', ${p.id}, ${p.target})" title="Edit target">₹${p.target.toFixed(0)}</div>
-                        <div class="w-20 text-center text-green-600 dark:text-neonGreen font-extrabold hidden sm:block">₹${p.paid.toFixed(0)}</div>
-                        <div class="w-20 text-center text-red-600 dark:text-neonRed font-extrabold text-lg">₹${p.due.toFixed(0)}</div>
-                        <div class="w-20 text-center flex justify-center">
-                            <button onclick="openCollectModal('${areaId}', ${p.id})" class="bg-green-100 text-green-700 dark:bg-neonGreen/20 dark:text-green-400 hover:bg-green-600 hover:text-white dark:hover:bg-neonGreen dark:hover:text-white px-4 py-2 rounded-xl transition-all font-bold text-xs sm:text-sm shadow-sm w-full flex items-center justify-center gap-1 active:scale-90" ${isComplete ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>
-                                ${isComplete ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-plus"></i> PAY'}
+            if (!area) return;
+            area.members = Math.max(0, (Number(area.members) || 0) + delta);
+            saveState();
+            renderAll();
+        }
+
+        // --- CUSTOMER PAID / COLLECTION MODAL ---
+        function openPaymentModal(areaId) {
+            const area = appState.areas.find(a => a.id === areaId);
+            if (!area) return;
+
+            document.getElementById('payModalAreaId').value = area.id;
+            document.getElementById('payModalAreaName').textContent = area.name;
+            document.getElementById('payModalClosing').textContent = formatINR(area.closingAmount);
+            document.getElementById('payModalPaid').textContent = formatINR(area.paidAmount);
+            document.getElementById('payModalOutstanding').textContent = formatINR(area.outstandingAmount);
+
+            document.getElementById('payAmountInput').value = '';
+            document.getElementById('payDateInput').value = new Date().toISOString().split('T')[0];
+            document.getElementById('payNoteInput').value = '';
+            document.querySelector('input[name="payActionType"][value="add_paid"]').checked = true;
+
+            openModal('paymentModal');
+        }
+
+        function fillFullOutstanding() {
+            const areaId = document.getElementById('payModalAreaId').value;
+            const area = appState.areas.find(a => a.id === areaId);
+            if (!area) return;
+            document.getElementById('payAmountInput').value = Math.max(0, Number(area.outstandingAmount) || 0);
+        }
+
+        function submitPaymentForm(e) {
+            e.preventDefault();
+            const areaId = document.getElementById('payModalAreaId').value;
+            const area = appState.areas.find(a => a.id === areaId);
+            if (!area) return;
+
+            const action = document.querySelector('input[name="payActionType"]:checked').value;
+            const amount = Number(document.getElementById('payAmountInput').value) || 0;
+            const date = document.getElementById('payDateInput').value;
+            const note = document.getElementById('payNoteInput').value.trim();
+
+            if (amount <= 0) return;
+
+            if (action === 'add_paid') {
+                area.paidAmount = (Number(area.paidAmount) || 0) + amount;
+                area.outstandingAmount = Math.max(0, (Number(area.outstandingAmount) || 0) - amount);
+            } else {
+                area.paidAmount = Math.max(0, (Number(area.paidAmount) || 0) - amount);
+                const base = Number(area.closingAmount) > 0 ? Number(area.closingAmount) : Number(area.loanAmount);
+                area.outstandingAmount = Math.max(0, base - area.paidAmount);
+            }
+
+            appState.history.unshift({
+                id: 'h-' + Date.now(),
+                areaId: area.id,
+                areaName: area.name,
+                type: action === 'add_paid' ? 'PAID_ADD' : 'PAID_DEDUCT',
+                amount: amount,
+                outstandingAfter: area.outstandingAmount,
+                date: date,
+                time: nowTime(),
+                note: note || (action === 'add_paid' ? `Customer paid ${formatINR(amount)}` : `Deducted ${formatINR(amount)} from paid`),
+                reverted: false
+            });
+
+            saveState();
+            closeModal('paymentModal');
+            renderAll();
+            showToast(`${area.name}: ${formatINR(amount)} updated & saved in history`);
+        }
+
+        // --- ADD / EDIT AREA MODAL ---
+        function openAreaModal(areaId = null) {
+            const idEl = document.getElementById('areaModalId');
+            const nameEl = document.getElementById('areaNameInput');
+            const membersEl = document.getElementById('areaMembersInput');
+            const loanEl = document.getElementById('areaLoanInput');
+            const closingEl = document.getElementById('areaClosingInput');
+            const paidEl = document.getElementById('areaPaidInput');
+            const outEl = document.getElementById('areaOutstandingInput');
+            const holdEl = document.getElementById('areaHoldInput');
+            const noteEl = document.getElementById('areaNoteInput');
+
+            if (areaId) {
+                const area = appState.areas.find(a => a.id === areaId);
+                if (!area) return;
+                idEl.value = area.id;
+                nameEl.value = area.name;
+                membersEl.value = Number(area.members) || 0;
+                loanEl.value = Number(area.loanAmount) || 0;
+                closingEl.value = Number(area.closingAmount) || 0;
+                paidEl.value = Number(area.paidAmount) || 0;
+                outEl.value = Number(area.outstandingAmount) || 0;
+                holdEl.value = Number(area.holdAmount) || 0;
+                noteEl.value = area.note || '';
+            } else {
+                idEl.value = '';
+                nameEl.value = '';
+                membersEl.value = 0;
+                loanEl.value = '';
+                closingEl.value = '';
+                paidEl.value = 0;
+                outEl.value = 0;
+                holdEl.value = 0;
+                noteEl.value = '';
+            }
+
+            openModal('areaModal');
+        }
+
+        function syncAreaModalOutstanding() {
+            const autoCalc = document.getElementById('autoCalcOutstandingToggle').checked;
+            if (!autoCalc) return;
+
+            const loan = Number(document.getElementById('areaLoanInput').value) || 0;
+            const closingInput = document.getElementById('areaClosingInput');
+            let closing = Number(closingInput.value) || 0;
+
+            // If user typed Loan Amount and Closing is still empty/0, mirror Loan to Closing for convenience
+            if (closing === 0 && loan > 0 && document.activeElement.id === 'areaLoanInput') {
+                closingInput.value = loan;
+                closing = loan;
+            }
+
+            const paid = Number(document.getElementById('areaPaidInput').value) || 0;
+            const base = closing > 0 ? closing : loan;
+            document.getElementById('areaOutstandingInput').value = Math.max(0, base - paid);
+        }
+
+        function submitAreaModal(e) {
+            e.preventDefault();
+            const id = document.getElementById('areaModalId').value;
+            const name = document.getElementById('areaNameInput').value.trim().toUpperCase();
+            const members = Number(document.getElementById('areaMembersInput').value) || 0;
+            const loanAmount = Number(document.getElementById('areaLoanInput').value) || 0;
+            const closingAmount = Number(document.getElementById('areaClosingInput').value) || 0;
+            const paidAmount = Number(document.getElementById('areaPaidInput').value) || 0;
+            const outstandingAmount = Number(document.getElementById('areaOutstandingInput').value) || 0;
+            const holdAmount = Number(document.getElementById('areaHoldInput').value) || 0;
+            const note = document.getElementById('areaNoteInput').value.trim();
+
+            if (id) {
+                const area = appState.areas.find(a => a.id === id);
+                if (area) {
+                    area.name = name;
+                    area.members = members;
+                    area.loanAmount = loanAmount;
+                    area.closingAmount = closingAmount;
+                    area.paidAmount = paidAmount;
+                    area.outstandingAmount = outstandingAmount;
+                    area.holdAmount = holdAmount;
+                    area.note = note;
+
+                    appState.history.unshift({
+                        id: 'h-' + Date.now(),
+                        areaId: area.id,
+                        areaName: area.name,
+                        type: 'AREA_EDIT',
+                        amount: paidAmount,
+                        outstandingAfter: outstandingAmount,
+                        date: new Date().toISOString().split('T')[0],
+                        time: nowTime(),
+                        note: `Modified Area — Members: ${members}, Loan: ${formatINR(loanAmount)}, Closing: ${formatINR(closingAmount)}, Paid: ${formatINR(paidAmount)}, Hold: ${formatINR(holdAmount)}`,
+                        reverted: false
+                    });
+                }
+            } else {
+                const newArea = {
+                    id: 'area-' + Date.now(),
+                    name,
+                    members,
+                    loanAmount,
+                    closingAmount,
+                    paidAmount,
+                    outstandingAmount,
+                    holdAmount,
+                    note
+                };
+                appState.areas.push(newArea);
+
+                appState.history.unshift({
+                    id: 'h-' + Date.now(),
+                    areaId: newArea.id,
+                    areaName: newArea.name,
+                    type: 'AREA_CREATE',
+                    amount: loanAmount,
+                    outstandingAfter: outstandingAmount,
+                    date: new Date().toISOString().split('T')[0],
+                    time: nowTime(),
+                    note: `New Area Added — Members: ${members}, Loan: ${formatINR(loanAmount)}`,
+                    reverted: false
+                });
+            }
+
+            saveState();
+            closeModal('areaModal');
+            renderAll();
+            showToast(`${name} saved successfully`);
+        }
+
+        // --- DELETE AREA ---
+        function confirmDeleteArea(areaId) {
+            const area = appState.areas.find(a => a.id === areaId);
+            if (!area) return;
+
+            document.getElementById('confirmTitle').textContent = `Delete "${area.name}"?`;
+            document.getElementById('confirmDesc').textContent = `This will remove ${area.name} from the dashboard.`;
+            document.getElementById('confirmActionBtn').onclick = () => {
+                appState.areas = appState.areas.filter(a => a.id !== areaId);
+                saveState();
+                closeModal('confirmModal');
+                renderAll();
+                showToast(`${area.name} deleted`);
+            };
+            openModal('confirmModal');
+        }
+
+        // --- MASTER TOTAL AMOUNT EDIT ---
+        function openTotalAmountModal() {
+            document.getElementById('masterTotalInput').value = appState.totalAmount;
+            openModal('totalAmountModal');
+        }
+
+        function submitTotalAmountModal(e) {
+            e.preventDefault();
+            const val = Number(document.getElementById('masterTotalInput').value) || 0;
+            appState.totalAmount = val;
+
+            appState.history.unshift({
+                id: 'h-' + Date.now(),
+                areaId: 'master',
+                areaName: 'TOTAL AMOUNT',
+                type: 'MASTER_EDIT',
+                amount: val,
+                date: new Date().toISOString().split('T')[0],
+                time: nowTime(),
+                note: `Master Total Amount updated to ${formatINR(val)}`,
+                reverted: false
+            });
+
+            saveState();
+            closeModal('totalAmountModal');
+            renderAll();
+            showToast('Total Amount updated');
+        }
+
+        // --- HISTORY RENDER & REVERT ("KATA JAI") ---
+        function updateHistoryFilterOptions() {
+            const select = document.getElementById('historyFilterSelect');
+            const prev = select.value;
+            let html = `<option value="all">${appState.lang === 'bn' ? 'সকল এলাকার ইতিহাস (All Areas)' : 'All Areas History'}</option>`;
+            appState.areas.forEach(a => {
+                html += `<option value="${a.id}">${escapeHtml(a.name)}</option>`;
+            });
+            select.innerHTML = html;
+            if ([...select.options].some(o => o.value === prev)) select.value = prev;
+        }
+
+        function renderHistory() {
+            const filterId = document.getElementById('historyFilterSelect').value;
+            const listEl = document.getElementById('historyList');
+            const dict = i18n[appState.lang] || i18n.en;
+
+            const logs = appState.history.filter(h => filterId === 'all' || h.areaId === filterId);
+            document.getElementById('historyCountBadge').textContent = logs.length;
+
+            if (logs.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No history records yet.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = logs.map(item => {
+                const isRevertable = !item.reverted && (item.type === 'PAID_ADD' || item.type === 'PAID_DEDUCT');
+                const strike = item.reverted ? 'line-through opacity-50' : '';
+                let badge = 'bg-emerald-500/15 text-emerald-400';
+                if (item.type === 'PAID_DEDUCT') badge = 'bg-rose-500/15 text-rose-400';
+                if (item.type === 'AREA_EDIT' || item.type === 'MASTER_EDIT') badge = 'bg-amber-500/15 text-amber-400';
+
+                return `
+                <div class="p-3 rounded-xl bg-slate-950 border border-slate-800/90 text-xs space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-white uppercase ${strike}">${escapeHtml(item.areaName)}</span>
+                        <span class="font-extrabold px-2 py-0.5 rounded ${badge} ${strike}">${formatINR(item.amount)}</span>
+                    </div>
+                    <p class="text-slate-300 text-[11px] ${strike}">${escapeHtml(item.note)}</p>
+                    <div class="flex items-center justify-between pt-1 border-t border-slate-900 text-[10px] text-slate-500">
+                        <span>${item.date || ''} • ${item.time || ''}</span>
+                        <div class="flex items-center gap-2">
+                            ${isRevertable ? `
+                                <button onclick="revertHistoryItem('${item.id}')" class="text-amber-400 hover:underline font-semibold">
+                                    <i class="fa-solid fa-rotate-left mr-0.5"></i>${dict.revertBtn}
+                                </button>
+                            ` : ''}
+                            ${item.reverted ? `<span class="text-rose-400 font-bold">[Reverted]</span>` : ''}
+                            <button onclick="deleteHistoryItem('${item.id}')" class="text-slate-500 hover:text-rose-400" title="Remove entry">
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
                     </div>
+                </div>
                 `;
-            });
-            list.innerHTML = htmlString;
+            }).join('');
         }
 
-        function handleAddArea(e) {
-            e.preventDefault();
-            const name = document.getElementById('input-area-name').value;
-            const principal = parseFloat(document.getElementById('input-area-principal').value);
-            const interestRate = parseFloat(document.getElementById('input-area-interest').value);
-            const peopleCount = parseInt(document.getElementById('input-area-people').value);
+        function revertHistoryItem(histId) {
+            const item = appState.history.find(h => h.id === histId);
+            if (!item || item.reverted) return;
 
-            const expectedTotal = principal + (principal * interestRate / 100);
-            const targetPerPerson = parseFloat((expectedTotal / peopleCount).toFixed(2));
-
-            const people = [];
-            for (let i = 1; i <= peopleCount; i++) {
-                people.push({ id: i, target: targetPerPerson, paid: 0, due: targetPerPerson });
-            }
-
-            appState.areas.unshift({
-                id: 'A' + Date.now(),
-                name: name, principal: principal, interestRate: interestRate, totalExpected: expectedTotal, peopleCount: peopleCount, people: people
-            });
-            saveState();
-            closeModal('add-area-modal');
-            showAlert('Success', `${name} created successfully.`);
-            renderAreas();
-            renderDashboard();
-        }
-
-        function deleteArea(areaId) {
-            if(confirm("Are you sure you want to delete this area? This action cannot be undone.")) {
-                appState.areas = appState.areas.filter(a => a.id !== areaId);
-                appState.transactions = appState.transactions.filter(t => t.areaId !== areaId);
-                saveState();
-                showAlert('Deleted', 'Area deleted completely.', 'error');
-                renderAreas();
-                renderDashboard();
-            }
-        }
-
-        function openEditPerson(areaId, personId, currentTarget) {
-            document.getElementById('edit-area-id').value = areaId;
-            document.getElementById('edit-person-id').value = personId;
-            document.getElementById('input-edit-target').value = currentTarget;
-            openModal('edit-person-modal');
-        }
-
-        function handleEditPerson(e) {
-            e.preventDefault();
-            const areaId = document.getElementById('edit-area-id').value;
-            const personId = parseInt(document.getElementById('edit-person-id').value);
-            const newTarget = parseFloat(document.getElementById('input-edit-target').value);
-
-            const area = appState.areas.find(a => a.id === areaId);
-            const person = area.people.find(p => p.id === personId);
-
-            person.target = newTarget;
-            person.due = person.target - person.paid;
-
-            saveState();
-            closeModal('edit-person-modal');
-            showAlert('Updated', `Target updated.`);
-            renderPeople(areaId);
-            renderDashboard();
-        }
-
-        function openCollectModal(areaId, personId) {
-            const area = appState.areas.find(a => a.id === areaId);
-            const person = area.people.find(p => p.id === personId);
-
-            document.getElementById('collect-area-id').value = areaId;
-            document.getElementById('collect-person-id').value = personId;
-            document.getElementById('lbl-collect-area').innerText = area.name;
-            document.getElementById('lbl-collect-person').innerText = '#' + personId;
-            document.getElementById('lbl-collect-target').innerText = person.target.toFixed(2);
-            document.getElementById('lbl-collect-due').innerText = person.due.toFixed(2);
-            document.getElementById('input-collect-amount').value = person.due.toFixed(2); 
-
-            openModal('collect-modal');
-        }
-
-        function handleCollect(e) {
-            e.preventDefault();
-            const areaId = document.getElementById('collect-area-id').value;
-            const personId = parseInt(document.getElementById('collect-person-id').value);
-            const amount = parseFloat(document.getElementById('input-collect-amount').value);
-
-            const area = appState.areas.find(a => a.id === areaId);
-            const person = area.people.find(p => p.id === personId);
-
-            let areaExpected = 0;
-            area.people.forEach(p => areaExpected += p.target);
-            const expectedProfit = areaExpected - area.principal;
-            const profitContribution = amount * (areaExpected > 0 ? (expectedProfit / areaExpected) : 0);
-
-            person.paid += amount;
-            person.due -= amount;
-
-            appState.transactions.unshift({
-                id: 'T' + Date.now(), areaId: areaId, personId: personId, amount: amount, profitContribution: profitContribution, date: new Date().toISOString()
-            });
-
-            saveState();
-            closeModal('collect-modal');
-            showAlert('Success', `₹${amount} collected from #${personId}.`);
-            renderAreas(); 
-            // Re-open details drawer since re-rendering Areas collapses it
-            const details = document.getElementById(`details-${areaId}`);
-            const icon = document.getElementById(`icon-${areaId}`);
-            details.classList.remove('hidden');
-            icon.style.transform = 'rotate(180deg)';
-            renderPeople(areaId);
-            
-            renderDashboard();
-        }
-
-        function renderTransactions() {
-            const tbody = document.getElementById('transactions-body');
-            const lang = appState.settings.language;
-            
-            if(appState.transactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500 font-bold bg-gray-50 dark:bg-gray-800">${lang === 'en' ? "No transactions found." : "কোনো লেনদেন পাওয়া যায়নি।"}</td></tr>`;
-                return;
-            }
-
-            let htmlString = '';
-            appState.transactions.forEach(t => {
-                const area = appState.areas.find(a => a.id === t.areaId);
-                const areaName = area ? area.name : 'Deleted Area';
-                const dateObj = new Date(t.date);
-                
-                htmlString += `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-200 dark:border-gray-800">
-                        <td class="p-4 text-sm text-gray-600 dark:text-gray-400 font-medium whitespace-nowrap"><i class="fa-regular fa-clock mr-1"></i> ${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-                        <td class="p-4 font-bold text-gray-900 dark:text-gray-200 flex items-center gap-2"><i class="fa-solid fa-location-dot text-neonCyan text-xs"></i> ${areaName}</td>
-                        <td class="p-4"><span class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg font-bold text-gray-800 dark:text-gray-200 text-sm">#${t.personId}</span></td>
-                        <td class="p-4 text-right font-black text-green-600 dark:text-neonGreen text-lg">+₹${t.amount.toFixed(0)}</td>
-                        <td class="p-4 text-center">
-                            <button onclick="deleteTransaction('${t.id}')" class="text-red-500 hover:text-white bg-red-50 dark:bg-red-900/20 hover:bg-red-600 p-2.5 rounded-xl transition-colors shadow-sm active:scale-90" title="Delete record"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = htmlString;
-        }
-
-        function deleteTransaction(tId) {
-            if(confirm("Delete this transaction and revert the due amount?")) {
-                const tIndex = appState.transactions.findIndex(t => t.id === tId);
-                if(tIndex === -1) return;
-                const t = appState.transactions[tIndex];
-
-                const area = appState.areas.find(a => a.id === t.areaId);
-                if(area) {
-                    const person = area.people.find(p => p.id === t.personId);
-                    if(person) {
-                        person.paid -= t.amount;
-                        person.due += t.amount;
-                    }
+            const area = appState.areas.find(a => a.id === item.areaId);
+            if (area) {
+                if (item.type === 'PAID_ADD') {
+                    area.paidAmount = Math.max(0, (Number(area.paidAmount) || 0) - item.amount);
+                    area.outstandingAmount = (Number(area.outstandingAmount) || 0) + item.amount;
+                } else if (item.type === 'PAID_DEDUCT') {
+                    area.paidAmount = (Number(area.paidAmount) || 0) + item.amount;
+                    area.outstandingAmount = Math.max(0, (Number(area.outstandingAmount) || 0) - item.amount);
                 }
+            }
 
-                appState.transactions.splice(tIndex, 1);
-                saveState();
-                showAlert('Reverted', 'Transaction deleted and due restored.', 'error');
-                renderTransactions();
-                renderDashboard();
-                if(!document.getElementById('view-areas').classList.contains('hidden-view')) renderAreas();
+            item.reverted = true;
+            saveState();
+            renderAll();
+            showToast('Transaction reverted and area balance restored');
+        }
+
+        function deleteHistoryItem(histId) {
+            appState.history = appState.history.filter(h => h.id !== histId);
+            saveState();
+            renderHistory();
+        }
+
+        // --- BACKUP & RESTORE ---
+        function openBackupModal() {
+            document.getElementById('backupTextarea').value = JSON.stringify(appState, null, 2);
+            openModal('backupModal');
+        }
+
+        function copyBackupData() {
+            const el = document.getElementById('backupTextarea');
+            el.select();
+            document.execCommand('copy');
+            showToast('Backup JSON copied to clipboard');
+        }
+
+        function downloadBackupData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `shilabiz_nidhi_backup_${new Date().toISOString().slice(0, 10)}.json`);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function restoreBackupData() {
+            try {
+                const parsed = JSON.parse(document.getElementById('backupTextarea').value);
+                if (parsed && Array.isArray(parsed.areas)) {
+                    appState = parsed;
+                    saveState();
+                    closeModal('backupModal');
+                    renderAll();
+                    showToast('Data restored successfully');
+                }
+            } catch (e) {
+                showToast('Invalid Backup JSON');
             }
         }
 
-        function exportData(type) {
-            const lang = appState.settings.language;
-            let data = [];
-            appState.areas.forEach(a => {
-                a.people.forEach(p => {
-                    data.push({
-                        [lang==='en'?"Area":"এলাকা"]: a.name,
-                        [lang==='en'?"Person No":"ব্যক্তি নং"]: p.id,
-                        [lang==='en'?"Target":"টার্গেট"]: p.target.toFixed(2),
-                        [lang==='en'?"Paid":"আদায়"]: p.paid.toFixed(2),
-                        [lang==='en'?"Due":"বাকি"]: p.due.toFixed(2),
-                        [lang==='en'?"Status":"স্ট্যাটাস"]: p.due <= 0 ? (lang==='en'?'Completed':'সম্পূর্ণ') : (lang==='en'?'Pending':'বাকি')
-                    });
-                });
-            });
-
-            if(data.length === 0) { showAlert('Error', 'No data available to export.', 'error'); return; }
-
-            const fileName = `InvestoPro_Report_${new Date().toLocaleDateString().replace(/\//g, '-')}`;
-
-            if(type === 'excel') {
-                const ws = XLSX.utils.json_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "Report");
-                XLSX.writeFile(wb, `${fileName}.xlsx`);
-                showAlert('Exported', 'Excel downloaded successfully.');
-            } 
-            else if (type === 'pdf') {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                doc.setFontSize(18);
-                doc.text("InvestoPro Collection Report", 14, 22);
-                doc.setFontSize(11);
-                doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
-
-                doc.autoTable({
-                    head: [Object.keys(data[0])],
-                    body: data.map(row => Object.values(row)),
-                    startY: 40, theme: 'grid', styles: { fontSize: 9 }, headStyles: { fillColor: [6, 182, 212] }
-                });
-
-                doc.save(`${fileName}.pdf`);
-                showAlert('Exported', 'PDF downloaded successfully.');
-            }
+        // --- MODAL & TOAST HELPERS ---
+        function openModal(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove('hidden');
+            el.classList.add('flex');
         }
 
-        // Initialize App on window load
-        window.onload = initApp;
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.add('hidden');
+            el.classList.remove('flex');
+        }
 
+        function showToast(msg) {
+            const box = document.getElementById('toastBox');
+            const t = document.createElement('div');
+            t.className = 'pointer-events-auto px-4 py-2.5 rounded-xl bg-slate-900 border border-amber-500/40 text-xs font-semibold text-white shadow-xl flex items-center gap-2';
+            t.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${escapeHtml(msg)}</span>`;
+            box.appendChild(t);
+            setTimeout(() => t.remove(), 2600);
+        }
+
+        window.onload = function () {
+            renderAll();
+        };
     </script>
 </body>
 </html>
