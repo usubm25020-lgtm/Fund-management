@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -361,6 +360,39 @@
             box-shadow: 0 0 12px rgba(16, 185, 129, 0.65);
         }
 
+        /* Industry Ledger Spreadsheet Table Styling */
+        .ledger-table th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(180deg, #fde047 0%, #facc15 100%);
+            color: #0f172a;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border: 1px solid #ca8a04;
+            white-space: nowrap;
+        }
+
+        .ledger-table td {
+            border: 1px solid rgba(51, 65, 85, 0.75);
+            white-space: nowrap;
+        }
+
+        .ledger-row {
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .ledger-row:hover {
+            background-color: rgba(245, 158, 11, 0.08) !important;
+        }
+
+        .group-divider-row td {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.35), rgba(15, 23, 42, 0.9));
+            border-top: 2px solid #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -447,20 +479,19 @@
                             <h1 class="text-sm sm:text-xl font-black tracking-wider text-white uppercase">
                                 SHILABIZ NIDHI LIMITED
                             </h1>
-                            <!-- Live Cloud Sync Status Badge -->
                             <span id="cloudStatusBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                                <span id="cloudStatusText">Cloud Live</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+                                <span id="cloudStatusText">Cloud Sync</span>
                             </span>
                         </div>
-                        <p id="headerSubtitle" class="text-[11px] sm:text-xs text-slate-400">
-                            Area-Wise Loan, Closing, Paid & Outstanding (Running + Hold) Tracker
+                        <p id="headerSubtitle" class="text-[11px] sm:text-xs text-slate-400 font-medium mt-0.5">
+                            Area-Wise Loan, Closing, Paid, Running/Hold & Customer Ledger System
                         </p>
                     </div>
                 </div>
 
-                <!-- Right Controls: Language Toggle | Install App | Excel Export | Add Area -->
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                <!-- Right Controls: Language Toggle | Install App | Excel Import | Excel Export | Add Area -->
+                <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                     <!-- Optional One-Click Install App Button (Appears automatically when supported) -->
                     <button id="installAppBtn" onclick="installPWAApp()" class="hidden btn-gaming btn-glow-cyan items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-xs font-extrabold text-cyan-300" title="Install App on Device">
                         <i class="fa-solid fa-download text-cyan-400 text-xs"></i>
@@ -473,13 +504,19 @@
                         <span id="langToggleText">বাংলা ভাষা</span>
                     </button>
 
-                    <!-- 2. Direct Excel (.xlsx) Export Button -->
+                    <!-- 2. Smart Excel (.xlsx) Import Button -->
+                    <button onclick="openExcelImportModal()" class="btn-gaming btn-glow-cyan flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-xs font-extrabold text-cyan-300" title="Import Area & Customer Sheet from Excel">
+                        <i class="fa-solid fa-file-import text-cyan-400 text-sm"></i>
+                        <span data-i18n="importExcelBtn">Excel Import</span>
+                    </button>
+
+                    <!-- 3. Direct Excel (.xlsx) Export Button -->
                     <button onclick="exportToExcel()" class="btn-gaming btn-glow-emerald flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-xs font-extrabold text-emerald-300" title="Download Complete Report in Excel Format">
                         <i class="fa-solid fa-file-excel text-emerald-400 text-sm"></i>
                         <span data-i18n="excelBtn">Excel Export</span>
                     </button>
 
-                    <!-- 3. Add New Area Button -->
+                    <!-- 4. Add New Area Button -->
                     <button onclick="openAreaModal()" class="btn-gaming btn-glow-amber flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-md">
                         <i class="fa-solid fa-plus"></i>
                         <span data-i18n="addAreaBtn">Add Area</span>
@@ -487,14 +524,20 @@
                 </div>
             </div>
 
-            <!-- Second Row: Dedicated Page Navigation Tabs (Dashboard Page vs History Page) -->
-            <div class="flex items-center gap-2 pt-1 border-t border-slate-900">
-                <button id="navDashboardBtn" onclick="switchPage('dashboard')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20">
+            <!-- Second Row: Dedicated Page Navigation Tabs (Dashboard | Customer Sheet | History Page) -->
+            <div class="flex items-center gap-2 pt-1 border-t border-slate-900 overflow-x-auto">
+                <button id="navDashboardBtn" onclick="switchPage('dashboard')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 shrink-0">
                     <i class="fa-solid fa-table-cells-large"></i>
                     <span data-i18n="navDashboard">Dashboard</span>
                 </button>
 
-                <button id="navHistoryBtn" onclick="switchPage('history')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700">
+                <button id="navCustomersBtn" onclick="openCustomerLedgerPage()" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">
+                    <i class="fa-solid fa-users-viewfinder text-cyan-400"></i>
+                    <span data-i18n="navCustomerSheet">Customer Summary Sheet</span>
+                    <span id="navCustomersBadge" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-800 text-cyan-400">0</span>
+                </button>
+
+                <button id="navHistoryBtn" onclick="switchPage('history')" class="btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">
                     <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
                     <span data-i18n="navHistory">History Page</span>
                     <span id="navHistoryBadge" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-800 text-amber-400">0</span>
@@ -670,7 +713,161 @@
         </div>
 
         <!-- =========================================================
-             PAGE 2: DEDICATED FULL-SCREEN HISTORY PAGE
+             PAGE 2: INDUSTRY-LEVEL AREA CUSTOMER SUMMARY & LEDGER SHEET
+             (Matches BELGHORIA / 24th/MONTH Screenshot 100%)
+             ========================================================= -->
+        <div id="customerLedgerPageView" class="hidden space-y-4 animate-page-in">
+
+            <!-- Top Sheet Banner & Area Switcher -->
+            <div class="card-surface rounded-2xl p-4 sm:p-5 border-l-4 border-l-cyan-400 space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div class="flex items-start sm:items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0">
+                            <i class="fa-solid fa-file-Spreadsheet fa-table-list text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-black uppercase tracking-widest">
+                                    CUSTOMER SUMMERY
+                                </span>
+                                <span id="ledgerAreaMonthTag" class="px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-[11px] font-extrabold uppercase">
+                                    AREA / 24th/MONTH
+                                </span>
+                            </div>
+                            <h2 id="ledgerPageTitle" class="text-lg sm:text-2xl font-black text-white uppercase tracking-wide mt-1">
+                                SELECT AREA
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- Area Selector + Action Controls -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <select id="ledgerAreaSelect" onchange="onChangeLedgerAreaSelect(this.value)" class="px-3.5 py-2 rounded-xl bg-slate-950 border border-cyan-500/50 text-xs sm:text-sm font-extrabold text-white focus:outline-none focus:border-amber-400">
+                            <!-- Populated dynamically -->
+                        </select>
+
+                        <button onclick="openCustomerModal()" class="btn-gaming btn-glow-amber px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-md">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span data-i18n="addCustomerBtn">+ Add Customer</span>
+                        </button>
+
+                        <button onclick="openExcelImportModal(currentLedgerAreaId)" class="btn-gaming btn-glow-cyan px-3.5 py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 font-extrabold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-import"></i>
+                            <span data-i18n="importAreaExcelBtn">Import Excel</span>
+                        </button>
+
+                        <button onclick="exportSingleAreaExcel(currentLedgerAreaId)" class="btn-gaming btn-glow-emerald px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 font-extrabold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-excel"></i>
+                            <span data-i18n="exportAreaExcelBtn">Export Sheet</span>
+                        </button>
+
+                        <button onclick="switchPage('dashboard')" class="btn-gaming px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span data-i18n="backToDashboardBtn">Back</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Area Customer Summary KPI Strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-3 border-t border-slate-800/90 text-xs">
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2.5">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Customers</span>
+                        <span id="ledgerSumMembers" class="text-base font-black text-white">0</span>
+                    </div>
+                    <div class="bg-slate-950/80 border border-cyan-500/30 rounded-xl p-2.5">
+                        <span class="text-[10px] text-cyan-300 font-bold uppercase block">Total Loan Amount</span>
+                        <span id="ledgerSumLoan" class="text-base font-black text-cyan-400">₹0</span>
+                    </div>
+                    <div class="bg-slate-950/80 border border-violet-500/30 rounded-xl p-2.5">
+                        <span class="text-[10px] text-violet-300 font-bold uppercase block">Closing (Payable)</span>
+                        <span id="ledgerSumClosing" class="text-base font-black text-violet-300">₹0</span>
+                    </div>
+                    <div class="bg-slate-950/80 border border-emerald-500/30 rounded-xl p-2.5">
+                        <span class="text-[10px] text-emerald-300 font-bold uppercase block">Customer Paid</span>
+                        <span id="ledgerSumPaid" class="text-base font-black text-emerald-400">₹0</span>
+                    </div>
+                    <div class="bg-sky-950/30 border border-sky-500/40 rounded-xl p-2.5">
+                        <span class="text-[10px] text-sky-300 font-bold uppercase block">Running Due (<span id="ledgerRunningCount">0</span>)</span>
+                        <span id="ledgerSumRunning" class="text-base font-black text-sky-400">₹0</span>
+                    </div>
+                    <div class="bg-rose-950/30 border border-rose-500/40 rounded-xl p-2.5">
+                        <span class="text-[10px] text-rose-300 font-bold uppercase block">Hold Due (<span id="ledgerHoldCount">0</span>)</span>
+                        <span id="ledgerSumHold" class="text-base font-black text-rose-400">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Bar: Search by Name / Loan No / Group / Phone + Running/Hold Filter + Sync Button -->
+            <div class="card-surface rounded-2xl p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-2 flex-1">
+                    <div class="relative flex-1 min-w-[210px]">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                        <input id="customerSearchInput" oninput="renderCustomerLedger()" type="text" placeholder="Search Name, Loan No (1618), Group (Anjana), Phone..." class="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+                    </div>
+
+                    <select id="customerGroupFilter" onchange="renderCustomerLedger()" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-bold text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="ALL">All Groups</option>
+                    </select>
+
+                    <select id="customerStatusFilter" onchange="renderCustomerLedger()" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-bold text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="ALL">All (Running + Hold)</option>
+                        <option value="RUNNING">RUNNING Only</option>
+                        <option value="HOLD">HOLD Only</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="recalculateAreaFromCustomers(currentLedgerAreaId, true)" class="btn-gaming px-3 py-2 rounded-xl bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/40 text-violet-300 text-xs font-extrabold flex items-center gap-1.5" title="Sync Area Card Totals from this Customer Sheet">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span data-i18n="syncTotalsBtn">Sync Area Totals</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Industry-Grade Spreadsheet Table (Desktop/Laptop & Scrollable Mobile) -->
+            <div class="card-surface rounded-2xl overflow-hidden border border-slate-800">
+                <!-- Banner Header Inside Sheet Like Excel Screenshot -->
+                <div class="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-b border-slate-800 px-4 py-2.5 text-center">
+                    <h3 class="text-sm sm:text-base font-black tracking-widest uppercase text-white underline decoration-amber-400">
+                        CUSTOMER SUMMERY
+                    </h3>
+                    <p id="sheetBannerSubTitle" class="text-xs font-extrabold text-amber-400 uppercase mt-0.5">
+                        BELGHORIA/ 24th/MONTH
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto max-h-[68vh]">
+                    <table class="w-full text-left border-collapse ledger-table text-xs">
+                        <thead>
+                            <tr>
+                                <th class="py-2.5 px-2.5 text-center">SL NO</th>
+                                <th class="py-2.5 px-2.5 text-center">LOAN NO</th>
+                                <th class="py-2.5 px-3">GROUP NAME</th>
+                                <th class="py-2.5 px-3">NAME</th>
+                                <th class="py-2.5 px-2.5 text-center">LOAN DATE</th>
+                                <th class="py-2.5 px-3 text-right">LOAN AMOUNT</th>
+                                <th class="py-2.5 px-2.5 text-center">INSTALLMENT</th>
+                                <th class="py-2.5 px-2.5 text-center">NEW OR RELOAN</th>
+                                <th class="py-2.5 px-3 text-center">PH NO</th>
+                                <th class="py-2.5 px-2.5 text-center">HOLD OR RUNNING</th>
+                                <th class="py-2.5 px-3 text-right">PAID</th>
+                                <th class="py-2.5 px-3 text-right">DUE</th>
+                                <th class="py-2.5 px-3 text-center">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerLedgerTableBody" class="divide-y divide-slate-800/70 bg-slate-950/70">
+                            <!-- Populated via JS -->
+                        </tbody>
+                        <tfoot id="customerLedgerTableFoot" class="bg-emerald-950/60 border-t-2 border-emerald-500/60 font-black text-white">
+                            <!-- Grand Total Row Populated via JS -->
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 3: DEDICATED FULL-SCREEN HISTORY PAGE
              ========================================================= -->
         <div id="historyPageView" class="hidden space-y-5 animate-page-in">
             <!-- History Page Top Bar -->
@@ -716,7 +913,6 @@
         </div>
 
     </main>
-
     <!-- ================= MODALS ================= -->
 
     <!-- 1. QUICK CUSTOMER PAYMENT & HOLD/RUNNING UPDATE MODAL -->
@@ -817,7 +1013,7 @@
         </div>
     </div>
 
-    <!-- 2. ADD / EDIT AREA MODAL (WITH CONNECTED OUTSTANDING -> RUNNING & HOLD) -->
+    <!-- 2. ADD / EDIT AREA MODAL (WITH CONNECTED OUTSTANDING -> RUNNING & HOLD) - FIXED ID & FORM TAG -->
     <div id="areaModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl max-h-[92vh] overflow-y-auto animate-page-in">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -830,14 +1026,14 @@
                 </button>
             </div>
 
-            <form onsubmit="submitAreaModal(event)" class="space-y-3.5 mt-4">
+            <form onsubmit="submitAreaModal(event)" class="space-y-3.5 mt-4 text-xs">
                 <input type="hidden" id="areaModalId">
 
                 <!-- Area Name & Members Count -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="areaNameLabel">Area Name *</label>
-                        <input id="areaNameInput" type="text" required placeholder="e.g. ADHATA or CHAKDHA" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+                        <input id="areaNameInput" type="text" required placeholder="e.g. BELGHORIA or ADHATA" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-amber-400 mb-1">
@@ -845,6 +1041,12 @@
                         </label>
                         <input id="areaMembersInput" type="number" min="0" step="1" value="0" required class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
                     </div>
+                </div>
+
+                <!-- Month / Subtitle Tag (e.g. 24th/MONTH) -->
+                <div>
+                    <label class="block text-xs font-semibold text-cyan-300 mb-1">Sheet Header / Month Tag (e.g. 24th/MONTH)</label>
+                    <input id="areaMonthTagInput" type="text" placeholder="e.g. 24th/MONTH" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-cyan-300 focus:outline-none focus:border-cyan-500">
                 </div>
 
                 <!-- 1. Loan Amount & 2. Closing Amount -->
@@ -951,6 +1153,324 @@
         </div>
     </div>
 
+    <!-- 5. ADD / EDIT SINGLE CUSTOMER MODAL (ALL 12 COLUMNS) -->
+    <div id="customerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-2xl w-full p-5 border border-cyan-500/40 shadow-2xl max-h-[92vh] overflow-y-auto animate-page-in">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div>
+                    <h3 id="customerModalTitle" class="text-base font-black text-white uppercase">Add / Edit Customer</h3>
+                    <p id="customerModalAreaSub" class="text-xs text-cyan-400 font-bold mt-0.5">Area Customer Entry</p>
+                </div>
+                <button onclick="closeModal('customerModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="submitCustomerForm(event)" class="space-y-3.5 mt-4 text-xs">
+                <input type="hidden" id="custModalId">
+
+                <!-- Row 1: SL NO, LOAN NO, GROUP NAME -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">SL NO</label>
+                        <input id="custSlNoInput" type="number" min="1" required placeholder="1" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-amber-400 mb-1">LOAN NO *</label>
+                        <input id="custLoanNoInput" type="text" required placeholder="e.g. 1618" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-cyan-300 mb-1">GROUP NAME *</label>
+                        <input id="custGroupInput" type="text" list="groupSuggestionsList" required placeholder="e.g. ANJANA GROUP or SINGLE" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white uppercase focus:outline-none focus:border-cyan-400">
+                        <datalist id="groupSuggestionsList">
+                            <option value="SINGLE"></option>
+                            <option value="ANJANA GROUP"></option>
+                            <option value="JHUMA GROUP (2)"></option>
+                            <option value="SOMA GROUP"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+                <!-- Row 2: CUSTOMER NAME, PHONE NO, LOAN DATE -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-1">
+                        <label class="block font-bold text-white mb-1">CUSTOMER NAME *</label>
+                        <input id="custNameInput" type="text" required placeholder="e.g. LATIKA KUNDU" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white uppercase focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">PH NO (Phone)</label>
+                        <input id="custPhoneInput" type="text" placeholder="e.g. 8013775313 or NIL" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">LOAN DATE</label>
+                        <input id="custLoanDateInput" type="text" placeholder="e.g. 7/24/2025" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <!-- Row 3: LOAN AMOUNT, INSTALLMENT [750*52], NEW OR RELOAN, HOLD OR RUNNING -->
+                <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+                    <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 block">Loan, Installment & Status Configuration</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block font-bold text-cyan-300 mb-1">LOAN AMOUNT (₹) *</label>
+                            <input id="custLoanAmountInput" oninput="syncCustomerModalMath('loan')" type="number" step="any" min="0" required placeholder="30000" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-white focus:outline-none focus:border-cyan-400">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-violet-300 mb-1">INSTALLMENT (e.g. [750*52])</label>
+                            <input id="custInstallmentInput" oninput="syncCustomerModalMath('inst')" type="text" placeholder="[750*52]" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-violet-300 focus:outline-none focus:border-violet-400">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-300 mb-1">NEW OR RELOAN</label>
+                            <select id="custNewOrReloanInput" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-bold text-white focus:outline-none">
+                                <option value="NEW">NEW</option>
+                                <option value="RE LOAN">RE LOAN</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-amber-300 mb-1">HOLD OR RUNNING</label>
+                            <select id="custHoldOrRunningInput" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-white focus:outline-none">
+                                <option value="RUNNING">RUNNING</option>
+                                <option value="HOLD">HOLD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: CLOSING (TOTAL PAYABLE), PAID AMOUNT, DUE AMOUNT -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-800/80">
+                        <div>
+                            <label class="block font-bold text-violet-300 mb-1">CLOSING / PAYABLE (₹)</label>
+                            <input id="custClosingAmountInput" oninput="syncCustomerModalMath('closing')" type="number" step="any" min="0" placeholder="39000" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-violet-300 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-emerald-400 mb-1">CUSTOMER PAID (₹)</label>
+                            <input id="custPaidAmountInput" oninput="syncCustomerModalMath('paid')" type="number" step="any" min="0" value="0" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-emerald-400 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-amber-400 mb-1">DUE / OUTSTANDING (₹)</label>
+                            <input id="custDueAmountInput" oninput="syncCustomerModalMath('due')" type="number" step="any" min="0" value="0" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 font-black text-amber-400 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Customer Note / Status Remark</label>
+                    <input id="custNoteInput" type="text" placeholder="Optional remark..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none">
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t border-slate-800">
+                    <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                        <input id="custAutoSyncAreaCheckbox" type="checkbox" checked class="rounded accent-amber-500">
+                        <span>Auto-update Area Summary Totals</span>
+                    </label>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeModal('customerModal')" class="btn-gaming px-4 py-2 rounded-xl bg-slate-800 font-semibold text-slate-300">Cancel</button>
+                        <button type="submit" class="btn-gaming btn-glow-amber px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black">Save Customer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6. "CHECK STATUS" — CUSTOMER REVIEW, INSTALLMENT COLLECTION & STATUS CONTROL MODAL -->
+    <div id="checkStatusModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-amber-500/40 shadow-2xl max-h-[92vh] overflow-y-auto animate-page-in">
+            <!-- Header -->
+            <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="csStatusBadge" class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                            RUNNING
+                        </span>
+                        <span id="csLoanTypeBadge" class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-slate-800 text-slate-300">
+                            NEW
+                        </span>
+                        <span id="csLoanNoText" class="text-xs font-black text-amber-400">LOAN #1618</span>
+                    </div>
+                    <h3 id="csCustomerName" class="text-lg font-black text-white uppercase mt-1">LATIKA KUNDU</h3>
+                    <p id="csGroupName" class="text-xs font-bold text-cyan-400">GROUP: ANJANA GROUP</p>
+                </div>
+                <button onclick="closeModal('checkStatusModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Info Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 my-3.5 text-xs">
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-400 block">Loan Date</span>
+                    <span id="csLoanDate" class="font-extrabold text-white">-</span>
+                </div>
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-400 block">Phone Number</span>
+                    <div class="flex items-center justify-between mt-0.5">
+                        <span id="csPhone" class="font-extrabold text-white">-</span>
+                        <a id="csCallLink" href="#" class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-slate-950 transition-colors" title="Call Customer">
+                            <i class="fa-solid fa-phone text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-span-2 sm:col-span-1 bg-slate-950 p-2.5 rounded-xl border border-violet-500/30">
+                    <span class="text-[10px] text-violet-300 block">Installment Plan</span>
+                    <span id="csInstallmentPlan" class="font-black text-violet-300">[750*52]</span>
+                </div>
+            </div>
+
+            <!-- Financial Figures -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-3.5 text-center bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div>
+                    <span class="text-[10px] text-slate-400 block">Loan Amount</span>
+                    <span id="csLoanAmount" class="text-sm font-black text-cyan-400">₹0</span>
+                </div>
+                <div class="border-l border-slate-800">
+                    <span class="text-[10px] text-violet-300 block">Closing Amount</span>
+                    <span id="csClosingAmount" class="text-sm font-black text-violet-300">₹0</span>
+                </div>
+                <div class="border-l border-slate-800">
+                    <span class="text-[10px] text-emerald-400 block">Customer Paid</span>
+                    <span id="csPaidAmount" class="text-sm font-black text-emerald-400">₹0</span>
+                </div>
+                <div class="border-l border-slate-800">
+                    <span class="text-[10px] text-amber-400 block">Current Due</span>
+                    <span id="csDueAmount" class="text-sm font-black text-amber-400">₹0</span>
+                </div>
+            </div>
+
+            <!-- Installment Progress Bar -->
+            <div class="mb-4">
+                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                    <span id="csInstallmentCountText">Installment Progress</span>
+                    <span id="csProgressPctText" class="text-emerald-400 font-black">0%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-950 border border-slate-800 rounded-full overflow-hidden p-0.5">
+                    <div id="csProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 gaming-progress rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Quick Installment Collection / Payment Form inside Check Status -->
+            <form onsubmit="submitCustomerInstallment(event)" class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 space-y-3">
+                <input type="hidden" id="csCustomerId">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-emerald-400 uppercase">
+                        <i class="fa-solid fa-hand-holding-dollar mr-1"></i>Collect Installment / Update Paid
+                    </span>
+                    <button type="button" id="csQuickFillInstBtn" onclick="fillCustomerSingleInstallment()" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-extrabold hover:bg-emerald-500 hover:text-slate-950 transition-colors">
+                        +1 EMI
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <div>
+                        <select id="csPayType" class="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+                            <option value="ADD">+ Add Paid (Collect)</option>
+                            <option value="DEDUCT">- Deduct / Cut Paid</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input id="csPayAmountInput" type="number" step="any" min="1" required placeholder="Amount (₹)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs font-black text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn-gaming btn-glow-emerald w-full py-2 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs">
+                            Save Payment
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Bottom Actions: Toggle Running/Hold | Edit Customer | Delete Customer -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-4 mt-4 border-t border-slate-800">
+                <button type="button" onclick="toggleCustomerRunningHoldFromModal()" class="btn-gaming px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-repeat"></i>
+                    <span>Switch RUNNING / HOLD</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="editCustomerFromCheckStatus()" class="btn-gaming px-3.5 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold flex items-center gap-1.5">
+                        <i class="fa-solid fa-pen"></i>
+                        <span>Edit Full Info</span>
+                    </button>
+                    <button type="button" onclick="deleteCustomerFromCheckStatus()" class="btn-gaming px-3.5 py-2 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs font-extrabold flex items-center gap-1.5">
+                        <i class="fa-solid fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. SMART EXCEL (.XLSX / .CSV) IMPORT & AUTO-DECODER MODAL -->
+    <div id="excelImportModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="card-surface rounded-2xl max-w-lg w-full p-5 border border-cyan-500/40 shadow-2xl animate-page-in">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-file-excel"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-black text-white uppercase">Smart Excel Import & Decoder</h3>
+                        <p class="text-[11px] text-slate-400">Upload Customer Summary Excel (like BELGHORIA sheet) to auto-entry</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('excelImportModal')" class="btn-gaming w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="processExcelImport(event)" class="space-y-4 mt-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1.5">1. Select Target Area (or Auto-Create from Sheet)</label>
+                    <select id="importTargetAreaSelect" onchange="toggleNewAreaNameOnImport(this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 font-extrabold text-white focus:outline-none focus:border-cyan-400">
+                        <option value="NEW_AREA">+ Create New Area Automatically from Excel Sheet</option>
+                    </select>
+                </div>
+
+                <div id="importNewAreaNameBox" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block font-bold text-amber-400 mb-1">New Area Name (Optional)</label>
+                        <input id="importNewAreaNameInput" type="text" placeholder="Auto-detected (e.g. BELGHORIA)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-white uppercase focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-cyan-300 mb-1">Month Tag (Optional)</label>
+                        <input id="importNewAreaMonthInput" type="text" placeholder="Auto-detected (e.g. 24th/MONTH)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-bold text-cyan-300 focus:outline-none focus:border-cyan-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1.5">2. Import Mode</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="excelImportMode" value="replace" checked class="peer hidden">
+                            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center font-bold text-slate-400 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/15 peer-checked:text-cyan-300">
+                                Replace Area Customer List
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="excelImportMode" value="append" class="peer hidden">
+                            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center font-bold text-slate-400 peer-checked:border-amber-400 peer-checked:bg-amber-500/15 peer-checked:text-amber-300">
+                                Append to Existing List
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1.5">3. Choose Excel File (`.xlsx`, `.xls`, `.csv`)</label>
+                    <input id="excelFileInput" type="file" accept=".xlsx,.xls,.csv" required class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-dashed border-cyan-500/50 text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-cyan-500 file:text-slate-950 file:font-black hover:border-cyan-400 cursor-pointer">
+                </div>
+
+                <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                    <p class="text-cyan-300 font-bold"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Supported Auto-Detected Columns:</p>
+                    <p>`SL NO`, `LOAN NO`, `GROUP NAME`, `NAME`, `LOAN DATE`, `LOAN AMOUNT`, `INSTALLMENT` (`[750*52]`), `NEW OR RELOAN`, `PH NO`, `HOLD OR RUNNING`, `PAID`, `DUE`.</p>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('excelImportModal')" class="btn-gaming px-4 py-2 rounded-xl bg-slate-800 font-semibold text-slate-300">Cancel</button>
+                    <button type="submit" class="btn-gaming btn-glow-cyan px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black">
+                        <i class="fa-solid fa-bolt mr-1"></i>Decode & Import Now
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- TOAST CONTAINER -->
     <div id="toastBox" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
@@ -983,6 +1503,7 @@
         let currentUser = null;
         let firestoreReady = false;
         let currentPage = 'dashboard';
+        let currentLedgerAreaId = null;
 
         // In-memory state synchronized purely with Firestore (No dummy/seed data)
         let appState = {
@@ -991,8 +1512,74 @@
             history: []
         };
 
-        // Ensure every area object has consistent Outstanding = Running + Hold math
+        // Parse Installment string like "[750*52]" or "750*52" -> { rate: 750, count: 52, totalPayable: 39000 }
+        function parseInstallmentFormula(instStr) {
+            if (!instStr) return { rate: 0, count: 0, totalPayable: 0, formatted: '' };
+            const clean = String(instStr).trim();
+            const match = clean.match(/(\d+(?:\.\d+)?)\s*[\*xX×]\s*(\d+)/);
+            if (match) {
+                const rate = Number(match[1]) || 0;
+                const count = Number(match[2]) || 0;
+                return {
+                    rate,
+                    count,
+                    totalPayable: rate * count,
+                    formatted: `[${rate}*${count}]`
+                };
+            }
+            const singleNum = Number(clean.replace(/[^\d.]/g, '')) || 0;
+            return { rate: singleNum, count: 0, totalPayable: 0, formatted: clean };
+        }
+
+        // Normalize a single customer record inside an area
+        function normalizeCustomer(raw, index = 0) {
+            const loanAmount = Number(String(raw.loanAmount ?? 0).replace(/[^\d.-]/g, '')) || 0;
+            const instInfo = parseInstallmentFormula(raw.installment || '');
+            const closingAmount = raw.closingAmount !== undefined && Number(raw.closingAmount) > 0
+                ? Number(raw.closingAmount)
+                : loanAmount;
+
+            const hasExplicitDue = raw.dueAmount !== undefined && raw.dueAmount !== '' && raw.dueAmount !== null;
+            const hasExplicitPaid = raw.paidAmount !== undefined && raw.paidAmount !== '' && raw.paidAmount !== null;
+
+            let paidAmount = hasExplicitPaid ? (Number(String(raw.paidAmount).replace(/[^\d.-]/g, '')) || 0) : 0;
+            let dueAmount = hasExplicitDue ? (Number(String(raw.dueAmount).replace(/[^\d.-]/g, '')) || 0) : Math.max(0, closingAmount - paidAmount);
+
+            if (!hasExplicitPaid && hasExplicitDue) {
+                paidAmount = Math.max(0, closingAmount - dueAmount);
+            }
+
+            const rawStatus = String(raw.holdOrRunning || 'RUNNING').toUpperCase().trim();
+            const holdOrRunning = rawStatus.includes('HOLD') ? 'HOLD' : 'RUNNING';
+
+            const rawLoanType = String(raw.newOrReloan || 'NEW').toUpperCase().trim();
+            const newOrReloan = rawLoanType.includes('RE') ? 'RE LOAN' : 'NEW';
+
+            return {
+                id: raw.id || ('cust-' + Date.now() + '-' + index),
+                slNo: Number(raw.slNo) || (index + 1),
+                loanNo: String(raw.loanNo ?? '').trim(),
+                groupName: String(raw.groupName || 'SINGLE').toUpperCase().trim(),
+                name: String(raw.name || 'CUSTOMER').toUpperCase().trim(),
+                loanDate: String(raw.loanDate || '').trim(),
+                loanAmount,
+                installment: instInfo.formatted || String(raw.installment || '').trim(),
+                closingAmount,
+                paidAmount,
+                dueAmount,
+                newOrReloan,
+                phone: String(raw.phone ?? 'NIL').trim(),
+                holdOrRunning,
+                note: String(raw.note || '').trim()
+            };
+        }
+
+        // Ensure every area object has consistent Outstanding = Running + Hold math & customers list
         function normalizeArea(raw) {
+            const customers = Array.isArray(raw.customers)
+                ? raw.customers.map((c, idx) => normalizeCustomer(c, idx))
+                : [];
+
             const loanAmount = Number(raw.loanAmount) || 0;
             const closingAmount = Number(raw.closingAmount) || 0;
             const paidAmount = Number(raw.paidAmount) || 0;
@@ -1007,14 +1594,16 @@
 
             return {
                 id: raw.id,
-                name: String(raw.name || 'AREA').toUpperCase(),
-                members: Number(raw.members) || 0,
+                name: String(raw.name || 'AREA').toUpperCase().trim(),
+                monthTag: String(raw.monthTag || '24th/MONTH').trim(),
+                members: customers.length > 0 ? customers.length : (Number(raw.members) || 0),
                 loanAmount,
                 closingAmount,
                 paidAmount,
                 outstandingAmount,
                 runningAmount,
                 holdAmount,
+                customers,
                 note: raw.note || '',
                 orderIndex: Number(raw.orderIndex) || Date.now()
             };
@@ -1023,14 +1612,20 @@
         // --- BILINGUAL DICTIONARY (ENGLISH DEFAULT + BENGALI) ---
         const i18n = {
             en: {
-                headerSubtitle: 'Area-Wise Loan, Closing, Paid & Outstanding (Running + Hold) Tracker',
+                headerSubtitle: 'Area-Wise Loan, Closing, Paid, Running/Hold & Customer Ledger System',
                 langToggleText: 'বাংলা ভাষা',
+                importExcelBtn: 'Excel Import',
                 excelBtn: 'Excel Export',
                 exportExcelFullBtn: 'Download Excel',
                 addAreaBtn: 'Add Area',
                 navDashboard: 'Dashboard',
+                navCustomerSheet: 'Customer Summary Sheet',
                 navHistory: 'History Page',
                 backToDashboardBtn: 'Back to Dashboard',
+                addCustomerBtn: '+ Add Customer',
+                importAreaExcelBtn: 'Import Excel',
+                exportAreaExcelBtn: 'Export Sheet',
+                syncTotalsBtn: 'Sync Area Totals',
                 groupCardBadge: 'Official Team',
                 groupCardTitle: 'SHILABIZ NIDHI GROUP',
                 groupCardSub: 'Tap to view full group photo',
@@ -1064,18 +1659,25 @@
                 autoCalcText: 'Auto-calculate',
                 saveAreaBtn: 'Save Area',
                 receiveBtn: 'Receive / Paid',
-                editAreaBtn: 'Edit / Modify',
+                editAreaBtn: 'Edit',
+                openSheetBtn: 'Customer Sheet',
                 revertBtn: 'Cut / Revert'
             },
             bn: {
-                headerSubtitle: 'এলাকা ভিত্তিক লোন, ক্লোজিং, কাস্টমার পেইড ও আউটস্ট্যান্ডিং (রানিং + হোল্ড) ট্র্যাকার',
+                headerSubtitle: 'এলাকা ও কাস্টমার ভিত্তিক লোন, ক্লোজিং, পেইড ও আউটস্ট্যান্ডিং (রানিং + হোল্ড) ট্র্যাকার',
                 langToggleText: 'English',
-                excelBtn: 'এক্সেল ডাউনলোড',
+                importExcelBtn: 'এক্সেল ইমপোর্ট',
+                excelBtn: 'এক্সেল এক্সপোর্ট',
                 exportExcelFullBtn: 'এক্সেল ফাইল নামান',
                 addAreaBtn: 'নতুন এলাকা যোগ',
                 navDashboard: 'ড্যাশবোর্ড পেজ',
+                navCustomerSheet: 'কাস্টমার সামারি শিট',
                 navHistory: 'হিস্ট্রি পেজ (History)',
                 backToDashboardBtn: 'ড্যাশবোর্ডে ফিরুন',
+                addCustomerBtn: '+ নতুন কাস্টমার যোগ',
+                importAreaExcelBtn: 'এক্সেল আপলোড',
+                exportAreaExcelBtn: 'শিট ডাউনলোড',
+                syncTotalsBtn: 'এরিয়া টোটাল সিঙ্ক',
                 groupCardBadge: 'অফিসিয়াল টিম',
                 groupCardTitle: 'শিলাবিজ নিধি গ্রুপ ফটো',
                 groupCardSub: 'বড় করে গ্রুপ ছবি দেখতে ক্লিক করুন',
@@ -1108,8 +1710,9 @@
                 outstandingSplitHeading: '↳ ২. আউটস্ট্যান্ডিং বকেয়ার ২টি ভাগ (রানিং + হোল্ড)',
                 autoCalcText: 'স্বয়ংক্রিয় হিসাব',
                 saveAreaBtn: 'সেভ করুন',
-                receiveBtn: 'টাকা জমা (Paid)',
-                editAreaBtn: 'এডিট / মডিফাই',
+                receiveBtn: 'টাকা জমা',
+                editAreaBtn: 'এডিট',
+                openSheetBtn: 'কাস্টমার শিট',
                 revertBtn: 'কাটুন (Revert)'
             }
         };
@@ -1155,8 +1758,6 @@
                     currentUser = cred.user;
                 }
             } catch (authErr) {
-                // If Anonymous Auth is not yet enabled on the user's custom Firebase console,
-                // create a fallback session user object so Firestore open rules still work seamlessly.
                 currentUser = auth.currentUser || { uid: 'shilabiz-admin-user' };
             }
 
@@ -1177,7 +1778,6 @@
                         loadedAreas.push(normalizeArea({ id: docSnap.id, ...docSnap.data() }));
                     });
 
-                    // Sort in memory by orderIndex
                     loadedAreas.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
                     appState.areas = loadedAreas;
                     renderAll();
@@ -1200,7 +1800,6 @@
                     snapshot.forEach(docSnap => {
                         loadedHistory.push({ id: docSnap.id, ...docSnap.data() });
                     });
-                    // Sort newest first in memory
                     loadedHistory.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
                     appState.history = loadedHistory;
                     renderAll();
@@ -1255,24 +1854,45 @@
         function switchPage(pageName) {
             currentPage = pageName;
             const dashEl = document.getElementById('dashboardPageView');
+            const custEl = document.getElementById('customerLedgerPageView');
             const histEl = document.getElementById('historyPageView');
+
             const dashBtn = document.getElementById('navDashboardBtn');
+            const custBtn = document.getElementById('navCustomersBtn');
             const histBtn = document.getElementById('navHistoryBtn');
 
+            const activeClass = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 shrink-0';
+            const inactiveClass = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0';
+
+            dashEl.classList.add('hidden');
+            custEl.classList.add('hidden');
+            histEl.classList.add('hidden');
+
+            dashBtn.className = inactiveClass;
+            custBtn.className = inactiveClass;
+            histBtn.className = inactiveClass;
+
             if (pageName === 'history') {
-                dashEl.classList.add('hidden');
                 histEl.classList.remove('hidden');
-
-                histBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20';
-                dashBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700';
+                histBtn.className = activeClass;
                 renderHistory();
+            } else if (pageName === 'customers') {
+                custEl.classList.remove('hidden');
+                custBtn.className = activeClass;
+                renderCustomerLedger();
             } else {
-                histEl.classList.add('hidden');
                 dashEl.classList.remove('hidden');
-
-                dashBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20';
-                histBtn.className = 'btn-gaming flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700';
+                dashBtn.className = activeClass;
             }
+        }
+
+        function openCustomerLedgerPage(areaId = null) {
+            if (areaId) {
+                currentLedgerAreaId = areaId;
+            } else if (!currentLedgerAreaId && appState.areas.length > 0) {
+                currentLedgerAreaId = appState.areas[0].id;
+            }
+            switchPage('customers');
         }
 
         // --- FORMATTING HELPERS ---
@@ -1333,6 +1953,7 @@
             let totalOutstanding = 0;
             let totalRunning = 0;
             let totalHold = 0;
+            let totalCustomersRows = 0;
 
             appState.areas.forEach(rawArea => {
                 const a = normalizeArea(rawArea);
@@ -1343,19 +1964,18 @@
                 totalOutstanding += a.outstandingAmount;
                 totalRunning += a.runningAmount;
                 totalHold += a.holdAmount;
+                totalCustomersRows += (a.customers ? a.customers.length : 0);
             });
 
             const recoveryBase = totalClosing > 0 ? totalClosing : totalLoan;
             const recoveryPct = recoveryBase > 0 ? Math.min(100, Math.round((totalPaid / recoveryBase) * 100)) : 0;
 
-            // Update Hero Total Loan Amount Banner
             document.getElementById('heroTotalLoanDisplay').textContent = formatINR(totalLoan);
             document.getElementById('heroLoanShortBadge').textContent = formatShort(totalLoan);
             document.getElementById('summaryTotalMembers').textContent = totalMembers.toLocaleString('en-IN');
             document.getElementById('summaryTotalAreas').textContent = appState.areas.length;
             document.getElementById('summaryRecoveryRate').textContent = recoveryPct + '%';
 
-            // Update Summary Cards (Closing, Paid, and Connected Outstanding -> Running + Hold)
             document.getElementById('sumClosingAmount').textContent = formatINR(totalClosing);
             document.getElementById('sumClosingShort').textContent = formatShort(totalClosing);
 
@@ -1376,13 +1996,17 @@
                 : `${appState.areas.length} Areas`;
 
             document.getElementById('navHistoryBadge').textContent = appState.history.length;
+            document.getElementById('navCustomersBadge').textContent = totalCustomersRows;
 
             renderAreaCards(dict);
             updateHistoryFilterOptions();
             renderHistory();
+            if (currentPage === 'customers') {
+                renderCustomerLedger();
+            }
         }
 
-        // --- RENDER AREA CARDS (WITH OUTSTANDING -> RUNNING & HOLD SUB-BRANCHES) ---
+        // --- RENDER AREA CARDS ---
         function renderAreaCards(dict) {
             const container = document.getElementById('areaCardsContainer');
             const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
@@ -1393,9 +2017,12 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="md:col-span-2 xl:col-span-3 card-surface rounded-2xl p-8 text-center">
-                        <p class="text-sm text-slate-400 mb-3">No matching areas found.</p>
-                        <button onclick="openAreaModal()" class="btn-gaming btn-glow-amber px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">+ Add New Area</button>
+                    <div class="md:col-span-2 xl:col-span-3 card-surface rounded-2xl p-8 text-center space-y-3">
+                        <p class="text-sm text-slate-400">No areas found yet. Add a new area or import an Excel sheet!</p>
+                        <div class="flex flex-wrap justify-center gap-2.5">
+                            <button onclick="openAreaModal()" class="btn-gaming btn-glow-amber px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">+ Add New Area</button>
+                            <button onclick="openExcelImportModal()" class="btn-gaming btn-glow-cyan px-4 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-extrabold text-xs"><i class="fa-solid fa-file-import mr-1"></i>Import Excel Sheet</button>
+                        </div>
                     </div>
                 `;
                 return;
@@ -1404,33 +2031,33 @@
             container.innerHTML = filtered.map((area, idx) => {
                 const baseTarget = area.closingAmount > 0 ? area.closingAmount : area.loanAmount;
                 const pct = baseTarget > 0 ? Math.min(100, Math.round((area.paidAmount / baseTarget) * 100)) : 0;
+                const custCount = area.customers ? area.customers.length : 0;
 
                 return `
-                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 55}ms">
+                <div class="card-surface rounded-2xl p-5 flex flex-col justify-between animate-page-in" style="animation-delay: ${idx * 45}ms">
                     <div>
-                        <!-- Card Header: Numbered Area Name + Members Counter + Edit/Delete -->
                         <div class="flex items-start justify-between gap-2 pb-3 border-b border-slate-800/90">
                             <div>
                                 <div class="flex items-center gap-2">
                                     <span class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 text-xs font-black flex items-center justify-center shadow">
                                         ${idx + 1}
                                     </span>
-                                    <h4 class="text-base sm:text-lg font-black text-white tracking-wide uppercase">
+                                    <h4 onclick="openCustomerLedgerPage('${area.id}')" class="text-base sm:text-lg font-black text-white hover:text-amber-400 tracking-wide uppercase cursor-pointer transition-colors">
                                         ${escapeHtml(area.name)}
                                     </h4>
                                 </div>
-                                ${area.note ? `<p class="text-[11px] text-slate-400 mt-1">${escapeHtml(area.note)}</p>` : ''}
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+                                        ${escapeHtml(area.monthTag || '24th/MONTH')}
+                                    </span>
+                                    ${area.note ? `<span class="text-[11px] text-slate-400 truncate max-w-[140px]">${escapeHtml(area.note)}</span>` : ''}
+                                </div>
                             </div>
 
-                            <!-- Members Counter & Actions -->
                             <div class="flex items-center gap-1.5">
-                                <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 gap-1.5" title="Members in this area">
-                                    <button onclick="adjustMembers('${area.id}', -1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">-</button>
-                                    <div onclick="openAreaModal('${area.id}')" class="cursor-pointer text-center px-1">
-                                        <i class="fa-solid fa-users text-amber-400 text-[10px] mr-1"></i>
-                                        <span class="text-xs font-black text-white">${area.members}</span>
-                                    </div>
-                                    <button onclick="adjustMembers('${area.id}', 1)" class="btn-gaming w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center justify-center">+</button>
+                                <div onclick="openCustomerLedgerPage('${area.id}')" class="cursor-pointer flex items-center bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl px-2.5 py-1 gap-1.5 transition-colors" title="Click to open Customer Summary Sheet">
+                                    <i class="fa-solid fa-users text-amber-400 text-[10px]"></i>
+                                    <span class="text-xs font-black text-white">${area.members}</span>
                                 </div>
 
                                 <button onclick="openAreaModal('${area.id}')" class="btn-gaming w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-amber-400 flex items-center justify-center" title="Edit Area">
@@ -1442,10 +2069,7 @@
                             </div>
                         </div>
 
-                        <!-- Connected Diagram Tree Structure -->
                         <div class="my-4 space-y-2.5 text-xs">
-                            
-                            <!-- 1. LOAN AMOUNT -->
                             <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 hover:bg-slate-900 border border-slate-800/90 cursor-pointer">
                                 <span class="font-bold text-slate-300 flex items-center gap-2">
                                     <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
@@ -1454,7 +2078,6 @@
                                 <span class="text-sm font-black text-white">${formatINR(area.loanAmount)}</span>
                             </div>
 
-                            <!-- 2. CLOSING AMOUNT (With Sub-Tree for Paid & Connected Outstanding) -->
                             <div class="p-2.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
                                 <div onclick="openAreaModal('${area.id}')" class="metric-row flex items-center justify-between cursor-pointer">
                                     <span class="font-bold text-violet-300 flex items-center gap-2">
@@ -1464,15 +2087,12 @@
                                     <span class="text-sm font-black text-violet-300">${formatINR(area.closingAmount)}</span>
                                 </div>
 
-                                <!-- Branch under Closing Amount: Customer Paid & Outstanding -->
                                 <div class="tree-branch space-y-2 pt-1">
-                                    <!-- Customer Paid Amount -->
                                     <div onclick="openPaymentModal('${area.id}')" class="tree-item metric-row flex items-center justify-between p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30 hover:border-emerald-400 cursor-pointer">
                                         <span class="text-emerald-300 font-bold">${dict.paidAmountLabel}</span>
                                         <span class="text-sm font-black text-emerald-400">${formatINR(area.paidAmount)}</span>
                                     </div>
 
-                                    <!-- Outstanding Amount (Parent of Running Amount & Hold Amount) -->
                                     <div class="tree-item rounded-xl bg-amber-950/20 border border-amber-500/35 p-2 space-y-2">
                                         <div onclick="openPaymentModal('${area.id}')" class="metric-row flex items-center justify-between cursor-pointer">
                                             <span class="text-amber-300 font-extrabold flex items-center gap-1.5">
@@ -1481,10 +2101,8 @@
                                             <span class="text-sm font-black text-amber-400">${formatINR(area.outstandingAmount)}</span>
                                         </div>
 
-                                        <!-- 2 Sub-Divisions of Outstanding Amount: Running & Hold -->
                                         <div class="sub-tree-branch space-y-1.5 pt-0.5">
-                                            <!-- Running Amount -->
-                                            <div onclick="openAreaModal('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-sky-950/40 border border-sky-500/30 hover:border-sky-400 cursor-pointer">
+                                            <div onclick="openCustomerLedgerPage('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-sky-950/40 border border-sky-500/30 hover:border-sky-400 cursor-pointer">
                                                 <span class="text-[11px] font-bold text-sky-300 flex items-center gap-1.5">
                                                     <i class="fa-solid fa-circle-play text-[9px] text-sky-400"></i>
                                                     ${dict.runningAmountLabel}
@@ -1492,8 +2110,7 @@
                                                 <span class="text-xs font-black text-sky-400">${formatINR(area.runningAmount)}</span>
                                             </div>
 
-                                            <!-- Hold Amount -->
-                                            <div onclick="openAreaModal('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-rose-950/40 border border-rose-500/30 hover:border-rose-400 cursor-pointer">
+                                            <div onclick="openCustomerLedgerPage('${area.id}')" class="sub-tree-item metric-row flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-rose-950/40 border border-rose-500/30 hover:border-rose-400 cursor-pointer">
                                                 <span class="text-[11px] font-bold text-rose-300 flex items-center gap-1.5">
                                                     <i class="fa-solid fa-circle-pause text-[9px] text-rose-400"></i>
                                                     ${dict.holdAmountLabel}
@@ -1506,10 +2123,9 @@
                             </div>
                         </div>
 
-                        <!-- Animated Gaming Recovery Progress Bar -->
                         <div class="mb-4">
                             <div class="flex justify-between text-[11px] text-slate-400 mb-1.5">
-                                <span>Collection Progress</span>
+                                <span>Sheet Customers: <strong class="text-cyan-300">${custCount}</strong></span>
                                 <span class="text-emerald-400 font-extrabold">${pct}% Paid</span>
                             </div>
                             <div class="w-full h-2 bg-slate-950 border border-slate-800 rounded-full overflow-hidden p-0.5">
@@ -1518,15 +2134,17 @@
                         </div>
                     </div>
 
-                    <!-- Card Footer Gaming Buttons -->
-                    <div class="pt-3 border-t border-slate-800/80 flex items-center gap-2.5">
-                        <button onclick="openPaymentModal('${area.id}')" class="btn-gaming btn-glow-emerald flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md">
+                    <div class="pt-3 border-t border-slate-800/80 grid grid-cols-12 gap-2">
+                        <button onclick="openCustomerLedgerPage('${area.id}')" class="col-span-6 btn-gaming btn-glow-cyan py-2.5 px-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-extrabold text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-table-list"></i>
+                            <span>${dict.openSheetBtn} (${custCount})</span>
+                        </button>
+                        <button onclick="openPaymentModal('${area.id}')" class="col-span-4 btn-gaming btn-glow-emerald py-2.5 px-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1">
                             <i class="fa-solid fa-hand-holding-dollar"></i>
                             <span>${dict.receiveBtn}</span>
                         </button>
-                        <button onclick="openAreaModal('${area.id}')" class="btn-gaming btn-glow-cyan py-2.5 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-100 font-bold text-xs flex items-center gap-1.5">
-                            <i class="fa-solid fa-sliders text-amber-400"></i>
-                            <span>${dict.editAreaBtn}</span>
+                        <button onclick="openAreaModal('${area.id}')" class="col-span-2 btn-gaming py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center" title="Edit Area">
+                            <i class="fa-solid fa-sliders"></i>
                         </button>
                     </div>
                 </div>
@@ -1534,7 +2152,803 @@
             }).join('');
         }
 
-        // --- PROFESSIONAL EXCEL (.XLSX) EXPORT ---
+        // --- CUSTOMER SUMMARY & LEDGER ENGINE ---
+        function onChangeLedgerAreaSelect(areaId) {
+            currentLedgerAreaId = areaId;
+            document.getElementById('customerGroupFilter').value = 'ALL';
+            renderCustomerLedger();
+        }
+
+        function renderCustomerLedger() {
+            const selectEl = document.getElementById('ledgerAreaSelect');
+            if (!selectEl) return;
+
+            if (appState.areas.length === 0) {
+                selectEl.innerHTML = `<option value="">No Areas Available</option>`;
+                document.getElementById('ledgerPageTitle').textContent = 'NO AREA SELECTED';
+                document.getElementById('customerLedgerTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="13" class="py-10 text-center text-slate-400">
+                            No area found. Please create an Area or click "Excel Import" to upload your sheet!
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('customerLedgerTableFoot').innerHTML = '';
+                return;
+            }
+
+            if (!currentLedgerAreaId || !appState.areas.some(a => a.id === currentLedgerAreaId)) {
+                currentLedgerAreaId = appState.areas[0].id;
+            }
+
+            selectEl.innerHTML = appState.areas.map(a =>
+                `<option value="${a.id}" ${a.id === currentLedgerAreaId ? 'selected' : ''}>${escapeHtml(a.name)} (${(a.customers || []).length} Customers)</option>`
+            ).join('');
+
+            const areaIdx = appState.areas.findIndex(a => a.id === currentLedgerAreaId);
+            if (areaIdx === -1) return;
+            const area = normalizeArea(appState.areas[areaIdx]);
+
+            const monthBanner = `${area.name}/ ${area.monthTag || '24th/MONTH'}`;
+            document.getElementById('ledgerPageTitle').textContent = `${area.name} — CUSTOMER LEDGER`;
+            document.getElementById('ledgerAreaMonthTag').textContent = monthBanner;
+            document.getElementById('sheetBannerSubTitle').textContent = monthBanner;
+
+            const groupFilterEl = document.getElementById('customerGroupFilter');
+            const prevGroup = groupFilterEl.value || 'ALL';
+            const uniqueGroups = [...new Set(area.customers.map(c => c.groupName).filter(Boolean))];
+            groupFilterEl.innerHTML = `<option value="ALL">All Groups (${uniqueGroups.length})</option>` +
+                uniqueGroups.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
+            if ([...groupFilterEl.options].some(o => o.value === prevGroup)) {
+                groupFilterEl.value = prevGroup;
+            }
+
+            let sumLoan = 0, sumClosing = 0, sumPaid = 0, sumRunningDue = 0, sumHoldDue = 0, runCount = 0, holdCount = 0;
+            area.customers.forEach(c => {
+                sumLoan += c.loanAmount;
+                sumClosing += c.closingAmount;
+                sumPaid += c.paidAmount;
+                if (c.holdOrRunning === 'HOLD') {
+                    sumHoldDue += c.dueAmount;
+                    holdCount++;
+                } else {
+                    sumRunningDue += c.dueAmount;
+                    runCount++;
+                }
+            });
+
+            document.getElementById('ledgerSumMembers').textContent = area.customers.length;
+            document.getElementById('ledgerSumLoan').textContent = formatINR(sumLoan || area.loanAmount);
+            document.getElementById('ledgerSumClosing').textContent = formatINR(sumClosing || area.closingAmount);
+            document.getElementById('ledgerSumPaid').textContent = formatINR(sumPaid || area.paidAmount);
+            document.getElementById('ledgerSumRunning').textContent = formatINR(sumRunningDue || area.runningAmount);
+            document.getElementById('ledgerRunningCount').textContent = runCount;
+            document.getElementById('ledgerSumHold').textContent = formatINR(sumHoldDue || area.holdAmount);
+            document.getElementById('ledgerHoldCount').textContent = holdCount;
+
+            const q = (document.getElementById('customerSearchInput')?.value || '').toLowerCase().trim();
+            const groupFilter = groupFilterEl.value;
+            const statusFilter = document.getElementById('customerStatusFilter')?.value || 'ALL';
+
+            const filteredCustomers = area.customers.filter(c => {
+                if (groupFilter !== 'ALL' && c.groupName !== groupFilter) return false;
+                if (statusFilter !== 'ALL' && c.holdOrRunning !== statusFilter) return false;
+                if (q) {
+                    const hay = `${c.slNo} ${c.loanNo} ${c.groupName} ${c.name} ${c.phone} ${c.loanDate} ${c.installment}`.toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+
+            const tbody = document.getElementById('customerLedgerTableBody');
+            const tfoot = document.getElementById('customerLedgerTableFoot');
+
+            if (filteredCustomers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="13" class="py-12 text-center text-slate-400 space-y-3">
+                            <p>No customers found in <strong>${escapeHtml(area.name)}</strong> matching this filter.</p>
+                            <div class="flex justify-center gap-2 mt-2">
+                                <button onclick="openCustomerModal()" class="btn-gaming px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs">+ Add Customer</button>
+                                <button onclick="openExcelImportModal('${area.id}')" class="btn-gaming px-3.5 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-black text-xs">Import Excel Sheet</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tfoot.innerHTML = '';
+                return;
+            }
+
+            let filteredLoanTotal = 0;
+            let filteredPaidTotal = 0;
+            let filteredDueTotal = 0;
+            let lastGroup = null;
+            let rowsHtml = '';
+
+            filteredCustomers.forEach((c, idx) => {
+                filteredLoanTotal += c.loanAmount;
+                filteredPaidTotal += c.paidAmount;
+                filteredDueTotal += c.dueAmount;
+
+                if (lastGroup !== null && lastGroup !== c.groupName) {
+                    rowsHtml += `
+                        <tr class="group-divider-row">
+                            <td colspan="13" class="py-1 px-3 text-[10px] font-black tracking-widest text-cyan-300 uppercase">
+                                <i class="fa-solid fa-layer-group mr-1"></i>GROUP: ${escapeHtml(c.groupName)}
+                            </td>
+                        </tr>
+                    `;
+                }
+                lastGroup = c.groupName;
+
+                const isHold = c.holdOrRunning === 'HOLD';
+                const statusCellClass = isHold
+                    ? 'bg-red-600 text-white font-black'
+                    : 'bg-lime-500 text-slate-950 font-black';
+
+                rowsHtml += `
+                    <tr class="ledger-row ${idx % 2 === 0 ? 'bg-slate-900/50' : 'bg-slate-950/80'}">
+                        <td class="py-2 px-2.5 text-center font-black text-slate-300">${c.slNo}</td>
+                        <td class="py-2 px-2.5 text-center font-black text-amber-300">${escapeHtml(c.loanNo)}</td>
+                        <td class="py-2 px-3 font-extrabold text-cyan-300">${escapeHtml(c.groupName)}</td>
+                        <td onclick="openCheckStatusModal('${c.id}')" class="py-2 px-3 font-black text-white hover:text-amber-400 cursor-pointer underline decoration-slate-700">${escapeHtml(c.name)}</td>
+                        <td class="py-2 px-2.5 text-center font-semibold text-slate-300">${escapeHtml(c.loanDate)}</td>
+                        <td class="py-2 px-3 text-right font-black text-white">${formatINR(c.loanAmount)}.00</td>
+                        <td class="py-2 px-2.5 text-center font-extrabold text-violet-300">${escapeHtml(c.installment)}</td>
+                        <td class="py-2 px-2.5 text-center font-bold ${c.newOrReloan === 'RE LOAN' ? 'text-amber-300' : 'text-slate-200'}">${escapeHtml(c.newOrReloan)}</td>
+                        <td class="py-2 px-3 text-center font-bold text-slate-200">
+                            ${c.phone && c.phone !== 'NIL'
+                                ? `<a href="tel:${escapeHtml(c.phone)}" class="hover:text-emerald-400">${escapeHtml(c.phone)}</a>`
+                                : '<span class="text-slate-500">NIL</span>'}
+                        </td>
+                        <td onclick="quickToggleCustomerHoldRunning('${c.id}')" class="py-2 px-2.5 text-center cursor-pointer select-none ${statusCellClass} hover:opacity-90 transition-opacity" title="Click to toggle RUNNING / HOLD">
+                            ${c.holdOrRunning}
+                        </td>
+                        <td onclick="openCheckStatusModal('${c.id}')" class="py-2 px-3 text-right font-black text-emerald-400 cursor-pointer hover:underline">${formatINR(c.paidAmount)}</td>
+                        <td onclick="openCheckStatusModal('${c.id}')" class="py-2 px-3 text-right font-black text-amber-400 cursor-pointer hover:underline">${formatINR(c.dueAmount)}</td>
+                        <td class="py-2 px-2.5 text-center">
+                            <div class="flex items-center justify-center gap-1.5">
+                                <button onclick="openCheckStatusModal('${c.id}')" class="btn-gaming px-2.5 py-1 rounded bg-red-500/20 hover:bg-red-500 border border-red-500/50 text-red-400 hover:text-white font-black text-[11px] uppercase tracking-wider underline">
+                                    CHECK STATUS
+                                </button>
+                                <button onclick="openCustomerModal('${c.id}')" class="btn-gaming w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 flex items-center justify-center" title="Edit Customer">
+                                    <i class="fa-solid fa-pen text-[10px]"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = rowsHtml;
+
+            tfoot.innerHTML = `
+                <tr>
+                    <td colspan="5" class="py-3 px-4 text-right uppercase tracking-wider text-emerald-300 font-black">
+                        TOTAL (${filteredCustomers.length} CUSTOMERS)
+                    </td>
+                    <td class="py-3 px-3 text-right text-sm font-black text-white bg-emerald-900/60">
+                        ${filteredLoanTotal.toLocaleString('en-IN')}
+                    </td>
+                    <td colspan="4" class="py-3 px-3 text-center text-[11px] text-emerald-300">
+                        Running: ${runCount} | Hold: ${holdCount}
+                    </td>
+                    <td class="py-3 px-3 text-right text-sm font-black text-emerald-300">
+                        ${formatINR(filteredPaidTotal)}
+                    </td>
+                    <td class="py-3 px-3 text-right text-sm font-black text-amber-300">
+                        ${formatINR(filteredDueTotal)}
+                    </td>
+                    <td class="py-3 px-3 text-center">
+                        <span class="text-[10px] text-emerald-300 uppercase">SUMMARY</span>
+                    </td>
+                </tr>
+            `;
+        }
+
+        async function recalculateAreaFromCustomers(areaId, saveAndNotify = false) {
+            const idx = appState.areas.findIndex(a => a.id === areaId);
+            if (idx === -1) return;
+            const area = normalizeArea(appState.areas[idx]);
+
+            if (!area.customers || area.customers.length === 0) {
+                if (saveAndNotify) showToast('No customers in sheet to sync from');
+                return;
+            }
+
+            let loanSum = 0;
+            let closingSum = 0;
+            let paidSum = 0;
+            let runningDueSum = 0;
+            let holdDueSum = 0;
+
+            area.customers.forEach(c => {
+                loanSum += c.loanAmount;
+                closingSum += c.closingAmount;
+                paidSum += c.paidAmount;
+                if (c.holdOrRunning === 'HOLD') {
+                    holdDueSum += c.dueAmount;
+                } else {
+                    runningDueSum += c.dueAmount;
+                }
+            });
+
+            area.members = area.customers.length;
+            area.loanAmount = loanSum;
+            area.closingAmount = closingSum;
+            area.paidAmount = paidSum;
+            area.runningAmount = runningDueSum;
+            area.holdAmount = holdDueSum;
+            area.outstandingAmount = runningDueSum + holdDueSum;
+
+            appState.areas[idx] = area;
+            renderAll();
+
+            if (saveAndNotify) {
+                await saveAreaToFirestore(area);
+                showToast(`${area.name}: Area Totals synced with ${area.customers.length} customers!`);
+            }
+        }
+
+        function syncCustomerModalMath(source) {
+            const loanEl = document.getElementById('custLoanAmountInput');
+            const instEl = document.getElementById('custInstallmentInput');
+            const closingEl = document.getElementById('custClosingAmountInput');
+            const paidEl = document.getElementById('custPaidAmountInput');
+            const dueEl = document.getElementById('custDueAmountInput');
+
+            const loan = Number(loanEl.value) || 0;
+            const inst = parseInstallmentFormula(instEl.value);
+
+            if (source === 'loan' && (Number(closingEl.value) || 0) === 0) {
+                closingEl.value = inst.totalPayable > 0 ? inst.totalPayable : loan;
+            } else if (source === 'inst' && inst.totalPayable > 0) {
+                closingEl.value = inst.totalPayable;
+            }
+
+            const closing = Number(closingEl.value) || loan;
+            const paid = Number(paidEl.value) || 0;
+
+            if (source !== 'due') {
+                dueEl.value = Math.max(0, closing - paid);
+            } else {
+                const due = Number(dueEl.value) || 0;
+                paidEl.value = Math.max(0, closing - due);
+            }
+        }
+
+        function openCustomerModal(custId = null) {
+            if (!currentLedgerAreaId && appState.areas.length > 0) {
+                currentLedgerAreaId = appState.areas[0].id;
+            }
+            const area = appState.areas.find(a => a.id === currentLedgerAreaId);
+            if (!area) {
+                showToast('Please create an Area first');
+                return;
+            }
+
+            document.getElementById('customerModalAreaSub').textContent = `Area: ${area.name} (${area.monthTag || '24th/MONTH'})`;
+            const customers = area.customers || [];
+
+            if (custId) {
+                const c = customers.find(x => x.id === custId);
+                if (!c) return;
+                document.getElementById('custModalId').value = c.id;
+                document.getElementById('custSlNoInput').value = c.slNo;
+                document.getElementById('custLoanNoInput').value = c.loanNo;
+                document.getElementById('custGroupInput').value = c.groupName;
+                document.getElementById('custNameInput').value = c.name;
+                document.getElementById('custPhoneInput').value = c.phone;
+                document.getElementById('custLoanDateInput').value = c.loanDate;
+                document.getElementById('custLoanAmountInput').value = c.loanAmount;
+                document.getElementById('custInstallmentInput').value = c.installment;
+                document.getElementById('custNewOrReloanInput').value = c.newOrReloan;
+                document.getElementById('custHoldOrRunningInput').value = c.holdOrRunning;
+                document.getElementById('custClosingAmountInput').value = c.closingAmount;
+                document.getElementById('custPaidAmountInput').value = c.paidAmount;
+                document.getElementById('custDueAmountInput').value = c.dueAmount;
+                document.getElementById('custNoteInput').value = c.note || '';
+            } else {
+                document.getElementById('custModalId').value = '';
+                document.getElementById('custSlNoInput').value = customers.length + 1;
+                document.getElementById('custLoanNoInput').value = '';
+                document.getElementById('custGroupInput').value = customers.length > 0 ? customers[customers.length - 1].groupName : 'SINGLE';
+                document.getElementById('custNameInput').value = '';
+                document.getElementById('custPhoneInput').value = '';
+                document.getElementById('custLoanDateInput').value = new Date().toLocaleDateString('en-US');
+                document.getElementById('custLoanAmountInput').value = '';
+                document.getElementById('custInstallmentInput').value = '[750*52]';
+                document.getElementById('custNewOrReloanInput').value = 'NEW';
+                document.getElementById('custHoldOrRunningInput').value = 'RUNNING';
+                document.getElementById('custClosingAmountInput').value = '';
+                document.getElementById('custPaidAmountInput').value = 0;
+                document.getElementById('custDueAmountInput').value = 0;
+                document.getElementById('custNoteInput').value = '';
+            }
+
+            openModal('customerModal');
+        }
+
+        async function submitCustomerForm(e) {
+            e.preventDefault();
+            const areaIdx = appState.areas.findIndex(a => a.id === currentLedgerAreaId);
+            if (areaIdx === -1) return;
+
+            const area = normalizeArea(appState.areas[areaIdx]);
+            const custId = document.getElementById('custModalId').value;
+
+            const customerObj = normalizeCustomer({
+                id: custId || ('cust-' + Date.now()),
+                slNo: document.getElementById('custSlNoInput').value,
+                loanNo: document.getElementById('custLoanNoInput').value,
+                groupName: document.getElementById('custGroupInput').value,
+                name: document.getElementById('custNameInput').value,
+                phone: document.getElementById('custPhoneInput').value || 'NIL',
+                loanDate: document.getElementById('custLoanDateInput').value,
+                loanAmount: document.getElementById('custLoanAmountInput').value,
+                installment: document.getElementById('custInstallmentInput').value,
+                newOrReloan: document.getElementById('custNewOrReloanInput').value,
+                holdOrRunning: document.getElementById('custHoldOrRunningInput').value,
+                closingAmount: document.getElementById('custClosingAmountInput').value,
+                paidAmount: document.getElementById('custPaidAmountInput').value,
+                dueAmount: document.getElementById('custDueAmountInput').value,
+                note: document.getElementById('custNoteInput').value
+            }, area.customers.length);
+
+            if (custId) {
+                const cIdx = area.customers.findIndex(c => c.id === custId);
+                if (cIdx !== -1) area.customers[cIdx] = customerObj;
+            } else {
+                area.customers.push(customerObj);
+            }
+
+            appState.areas[areaIdx] = area;
+
+            if (document.getElementById('custAutoSyncAreaCheckbox').checked) {
+                await recalculateAreaFromCustomers(area.id, false);
+            }
+
+            closeModal('customerModal');
+            renderAll();
+            showToast(`Customer "${customerObj.name}" saved!`);
+            await saveAreaToFirestore(appState.areas[areaIdx]);
+        }
+
+        async function quickToggleCustomerHoldRunning(custId) {
+            const areaIdx = appState.areas.findIndex(a => a.id === currentLedgerAreaId);
+            if (areaIdx === -1) return;
+            const area = normalizeArea(appState.areas[areaIdx]);
+            const cIdx = area.customers.findIndex(c => c.id === custId);
+            if (cIdx === -1) return;
+
+            area.customers[cIdx].holdOrRunning = area.customers[cIdx].holdOrRunning === 'HOLD' ? 'RUNNING' : 'HOLD';
+            appState.areas[areaIdx] = area;
+
+            await recalculateAreaFromCustomers(area.id, false);
+            renderAll();
+            showToast(`${area.customers[cIdx].name} marked as ${area.customers[cIdx].holdOrRunning}`);
+            await saveAreaToFirestore(appState.areas[areaIdx]);
+        }
+
+        function openCheckStatusModal(custId) {
+            const area = appState.areas.find(a => a.id === currentLedgerAreaId);
+            if (!area) return;
+            const c = (area.customers || []).find(x => x.id === custId);
+            if (!c) return;
+
+            document.getElementById('csCustomerId').value = c.id;
+            document.getElementById('csLoanNoText').textContent = `LOAN #${c.loanNo || c.slNo}`;
+            document.getElementById('csCustomerName').textContent = c.name;
+            document.getElementById('csGroupName').textContent = `GROUP: ${c.groupName} • AREA: ${area.name}`;
+            document.getElementById('csLoanTypeBadge').textContent = c.newOrReloan;
+
+            const statusBadge = document.getElementById('csStatusBadge');
+            if (c.holdOrRunning === 'HOLD') {
+                statusBadge.textContent = 'HOLD';
+                statusBadge.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase bg-red-500/20 text-red-400 border border-red-500/40';
+            } else {
+                statusBadge.textContent = 'RUNNING';
+                statusBadge.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase bg-lime-500/20 text-lime-400 border border-lime-500/40';
+            }
+
+            document.getElementById('csLoanDate').textContent = c.loanDate || '-';
+            document.getElementById('csPhone').textContent = c.phone || 'NIL';
+            const callLink = document.getElementById('csCallLink');
+            if (c.phone && c.phone !== 'NIL') {
+                callLink.href = `tel:${c.phone}`;
+                callLink.classList.remove('hidden');
+            } else {
+                callLink.classList.add('hidden');
+            }
+
+            const instInfo = parseInstallmentFormula(c.installment);
+            document.getElementById('csInstallmentPlan').textContent = c.installment || '-';
+
+            document.getElementById('csLoanAmount').textContent = formatINR(c.loanAmount);
+            document.getElementById('csClosingAmount').textContent = formatINR(c.closingAmount);
+            document.getElementById('csPaidAmount').textContent = formatINR(c.paidAmount);
+            document.getElementById('csDueAmount').textContent = formatINR(c.dueAmount);
+
+            const targetBase = c.closingAmount > 0 ? c.closingAmount : c.loanAmount;
+            const pct = targetBase > 0 ? Math.min(100, Math.round((c.paidAmount / targetBase) * 100)) : 0;
+            document.getElementById('csProgressPctText').textContent = `${pct}% Paid`;
+            document.getElementById('csProgressBar').style.width = `${pct}%`;
+
+            if (instInfo.rate > 0 && instInfo.count > 0) {
+                const paidCount = Math.floor(c.paidAmount / instInfo.rate);
+                document.getElementById('csInstallmentCountText').textContent = `EMI: ₹${instInfo.rate} × ${instInfo.count} (${paidCount}/${instInfo.count} Paid)`;
+                document.getElementById('csQuickFillInstBtn').textContent = `+1 EMI (₹${instInfo.rate})`;
+            } else {
+                document.getElementById('csInstallmentCountText').textContent = 'Recovery Progress';
+                document.getElementById('csQuickFillInstBtn').textContent = 'Fill Due';
+            }
+
+            document.getElementById('csPayAmountInput').value = '';
+            openModal('checkStatusModal');
+        }
+
+        function fillCustomerSingleInstallment() {
+            const custId = document.getElementById('csCustomerId').value;
+            const area = appState.areas.find(a => a.id === currentLedgerAreaId);
+            if (!area) return;
+            const c = (area.customers || []).find(x => x.id === custId);
+            if (!c) return;
+            const instInfo = parseInstallmentFormula(c.installment);
+            document.getElementById('csPayAmountInput').value = instInfo.rate > 0 ? instInfo.rate : c.dueAmount;
+        }
+
+        async function submitCustomerInstallment(e) {
+            e.preventDefault();
+            const custId = document.getElementById('csCustomerId').value;
+            const areaIdx = appState.areas.findIndex(a => a.id === currentLedgerAreaId);
+            if (areaIdx === -1) return;
+
+            const area = normalizeArea(appState.areas[areaIdx]);
+            const cIdx = area.customers.findIndex(x => x.id === custId);
+            if (cIdx === -1) return;
+
+            const c = area.customers[cIdx];
+            const type = document.getElementById('csPayType').value;
+            const amount = Number(document.getElementById('csPayAmountInput').value) || 0;
+            if (amount <= 0) return;
+
+            if (type === 'ADD') {
+                c.paidAmount += amount;
+                c.dueAmount = Math.max(0, c.dueAmount - amount);
+            } else {
+                c.paidAmount = Math.max(0, c.paidAmount - amount);
+                const base = c.closingAmount > 0 ? c.closingAmount : c.loanAmount;
+                c.dueAmount = Math.max(0, base - c.paidAmount);
+            }
+
+            area.customers[cIdx] = c;
+            appState.areas[areaIdx] = area;
+
+            await recalculateAreaFromCustomers(area.id, false);
+            const updatedArea = appState.areas[areaIdx];
+
+            const histEntry = {
+                id: 'h-' + Date.now(),
+                areaId: updatedArea.id,
+                areaName: updatedArea.name,
+                customerId: c.id,
+                type: type === 'ADD' ? 'PAID_ADD' : 'PAID_DEDUCT',
+                amount: amount,
+                outstandingAfter: updatedArea.outstandingAmount,
+                date: new Date().toISOString().split('T')[0],
+                time: nowTime(),
+                timestamp: Date.now(),
+                note: `${c.name} (Loan #${c.loanNo}) — ${type === 'ADD' ? 'Installment Paid' : 'Deducted'} ${formatINR(amount)} | Remaining Customer Due: ${formatINR(c.dueAmount)}`,
+                reverted: false
+            };
+
+            appState.history.unshift(histEntry);
+            openCheckStatusModal(c.id);
+            renderAll();
+            showToast(`${c.name}: ${formatINR(amount)} updated!`);
+
+            await saveAreaToFirestore(updatedArea);
+            await saveHistoryToFirestore(histEntry);
+        }
+
+        async function toggleCustomerRunningHoldFromModal() {
+            const custId = document.getElementById('csCustomerId').value;
+            await quickToggleCustomerHoldRunning(custId);
+            openCheckStatusModal(custId);
+        }
+
+        function editCustomerFromCheckStatus() {
+            const custId = document.getElementById('csCustomerId').value;
+            closeModal('checkStatusModal');
+            openCustomerModal(custId);
+        }
+
+        function deleteCustomerFromCheckStatus() {
+            const custId = document.getElementById('csCustomerId').value;
+            const areaIdx = appState.areas.findIndex(a => a.id === currentLedgerAreaId);
+            if (areaIdx === -1) return;
+            const area = normalizeArea(appState.areas[areaIdx]);
+            const c = area.customers.find(x => x.id === custId);
+            if (!c) return;
+
+            closeModal('checkStatusModal');
+            document.getElementById('confirmTitle').textContent = `Delete "${c.name}"?`;
+            document.getElementById('confirmDesc').textContent = `Remove Loan #${c.loanNo} from ${area.name}?`;
+            document.getElementById('confirmActionBtn').onclick = async () => {
+                area.customers = area.customers.filter(x => x.id !== custId);
+                area.customers.forEach((item, i) => item.slNo = i + 1);
+                appState.areas[areaIdx] = area;
+                await recalculateAreaFromCustomers(area.id, false);
+                closeModal('confirmModal');
+                renderAll();
+                showToast(`${c.name} deleted`);
+                await saveAreaToFirestore(appState.areas[areaIdx]);
+            };
+            openModal('confirmModal');
+        }
+
+        // --- SMART EXCEL IMPORT ---
+        function openExcelImportModal(defaultAreaId = null) {
+            const select = document.getElementById('importTargetAreaSelect');
+            let html = `<option value="NEW_AREA">+ Create New Area Automatically from Excel Sheet</option>`;
+            appState.areas.forEach(a => {
+                html += `<option value="${a.id}">Import into: ${escapeHtml(a.name)}</option>`;
+            });
+            select.innerHTML = html;
+
+            if (defaultAreaId && appState.areas.some(a => a.id === defaultAreaId)) {
+                select.value = defaultAreaId;
+            } else {
+                select.value = 'NEW_AREA';
+            }
+
+            toggleNewAreaNameOnImport(select.value);
+            document.getElementById('excelFileInput').value = '';
+            openModal('excelImportModal');
+        }
+
+        function toggleNewAreaNameOnImport(val) {
+            const box = document.getElementById('importNewAreaNameBox');
+            if (val === 'NEW_AREA') {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+
+        async function processExcelImport(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('excelFileInput');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            try {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: '' });
+
+                if (!rows || rows.length === 0) {
+                    showToast('Excel sheet is empty!');
+                    return;
+                }
+
+                let detectedAreaName = file.name.replace(/\.[^/.]+$/, '').toUpperCase();
+                let detectedMonthTag = '24th/MONTH';
+
+                for (let r = 0; r < Math.min(6, rows.length); r++) {
+                    const rowText = rows[r].map(cell => String(cell || '').trim()).filter(Boolean).join(' ');
+                    if (rowText.includes('/')) {
+                        const slashCell = rows[r].find(cell => String(cell || '').includes('/'));
+                        if (slashCell) {
+                            const parts = String(slashCell).split('/');
+                            if (parts[0] && isNaN(Date.parse(slashCell))) {
+                                detectedAreaName = parts[0].trim().toUpperCase();
+                                detectedMonthTag = parts.slice(1).join('/').trim() || '24th/MONTH';
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                let headerRowIdx = -1;
+                let colMap = {};
+
+                for (let r = 0; r < Math.min(15, rows.length); r++) {
+                    const rowUpper = rows[r].map(c => String(c || '').toUpperCase().trim());
+                    const hasName = rowUpper.some(c => c === 'NAME' || c.includes('CUSTOMER NAME'));
+                    const hasLoan = rowUpper.some(c => c.includes('LOAN') || c.includes('INSTALLMENT') || c.includes('GROUP'));
+                    if (hasName && hasLoan) {
+                        headerRowIdx = r;
+                        rowUpper.forEach((colText, cIdx) => {
+                            if (colText.includes('SL')) colMap.slNo = cIdx;
+                            else if (colText.includes('LOAN NO') || colText === 'LOAN ID') colMap.loanNo = cIdx;
+                            else if (colText.includes('GROUP')) colMap.groupName = cIdx;
+                            else if (colText === 'NAME' || colText.includes('CUSTOMER NAME')) colMap.name = cIdx;
+                            else if (colText.includes('DATE')) colMap.loanDate = cIdx;
+                            else if (colText.includes('LOAN AMOUNT') || colText === 'AMOUNT') colMap.loanAmount = cIdx;
+                            else if (colText.includes('INSTALLMENT') || colText.includes('EMI')) colMap.installment = cIdx;
+                            else if (colText.includes('NEW') || colText.includes('RELOAN')) colMap.newOrReloan = cIdx;
+                            else if (colText.includes('PH') || colText.includes('MOBILE') || colText.includes('CONTACT')) colMap.phone = cIdx;
+                            else if (colText.includes('HOLD') || colText.includes('RUNNING')) colMap.holdOrRunning = cIdx;
+                            else if (colText.includes('PAID')) colMap.paidAmount = cIdx;
+                            else if (colText.includes('DUE') || colText.includes('OUTSTANDING')) colMap.dueAmount = cIdx;
+                        });
+                        break;
+                    }
+                }
+
+                if (headerRowIdx === -1) {
+                    headerRowIdx = 0;
+                    colMap = {
+                        slNo: 0, loanNo: 1, groupName: 2, name: 3, loanDate: 4,
+                        loanAmount: 5, installment: 6, newOrReloan: 7, phone: 8,
+                        holdOrRunning: 9, dueAmount: 10
+                    };
+                }
+
+                const decodedCustomers = [];
+                for (let r = headerRowIdx + 1; r < rows.length; r++) {
+                    const row = rows[r];
+                    if (!row || row.length === 0) continue;
+
+                    const nameVal = String(row[colMap.name] ?? '').trim();
+                    const loanNoVal = String(row[colMap.loanNo] ?? '').trim();
+                    const rawLoanAmt = String(row[colMap.loanAmount] ?? '').replace(/[^\d.-]/g, '');
+                    const loanAmtNum = Number(rawLoanAmt) || 0;
+
+                    if (!nameVal && !loanNoVal) continue;
+                    if (nameVal.toUpperCase().includes('TOTAL') || nameVal.toUpperCase().includes('GRAND')) continue;
+
+                    const cust = normalizeCustomer({
+                        id: 'cust-' + Date.now() + '-' + decodedCustomers.length,
+                        slNo: row[colMap.slNo] || (decodedCustomers.length + 1),
+                        loanNo: loanNoVal,
+                        groupName: row[colMap.groupName] || 'SINGLE',
+                        name: nameVal,
+                        loanDate: row[colMap.loanDate] || '',
+                        loanAmount: loanAmtNum,
+                        installment: row[colMap.installment] || '',
+                        newOrReloan: row[colMap.newOrReloan] || 'NEW',
+                        phone: row[colMap.phone] || 'NIL',
+                        holdOrRunning: row[colMap.holdOrRunning] || 'RUNNING',
+                        paidAmount: colMap.paidAmount !== undefined ? row[colMap.paidAmount] : undefined,
+                        dueAmount: colMap.dueAmount !== undefined ? row[colMap.dueAmount] : undefined
+                    }, decodedCustomers.length);
+
+                    decodedCustomers.push(cust);
+                }
+
+                if (decodedCustomers.length === 0) {
+                    showToast('No valid customer rows found in the Excel file.');
+                    return;
+                }
+
+                const targetSelect = document.getElementById('importTargetAreaSelect').value;
+                const importMode = document.querySelector('input[name="excelImportMode"]:checked').value;
+                let targetArea = null;
+
+                if (targetSelect === 'NEW_AREA') {
+                    const manualName = document.getElementById('importNewAreaNameInput').value.trim().toUpperCase();
+                    const manualMonth = document.getElementById('importNewAreaMonthInput').value.trim();
+                    const finalName = manualName || detectedAreaName || 'NEW AREA';
+                    const finalMonth = manualMonth || detectedMonthTag;
+
+                    targetArea = normalizeArea({
+                        id: 'area-' + Date.now(),
+                        name: finalName,
+                        monthTag: finalMonth,
+                        members: decodedCustomers.length,
+                        customers: decodedCustomers,
+                        orderIndex: appState.areas.length + 1
+                    });
+                    appState.areas.push(targetArea);
+                    currentLedgerAreaId = targetArea.id;
+                } else {
+                    const idx = appState.areas.findIndex(a => a.id === targetSelect);
+                    if (idx === -1) return;
+                    targetArea = normalizeArea(appState.areas[idx]);
+                    if (importMode === 'append') {
+                        const startIdx = targetArea.customers.length;
+                        decodedCustomers.forEach((c, i) => {
+                            c.slNo = startIdx + i + 1;
+                            targetArea.customers.push(c);
+                        });
+                    } else {
+                        targetArea.customers = decodedCustomers;
+                    }
+                    appState.areas[idx] = targetArea;
+                    currentLedgerAreaId = targetArea.id;
+                }
+
+                await recalculateAreaFromCustomers(targetArea.id, false);
+                const updatedArea = appState.areas.find(a => a.id === targetArea.id);
+
+                const histEntry = {
+                    id: 'h-' + Date.now(),
+                    areaId: updatedArea.id,
+                    areaName: updatedArea.name,
+                    type: 'EXCEL_IMPORT',
+                    amount: updatedArea.loanAmount,
+                    outstandingAfter: updatedArea.outstandingAmount,
+                    date: new Date().toISOString().split('T')[0],
+                    time: nowTime(),
+                    timestamp: Date.now(),
+                    note: `Imported ${decodedCustomers.length} Customers from Excel (${file.name}) — Total Loan: ${formatINR(updatedArea.loanAmount)}`,
+                    reverted: false
+                };
+                appState.history.unshift(histEntry);
+
+                closeModal('excelImportModal');
+                switchPage('customers');
+                renderAll();
+                showToast(`Imported ${decodedCustomers.length} customers into ${updatedArea.name}!`);
+
+                await saveAreaToFirestore(updatedArea);
+                await saveHistoryToFirestore(histEntry);
+            } catch (err) {
+                console.error('Excel Import Error:', err);
+                showToast('Could not decode Excel file. Please check file format.');
+            }
+        }
+
+        function exportSingleAreaExcel(areaId) {
+            const raw = appState.areas.find(a => a.id === areaId);
+            if (!raw) return;
+            const area = normalizeArea(raw);
+            const wb = XLSX.utils.book_new();
+            const ws = buildAreaCustomerWorksheet(area);
+            XLSX.utils.book_append_sheet(wb, ws, area.name.substring(0, 28));
+            const todayStr = new Date().toISOString().slice(0, 10);
+            XLSX.writeFile(wb, `${area.name}_CUSTOMER_SUMMARY_${todayStr}.xlsx`);
+            showToast(`${area.name} Customer Sheet Downloaded!`);
+        }
+
+        function buildAreaCustomerWorksheet(area) {
+            const rows = [
+                ['', '', '', 'CUSTOMER SUMMERY', '', '', '', '', '', '', '', '', ''],
+                ['', '', '', `${area.name}/ ${area.monthTag || '24th/MONTH'}`, '', '', '', '', `${area.name}/ ${area.monthTag || '24th/MONTH'}`, '', '', '', ''],
+                ['SL NO', 'LOAN NO', 'GROUP NAME', 'NAME', 'LOAN DATE', 'LOAN AMOUNT', 'INSTALLMENT', 'NEW OR RELOAN', 'PH NO', 'HOLD OR RUNNING', 'PAID', 'DUE', 'STATUS']
+            ];
+
+            let totalLoan = 0;
+            let totalPaid = 0;
+            let totalDue = 0;
+
+            (area.customers || []).forEach((c, idx) => {
+                totalLoan += c.loanAmount;
+                totalPaid += c.paidAmount;
+                totalDue += c.dueAmount;
+
+                rows.push([
+                    c.slNo || (idx + 1),
+                    c.loanNo,
+                    c.groupName,
+                    c.name,
+                    c.loanDate,
+                    c.loanAmount,
+                    c.installment,
+                    c.newOrReloan,
+                    c.phone,
+                    c.holdOrRunning,
+                    c.paidAmount,
+                    c.dueAmount,
+                    'CHECK STATUS'
+                ]);
+            });
+
+            rows.push(['', '', '', '', 'TOTAL', totalLoan, '', '', '', '', totalPaid, totalDue, '']);
+
+            const ws = XLSX.utils.aoa_to_sheet(rows);
+            ws['!cols'] = [
+                { wch: 8 }, { wch: 10 }, { wch: 18 }, { wch: 26 },
+                { wch: 14 }, { wch: 16 }, { wch: 15 }, { wch: 15 },
+                { wch: 15 }, { wch: 16 }, { wch: 14 }, { wch: 14 }, { wch: 16 }
+            ];
+            return ws;
+        }
+
         function exportToExcel() {
             try {
                 const todayStr = new Date().toISOString().slice(0, 10);
@@ -1554,7 +2968,7 @@
                     ['SHILABIZ NIDHI LIMITED — AREA-WISE FUND & COLLECTION REPORT'],
                     ['Generated Date:', todayStr, '', 'Total Areas:', appState.areas.length, 'Total Members:', totalMembers],
                     [],
-                    ['SL NO.', 'AREA NAME', 'MEMBERS COUNT', 'LOAN AMOUNT (₹)', 'CLOSING AMOUNT (₹)', 'CUSTOMER PAID AMOUNT (₹)', 'OUTSTANDING AMOUNT (₹)', 'RUNNING AMOUNT (OUTSTANDING ₹)', 'HOLD AMOUNT (OUTSTANDING ₹)', 'COLLECTION %', 'NOTE / REMARK']
+                    ['SL NO.', 'AREA NAME', 'MONTH TAG', 'MEMBERS COUNT', 'LOAN AMOUNT (₹)', 'CLOSING AMOUNT (₹)', 'CUSTOMER PAID AMOUNT (₹)', 'OUTSTANDING AMOUNT (₹)', 'RUNNING AMOUNT (OUTSTANDING ₹)', 'HOLD AMOUNT (OUTSTANDING ₹)', 'COLLECTION %', 'NOTE / REMARK']
                 ];
 
                 appState.areas.map(normalizeArea).forEach((a, index) => {
@@ -1563,6 +2977,7 @@
                     areaRows.push([
                         index + 1,
                         a.name,
+                        a.monthTag || '24th/MONTH',
                         a.members,
                         a.loanAmount,
                         a.closingAmount,
@@ -1579,6 +2994,7 @@
                 areaRows.push([
                     '',
                     'GRAND TOTAL',
+                    '',
                     totalMembers,
                     totalLoan,
                     totalClosing,
@@ -1614,11 +3030,17 @@
 
                     const wsAreas = XLSX.utils.aoa_to_sheet(areaRows);
                     wsAreas['!cols'] = [
-                        { wch: 8 }, { wch: 20 }, { wch: 16 }, { wch: 18 },
+                        { wch: 8 }, { wch: 20 }, { wch: 16 }, { wch: 16 }, { wch: 18 },
                         { wch: 20 }, { wch: 25 }, { wch: 23 }, { wch: 26 },
                         { wch: 24 }, { wch: 15 }, { wch: 28 }
                     ];
-                    XLSX.utils.book_append_sheet(wb, wsAreas, 'Area Breakdown');
+                    XLSX.utils.book_append_sheet(wb, wsAreas, 'Area Summary');
+
+                    appState.areas.map(normalizeArea).forEach((area, i) => {
+                        const wsCust = buildAreaCustomerWorksheet(area);
+                        const safeSheetName = `${i + 1}_${area.name}`.replace(/[\\/?*\[\]:]/g, '').substring(0, 28);
+                        XLSX.utils.book_append_sheet(wb, wsCust, safeSheetName);
+                    });
 
                     const wsHist = XLSX.utils.aoa_to_sheet(historyRows);
                     wsHist['!cols'] = [
@@ -1635,7 +3057,6 @@
             }
         }
 
-        // --- QUICK MEMBER ADJUSTMENT FROM CARD ---
         async function adjustMembers(areaId, delta) {
             const idx = appState.areas.findIndex(a => a.id === areaId);
             if (idx === -1) return;
@@ -1646,7 +3067,6 @@
             await saveAreaToFirestore(updated);
         }
 
-        // --- CUSTOMER PAID / COLLECTION MODAL ---
         function openPaymentModal(areaId) {
             const raw = appState.areas.find(a => a.id === areaId);
             if (!raw) return;
@@ -1704,7 +3124,6 @@
             if (action === 'add_paid') {
                 area.paidAmount = area.paidAmount + amount;
                 area.outstandingAmount = Math.max(0, area.outstandingAmount - amount);
-                // Keep Hold Amount intact unless total Outstanding drops below Hold Amount
                 area.holdAmount = Math.min(area.outstandingAmount, area.holdAmount);
                 area.runningAmount = Math.max(0, area.outstandingAmount - area.holdAmount);
             } else {
@@ -1744,10 +3163,10 @@
             await saveHistoryToFirestore(newHist);
         }
 
-        // --- ADD / EDIT AREA MODAL (CONNECTED OUTSTANDING = RUNNING + HOLD) ---
         function openAreaModal(areaId = null) {
             const idEl = document.getElementById('areaModalId');
             const nameEl = document.getElementById('areaNameInput');
+            const monthTagEl = document.getElementById('areaMonthTagInput');
             const membersEl = document.getElementById('areaMembersInput');
             const loanEl = document.getElementById('areaLoanInput');
             const closingEl = document.getElementById('areaClosingInput');
@@ -1763,6 +3182,7 @@
                 const area = normalizeArea(raw);
                 idEl.value = area.id;
                 nameEl.value = area.name;
+                monthTagEl.value = area.monthTag || '24th/MONTH';
                 membersEl.value = area.members;
                 loanEl.value = area.loanAmount;
                 closingEl.value = area.closingAmount;
@@ -1774,6 +3194,7 @@
             } else {
                 idEl.value = '';
                 nameEl.value = '';
+                monthTagEl.value = '24th/MONTH';
                 membersEl.value = 0;
                 loanEl.value = '';
                 closingEl.value = '';
@@ -1787,7 +3208,6 @@
             openModal('areaModal');
         }
 
-        // Real-time two-way calculator inside Area Modal so Outstanding = Running + Hold always stays accurate
         function syncAreaModalCalculations(sourceField) {
             const autoCalc = document.getElementById('autoCalcOutstandingToggle').checked;
             const loanInput = document.getElementById('areaLoanInput');
@@ -1818,7 +3238,6 @@
             let running = Math.max(0, Number(runningInput.value) || 0);
 
             if (sourceField === 'running') {
-                // User typed Running Amount -> adjust Hold Amount = Outstanding - Running
                 if (running > outstanding) {
                     running = outstanding;
                     runningInput.value = running;
@@ -1826,7 +3245,6 @@
                 hold = Math.max(0, outstanding - running);
                 holdInput.value = hold;
             } else {
-                // User typed Hold Amount or Outstanding changed -> adjust Running Amount = Outstanding - Hold
                 if (hold > outstanding) {
                     hold = outstanding;
                     holdInput.value = hold;
@@ -1840,6 +3258,7 @@
             e.preventDefault();
             const id = document.getElementById('areaModalId').value;
             const name = document.getElementById('areaNameInput').value.trim().toUpperCase();
+            const monthTag = document.getElementById('areaMonthTagInput').value.trim() || '24th/MONTH';
             const members = Number(document.getElementById('areaMembersInput').value) || 0;
             const loanAmount = Number(document.getElementById('areaLoanInput').value) || 0;
             const closingAmount = Number(document.getElementById('areaClosingInput').value) || 0;
@@ -1858,6 +3277,7 @@
                     targetArea = normalizeArea({
                         ...appState.areas[idx],
                         name,
+                        monthTag,
                         members,
                         loanAmount,
                         closingAmount,
@@ -1887,6 +3307,7 @@
                 targetArea = normalizeArea({
                     id: 'area-' + Date.now(),
                     name,
+                    monthTag,
                     members,
                     loanAmount,
                     closingAmount,
@@ -1894,6 +3315,7 @@
                     outstandingAmount,
                     runningAmount,
                     holdAmount,
+                    customers: [],
                     note,
                     orderIndex: appState.areas.length + 1
                 });
@@ -1924,7 +3346,6 @@
             if (histEntry) await saveHistoryToFirestore(histEntry);
         }
 
-        // --- DELETE AREA ---
         function confirmDeleteArea(areaId) {
             const area = appState.areas.find(a => a.id === areaId);
             if (!area) return;
@@ -1941,7 +3362,6 @@
             openModal('confirmModal');
         }
 
-        // --- DEDICATED HISTORY PAGE RENDER & REVERT ("KATA JAI") ---
         function updateHistoryFilterOptions() {
             const select = document.getElementById('historyFilterSelect');
             const prev = select.value;
@@ -2043,12 +3463,10 @@
             await removeHistoryFromFirestore(histId);
         }
 
-        // --- GROUP PHOTO MODAL ---
         function openGroupPhotoModal() {
             openModal('groupPhotoModal');
         }
 
-        // --- MODAL & TOAST HELPERS ---
         function openModal(id) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -2072,7 +3490,6 @@
             setTimeout(() => t.remove(), 2600);
         }
 
-        // --- PWA MANIFEST & SHORTCUT / INSTALL APP SETUP ---
         let deferredInstallPrompt = null;
 
         function setupPWAManifestAndIcons() {
@@ -2140,12 +3557,29 @@
             deferredInstallPrompt = null;
         }
 
-        // Expose functions to global window scope for HTML inline handlers
         Object.assign(window, {
             toggleLanguage,
             exportToExcel,
+            exportSingleAreaExcel,
+            openExcelImportModal,
+            toggleNewAreaNameOnImport,
+            processExcelImport,
             openAreaModal,
             switchPage,
+            openCustomerLedgerPage,
+            onChangeLedgerAreaSelect,
+            renderCustomerLedger,
+            recalculateAreaFromCustomers,
+            openCustomerModal,
+            syncCustomerModalMath,
+            submitCustomerForm,
+            quickToggleCustomerHoldRunning,
+            openCheckStatusModal,
+            fillCustomerSingleInstallment,
+            submitCustomerInstallment,
+            toggleCustomerRunningHoldFromModal,
+            editCustomerFromCheckStatus,
+            deleteCustomerFromCheckStatus,
             openGroupPhotoModal,
             renderAll,
             renderHistory,
