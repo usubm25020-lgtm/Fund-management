@@ -5,8 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHILABIZ NIDHI LIMITED — Fund & Area Tracker</title>
-    <!-- App Favicon / Logo -->
-    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- ================= SEO & GOOGLE SEARCH META TAGS ================= -->
+    <meta name="description" content="SHILABIZ NIDHI LIMITED Official Fund & Area-Wise Collection Tracker. Manage Loan Amount, Closing Amount, Customer Paid, Running & Hold Outstanding.">
+    <meta name="keywords" content="SHILABIZ NIDHI LIMITED, Shilabiz Nidhi, Fund Tracker, Area Collection Tracker, Adhata, Chakdha, Nidhi Company">
+    <meta name="author" content="SHILABIZ NIDHI LIMITED">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#f59e0b">
+
+    <!-- ================= FAVICONS & SHORTCUT ICONS (GOOGLE SEARCH, ANDROID, IOS, PC) ================= -->
+    <!-- Standard & High-Res Icons for Google Search & Browser Tabs (Minimum 48x48, Ideal 192x192 / 512x512) -->
+    <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="logo.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+
+    <!-- Apple iPhone / iPad "Add to Home Screen" Icon & App Mode -->
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="logo.png">
+    <link rel="apple-touch-startup-image" href="logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SHILABIZ NIDHI">
+
+    <!-- Android Chrome & Windows PC "Create Shortcut" / "Install App" -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="SHILABIZ NIDHI LIMITED">
+    <meta name="msapplication-TileImage" content="logo.png">
+    <meta name="msapplication-TileColor" content="#060a12">
+
+    <!-- Open Graph / WhatsApp / Facebook / Social Share Logo Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SHILABIZ NIDHI LIMITED">
+    <meta property="og:title" content="SHILABIZ NIDHI LIMITED — Fund & Area Tracker">
+    <meta property="og:description" content="Official Smart Cloud Fund & Area-Wise Collection System for SHILABIZ NIDHI LIMITED.">
+    <meta property="og:image" content="logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SHILABIZ NIDHI LIMITED">
+    <meta name="twitter:image" content="logo.png">
+
+    <!-- Dynamic PWA Web App Manifest Link (Populated automatically for Install App / Shortcut) -->
+    <link rel="manifest" id="dynamicManifestLink">
+
+    <!-- Google Search Organization Structured Data (JSON-LD) for Brand Logo in Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SHILABIZ NIDHI LIMITED",
+      "alternateName": "Shilabiz Nidhi",
+      "logo": "logo.png",
+      "image": "logo.png",
+      "description": "SHILABIZ NIDHI LIMITED Official Area-Wise Loan & Collection Tracker"
+    }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -402,8 +459,14 @@
                     </div>
                 </div>
 
-                <!-- Right Controls: Language Toggle | Excel Export | Add Area -->
+                <!-- Right Controls: Language Toggle | Install App | Excel Export | Add Area -->
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                    <!-- Optional One-Click Install App Button (Appears automatically when supported) -->
+                    <button id="installAppBtn" onclick="installPWAApp()" class="hidden btn-gaming btn-glow-cyan items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-xs font-extrabold text-cyan-300" title="Install App on Device">
+                        <i class="fa-solid fa-download text-cyan-400 text-xs"></i>
+                        <span>Install App</span>
+                    </button>
+
                     <!-- 1. Language Toggle Button -->
                     <button onclick="toggleLanguage()" class="btn-gaming flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-xs font-bold text-amber-400">
                         <i class="fa-solid fa-language text-sm"></i>
@@ -921,70 +984,11 @@
         let firestoreReady = false;
         let currentPage = 'dashboard';
 
-        // Default seed data (used only if Firestore collection is completely empty on first launch)
-        const initialSeedAreas = [
-            {
-                id: 'area-adhata',
-                name: 'ADHATA',
-                members: 42,
-                loanAmount: 50000,
-                closingAmount: 50000,
-                paidAmount: 30000,
-                outstandingAmount: 20000,
-                runningAmount: 15000,
-                holdAmount: 5000,
-                note: 'Adhata Group Collection',
-                orderIndex: 1
-            },
-            {
-                id: 'area-chakdha',
-                name: 'CHAKDHA',
-                members: 65,
-                loanAmount: 120000,
-                closingAmount: 120000,
-                paidAmount: 75000,
-                outstandingAmount: 45000,
-                runningAmount: 37000,
-                holdAmount: 8000,
-                note: 'Chakdha Branch',
-                orderIndex: 2
-            }
-        ];
-
-        const initialSeedHistory = [
-            {
-                id: 'h-102',
-                areaId: 'area-adhata',
-                areaName: 'ADHATA',
-                type: 'PAID_ADD',
-                amount: 30000,
-                outstandingAfter: 20000,
-                date: new Date().toISOString().split('T')[0],
-                time: '10:30 AM',
-                timestamp: Date.now() - 3600000,
-                note: 'Customer paid amount received (₹30,000)',
-                reverted: false
-            },
-            {
-                id: 'h-101',
-                areaId: 'area-chakdha',
-                areaName: 'CHAKDHA',
-                type: 'PAID_ADD',
-                amount: 75000,
-                outstandingAfter: 45000,
-                date: new Date().toISOString().split('T')[0],
-                time: '09:15 AM',
-                timestamp: Date.now() - 7200000,
-                note: 'Customer paid collection',
-                reverted: false
-            }
-        ];
-
-        // In-memory state synchronized with Firestore
+        // In-memory state synchronized purely with Firestore (No dummy/seed data)
         let appState = {
             lang: 'en',
-            areas: [...initialSeedAreas],
-            history: [...initialSeedHistory]
+            areas: [],
+            history: []
         };
 
         // Ensure every area object has consistent Outstanding = Running + Hold math
@@ -1162,25 +1166,11 @@
             const areasColRef = collection(db, 'artifacts', appId, 'public', 'data', 'areas');
             const historyColRef = collection(db, 'artifacts', appId, 'public', 'data', 'history');
 
-            let areasSeeded = false;
-
             onSnapshot(
                 areasColRef,
-                async (snapshot) => {
+                (snapshot) => {
                     firestoreReady = true;
                     setCloudStatus(true, 'Firestore Live');
-
-                    if (snapshot.empty && !areasSeeded) {
-                        areasSeeded = true;
-                        // Seed initial areas & history into Firestore on first ever load
-                        for (const area of initialSeedAreas) {
-                            await saveAreaToFirestore(area);
-                        }
-                        for (const h of initialSeedHistory) {
-                            await saveHistoryToFirestore(h);
-                        }
-                        return;
-                    }
 
                     const loadedAreas = [];
                     snapshot.forEach(docSnap => {
@@ -1212,10 +1202,8 @@
                     });
                     // Sort newest first in memory
                     loadedHistory.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
-                    if (loadedHistory.length > 0 || firestoreReady) {
-                        appState.history = loadedHistory;
-                        renderAll();
-                    }
+                    appState.history = loadedHistory;
+                    renderAll();
                 },
                 (err) => {
                     console.warn('Firestore history listener notice:', err);
@@ -2084,6 +2072,74 @@
             setTimeout(() => t.remove(), 2600);
         }
 
+        // --- PWA MANIFEST & SHORTCUT / INSTALL APP SETUP ---
+        let deferredInstallPrompt = null;
+
+        function setupPWAManifestAndIcons() {
+            try {
+                const absoluteLogoUrl = new URL('logo.png', window.location.href).href;
+                const startUrl = window.location.href.split('#')[0];
+
+                const manifestData = {
+                    name: "SHILABIZ NIDHI LIMITED",
+                    short_name: "SHILABIZ NIDHI",
+                    description: "SHILABIZ NIDHI LIMITED — Smart Cloud Fund & Area-Wise Collection Tracker",
+                    start_url: startUrl,
+                    scope: startUrl.substring(0, startUrl.lastIndexOf('/') + 1),
+                    display: "standalone",
+                    background_color: "#060a12",
+                    theme_color: "#f59e0b",
+                    orientation: "any",
+                    icons: [
+                        {
+                            src: absoluteLogoUrl,
+                            sizes: "192x192",
+                            type: "image/png",
+                            purpose: "any maskable"
+                        },
+                        {
+                            src: absoluteLogoUrl,
+                            sizes: "512x512",
+                            type: "image/png",
+                            purpose: "any maskable"
+                        }
+                    ]
+                };
+
+                const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/manifest+json' });
+                const manifestURL = URL.createObjectURL(manifestBlob);
+                const manifestLink = document.getElementById('dynamicManifestLink');
+                if (manifestLink) manifestLink.setAttribute('href', manifestURL);
+            } catch (err) {
+                console.warn('Manifest setup notice:', err);
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const btn = document.getElementById('installAppBtn');
+            if (btn) {
+                btn.classList.remove('hidden');
+                btn.classList.add('flex');
+            }
+        });
+
+        async function installPWAApp() {
+            if (!deferredInstallPrompt) {
+                showToast('Use browser menu → "Add to Home screen" or "Create Shortcut"');
+                return;
+            }
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            if (outcome === 'accepted') {
+                const btn = document.getElementById('installAppBtn');
+                if (btn) btn.classList.add('hidden');
+                showToast('SHILABIZ NIDHI App Installed!');
+            }
+            deferredInstallPrompt = null;
+        }
+
         // Expose functions to global window scope for HTML inline handlers
         Object.assign(window, {
             toggleLanguage,
@@ -2104,10 +2160,12 @@
             confirmDeleteArea,
             revertHistoryItem,
             deleteHistoryItem,
-            dismissLoadingScreen
+            dismissLoadingScreen,
+            installPWAApp
         });
 
         window.addEventListener('DOMContentLoaded', () => {
+            setupPWAManifestAndIcons();
             renderAll();
             initFirebaseCloud();
         });
