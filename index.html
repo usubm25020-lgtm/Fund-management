@@ -918,6 +918,165 @@
       .page-title-wrap { display: none; }
       .universal-search-wrap { max-width: none; }
     }
+    
+
+     /* =====================================================================
+       AURA VIBE & COLORFUL ANIMATION UPGRADE PACK
+       ===================================================================== */
+    /* 1. Animated Aura Mesh Background */
+    #main-wrapper {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(6, 182, 212, 0.16), transparent 38%),
+        radial-gradient(circle at 88% 15%, rgba(168, 85, 247, 0.16), transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(245, 158, 11, 0.13), transparent 45%),
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.12), transparent 35%),
+        var(--bg-primary) !important;
+      background-size: 140% 140% !important;
+      animation: auraBgShift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes auraBgShift {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 20% 100%; }
+    }
+
+    /* 2. Staggered Entrance Animation for Views & Cards */
+    .module-view.active {
+      animation: viewSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes viewSlideUp {
+      from { opacity: 0; transform: translateY(14px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes cardPopIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 3. Multi-Color Neon Aura KPI Cards */
+    .kpi-card {
+      position: relative;
+      overflow: hidden;
+      background: rgba(17, 24, 39, 0.72) !important;
+      backdrop-filter: blur(14px);
+      border-radius: 16px !important;
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+      animation: cardPopIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+
+    /* Top Glowing Bar on Every KPI Card */
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-aura, linear-gradient(90deg, #06b6d4, #8b5cf6));
+      box-shadow: 0 0 16px var(--card-glow, #06b6d4);
+    }
+
+    /* Ambient Corner Aura Orb inside KPI Cards */
+    .kpi-card::after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 95px;
+      right: -25px;
+      bottom: -25px;
+      border-radius: 50%;
+      background: var(--card-glow, rgba(6, 182, 212, 0.22));
+      filter: blur(28px);
+      opacity: 0.45;
+      pointer-events: none;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--card-glow, rgba(245, 158, 11, 0.55)) !important;
+      box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.75), 0 0 22px -4px var(--card-glow, rgba(6, 182, 212, 0.4));
+    }
+
+    .kpi-card:hover::after {
+      transform: scale(1.35);
+      opacity: 0.75;
+    }
+
+    /* 9 Distinct Aura Color Themes for the 9 Dashboard Cards */
+    .kpi-card:nth-child(1) { --card-aura: linear-gradient(90deg, #06b6d4, #3b82f6); --card-glow: rgba(6, 182, 212, 0.55); animation-delay: 0.03s; }
+    .kpi-card:nth-child(2) { --card-aura: linear-gradient(90deg, #8b5cf6, #ec4899); --card-glow: rgba(139, 92, 246, 0.55); animation-delay: 0.06s; }
+    .kpi-card:nth-child(3) { --card-aura: linear-gradient(90deg, #f59e0b, #ef4444); --card-glow: rgba(245, 158, 11, 0.55); animation-delay: 0.09s; }
+    .kpi-card:nth-child(4) { --card-aura: linear-gradient(90deg, #3b82f6, #6366f1); --card-glow: rgba(59, 130, 246, 0.55); animation-delay: 0.12s; }
+    .kpi-card:nth-child(5) { --card-aura: linear-gradient(90deg, #10b981, #06b6d4); --card-glow: rgba(16, 185, 129, 0.6); animation-delay: 0.15s; }
+    .kpi-card:nth-child(6) { --card-aura: linear-gradient(90deg, #f43f5e, #fb923c); --card-glow: rgba(244, 63, 94, 0.55); animation-delay: 0.18s; }
+    .kpi-card:nth-child(7) { --card-aura: linear-gradient(90deg, #a855f7, #6366f1); --card-glow: rgba(168, 85, 247, 0.55); animation-delay: 0.21s; }
+    .kpi-card:nth-child(8) { --card-aura: linear-gradient(90deg, #eab308, #10b981); --card-glow: rgba(234, 179, 8, 0.55); animation-delay: 0.24s; }
+    .kpi-card:nth-child(9) { --card-aura: linear-gradient(90deg, #ec4899, #f43f5e); --card-glow: rgba(236, 72, 153, 0.55); animation-delay: 0.27s; }
+
+    .kpi-icon-aura {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 12px var(--card-glow, rgba(6, 182, 212, 0.3));
+      color: #fff;
+    }
+
+    /* 4. Animated Hero Banner (`group.jpg`) with Neon Shimmer Border */
+    .group-hero-banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(120deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.78) 50%, rgba(15, 23, 42, 0.92) 100%) !important;
+      border: 1px solid rgba(139, 92, 246, 0.4) !important;
+      box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.35), inset 0 0 25px rgba(6, 182, 212, 0.12);
+    }
+
+    .group-hero-img {
+      animation: floatPulse 4s ease-in-out infinite;
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
+    }
+
+    @keyframes floatPulse {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* 5. Glassmorphic Panels & Glowing Active Sidebar Item */
+    .panel {
+      background: rgba(17, 24, 39, 0.75) !important;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.16) !important;
+      box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .panel:hover {
+      border-color: rgba(6, 182, 212, 0.32) !important;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.22) 0%, rgba(139, 92, 246, 0.12) 100%) !important;
+      border-color: rgba(245, 158, 11, 0.5) !important;
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.2);
+      color: #fde68a !important;
+    }
+
+    table.erp-table tbody tr {
+      transition: background-color 0.18s ease, transform 0.18s ease;
+    }
+    table.erp-table tbody tr:hover {
+      background: linear-gradient(90deg, rgba(6, 182, 212, 0.09), rgba(139, 92, 246, 0.06)) !important;
+    }
+
+
   </style>
 </head>
 <body>
@@ -2367,6 +2526,11 @@
     /* =========================================================================
        SECTION D: EXCEL INTELLIGENCE ENGINE (ExcelEngine)
        ========================================================================= */
+    /* =========================================================================
+       SECTION D: UPDATED EXCEL INTELLIGENCE ENGINE (ExcelEngine)
+       Supports KHUKUMONI DALAL 1716.xlsx (6-Col A-F, A1 Header, C5/D5/E5 Summary,
+       CREDIT column, PUJA status) as well as 7-Col workbooks.
+       ========================================================================= */
     const ExcelEngine = {
       extractCellPrimitive(cell) {
         if (!cell || cell.value === null || cell.value === undefined) return '';
@@ -2382,6 +2546,8 @@
           }
           if (val.text !== undefined) return String(val.text);
           if (val.error !== undefined) return `#FORMULA_ERROR:${val.error}`;
+          // If ArrayFormula object without cached result
+          if (val.formula || val.sharedFormula) return '';
         }
         return val;
       },
@@ -2391,6 +2557,12 @@
         return cell.value.formula || null;
       },
 
+      /**
+       * Parses customer block from A1 (KHUKUMONI DALAL format) or A2 block:
+       * Line 1: KHUKUMONI DALAL (CHAKDAH) -> Name: KHUKUMONI DALAL, Address: CHAKDAH
+       * Line 2: LOAN NO - 1716 (03/04/2026) -> LoanNo: 1716, LoanDate: 2026-04-03
+       * Line 3: MOB NO- 7384268190 -> Mobile: 7384268190
+       */
       parseCustomerBlockText(rawLines) {
         const extracted = {
           fullName: '',
@@ -2413,16 +2585,24 @@
           });
         });
 
-        for (const line of allFragments) {
+        for (let idx = 0; idx < allFragments.length; idx++) {
+          const line = allFragments[idx];
           let matchedAny = false;
 
-          const nameMatch = line.match(/^(?:CUSTOMER\s*)?NAME\s*[-:=]\s*(.+)$/i);
-          if (nameMatch) { extracted.fullName = nameMatch[1].trim(); matchedAny = true; continue; }
+          // 1. Check LOAN NO with optional date in parentheses: e.g. "LOAN NO - 1716 (03/04/2026)"
+          const loanNoMatch = line.match(/LOAN\s*(?:NO\.?|NUMBER|A\/C|ID)\s*[-:=]?\s*([A-Za-z0-9\-\/]+)(?:\s*\(([^)]+)\))?/i);
+          if (loanNoMatch) {
+            extracted.loanNo = String(loanNoMatch[1]).trim();
+            if (loanNoMatch[2]) {
+              const parsedDate = Utils.parseFlexibleDateToISO(loanNoMatch[2].trim());
+              if (parsedDate) extracted.loanDateISO = parsedDate;
+            }
+            matchedAny = true;
+            continue;
+          }
 
-          const addrMatch = line.match(/^ADDRESS\s*[-:=]\s*(.+)$/i);
-          if (addrMatch) { extracted.address = addrMatch[1].trim(); matchedAny = true; continue; }
-
-          const mobMatch = line.match(/^(?:MOBILE|MOB|PHONE|CONTACT)(?:\s*NO\.?)?\s*[-:=]\s*(.*)$/i);
+          // 2. Check MOB NO / MOBILE NO
+          const mobMatch = line.match(/(?:MOBILE|MOB|PHONE|CONTACT)(?:\s*NO\.?)?\s*[-:=]?\s*([0-9+\-\s\/,]+)/i);
           if (mobMatch) {
             const rawMob = mobMatch[1].trim();
             if (rawMob) {
@@ -2434,9 +2614,30 @@
             continue;
           }
 
-          const loanNoMatch = line.match(/^LOAN\s*(?:NO\.?|NUMBER|A\/C|ID)\s*[-:=]\s*(.+)$/i);
-          if (loanNoMatch) { extracted.loanNo = String(loanNoMatch[1]).trim(); matchedAny = true; continue; }
+          // 3. Explicit NAME - ...
+          const nameMatch = line.match(/^(?:CUSTOMER\s*)?NAME\s*[-:=]\s*(.+)$/i);
+          if (nameMatch) {
+            const rawName = nameMatch[1].trim();
+            const parenMatch = rawName.match(/^(.+?)\s*\(([^)]+)\)$/);
+            if (parenMatch) {
+              extracted.fullName = parenMatch[1].trim();
+              if (!extracted.address) extracted.address = parenMatch[2].trim();
+            } else {
+              extracted.fullName = rawName;
+            }
+            matchedAny = true;
+            continue;
+          }
 
+          // 4. Explicit ADDRESS - ...
+          const addrMatch = line.match(/^ADDRESS\s*[-:=]\s*(.+)$/i);
+          if (addrMatch) {
+            extracted.address = addrMatch[1].trim();
+            matchedAny = true;
+            continue;
+          }
+
+          // 5. Explicit LOAN GRANTED / PRINCIPAL
           const grantedMatch = line.match(/^(?:LOAN\s*GRANTED|PRINCIPAL|LOAN\s*AMOUNT|SANCTIONED)\s*[-:=]\s*(.+)$/i);
           if (grantedMatch) {
             const numStr = grantedMatch[1].replace(/[^0-9.]/g, '');
@@ -2445,6 +2646,7 @@
             continue;
           }
 
+          // 6. Explicit LOAN DATE
           const dateMatch = line.match(/^(?:LOAN\s*DATE|DISBURSEMENT\s*DATE|DATE)\s*[-:=]\s*(.+)$/i);
           if (dateMatch) {
             extracted.loanDateISO = Utils.parseFlexibleDateToISO(dateMatch[1].trim());
@@ -2452,15 +2654,36 @@
             continue;
           }
 
+          // 7. Explicit SCHEME
           const schemeMatch = line.match(/^SCHEME\s*[-:=]\s*(.+)$/i);
-          if (schemeMatch) { extracted.scheme = schemeMatch[1].trim(); matchedAny = true; continue; }
+          if (schemeMatch) {
+            extracted.scheme = schemeMatch[1].trim();
+            matchedAny = true;
+            continue;
+          }
 
-          const instMatch = line.match(/^(?:WEEKLY\s*INSTALLMENT|MONTHLY\s*INSTALLMENT|INSTALLMENT\s*AMOUNT|INSTALLMENT|EMI)\s*[-:=]\s*(.+)$/i);
+          // 8. Explicit WEEKLY INSTALLMENT / EMI
+          const instMatch = line.match(/^(?:WEEKLY\s*INSTALLMENT|MONTHLY\s*INSTALLMENT|INSTALLMENT\s*AMOUNT|EMI)\s*[-:=]\s*(.+)$/i);
           if (instMatch) {
             const numStr = instMatch[1].replace(/[^0-9.]/g, '');
             if (numStr) extracted.weeklyInstallmentRupees = Number(numStr);
             matchedAny = true;
             continue;
+          }
+
+          // 9. First-line pattern without "NAME -" prefix: e.g. "KHUKUMONI DALAL (CHAKDAH)"
+          if (!extracted.fullName && idx === 0 && !/SHILABIZ|NIDHI|LIMITED|OUTSTANDING/i.test(line)) {
+            const parenNameAddr = line.match(/^([A-Za-z\s.]+?)\s*\(([^)]+)\)\s*$/);
+            if (parenNameAddr) {
+              extracted.fullName = parenNameAddr[1].trim();
+              if (!extracted.address) extracted.address = parenNameAddr[2].trim();
+              matchedAny = true;
+              continue;
+            } else if (/^[A-Za-z\s.]{3,40}$/.test(line)) {
+              extracted.fullName = line.trim();
+              matchedAny = true;
+              continue;
+            }
           }
 
           if (!matchedAny) extracted.unrecognizedLines.push(line);
@@ -2475,53 +2698,48 @@
 
         let targetSheet = workbook.worksheets[0];
         for (const ws of workbook.worksheets) {
-          if (ws.rowCount >= 10) { targetSheet = ws; break; }
+          if (ws.rowCount >= 8) { targetSheet = ws; break; }
         }
         if (!targetSheet) throw new Error(`Workbook "${filename}" contains no valid worksheets.`);
 
         const warnings = [];
         const cellMap = {
-          companyHeaderCell: 'A1',
-          customerBlockCell: 'A2',
-          openingPayableCell: 'C8',
-          openingEmiCell: 'D8',
-          headerRow: 10,
-          startRow: 11,
-          cols: { instNo: 1, emi: 2, dueDate: 3, adjDate: 4, deposit: 5, status: 6, balance: 7 }
+          layoutStyle: 'KHUKUMONI_6COL', // 'KHUKUMONI_6COL' | 'LEGACY_7COL'
+          customerBlockCell: 'A1',
+          openingPayableCell: 'C5',
+          openingEmiCell: 'D5',
+          principalCell: 'E5',
+          headerRow: 7,
+          startRow: 8,
+          cols: {
+            instNo: 1,    // A: EMI NO
+            emi: 2,       // B: INSTALLMENT
+            dueDate: 3,   // C: DATE
+            adjDate: 0,   // 0 = Not present in 6-column format
+            deposit: 4,   // D: CREDIT (Actual Deposit)
+            status: 5,    // E: STATUS
+            balance: 6    // F: CLOSING BALANCE
+          }
         };
 
-        if (customMapping) {
-          cellMap.headerRow = Number(customMapping.headerRow) || 10;
-          cellMap.startRow = Number(customMapping.startRow) || 11;
-          cellMap.cols = { ...cellMap.cols, ...customMapping.cols };
-        }
-
-        const a1Raw = String(this.extractCellPrimitive(targetSheet.getCell('A1')) || '').trim();
+        // 1. Collect Customer Details from A1 and A2..G6
         const rawCustomerLines = [];
-        const seenTexts = new Set();
+        const a1Text = String(this.extractCellPrimitive(targetSheet.getCell('A1')) || '').trim();
         const a2Text = String(this.extractCellPrimitive(targetSheet.getCell('A2')) || '').trim();
-        if (a2Text) { rawCustomerLines.push(a2Text); seenTexts.add(a2Text); }
 
-        for (let r = 2; r <= 7; r++) {
-          const row = targetSheet.getRow(r);
-          for (let c = 1; c <= 7; c++) {
-            const cellVal = String(this.extractCellPrimitive(row.getCell(c)) || '').trim();
-            if (cellVal && !seenTexts.has(cellVal)) {
-              const nextCellVal = String(this.extractCellPrimitive(row.getCell(c + 1)) || '').trim();
-              if (/^(?:NAME|ADDRESS|MOBILE(?:\s*NO)?|LOAN\s*NO|LOAN\s*GRANTED|LOAN\s*DATE|SCHEME|WEEKLY\s*INSTALLMENT)$/i.test(cellVal) && nextCellVal) {
-                rawCustomerLines.push(`${cellVal} - ${nextCellVal}`);
-                seenTexts.add(cellVal);
-                seenTexts.add(nextCellVal);
-              } else {
-                rawCustomerLines.push(cellVal);
-                seenTexts.add(cellVal);
-              }
-            }
-          }
+        if (a1Text && (/LOAN\s*NO|MOB|\(/i.test(a1Text) || a1Text.includes('\n'))) {
+          cellMap.customerBlockCell = 'A1';
+          rawCustomerLines.push(a1Text);
+        } else if (a2Text) {
+          cellMap.customerBlockCell = 'A2';
+          rawCustomerLines.push(a2Text);
+        } else if (a1Text) {
+          rawCustomerLines.push(a1Text);
         }
 
         const custDetails = this.parseCustomerBlockText(rawCustomerLines);
 
+        // Fallback filename recognition (e.g. "KHUKUMONI DALAL 1716.xlsx")
         if (!custDetails.loanNo || !custDetails.fullName) {
           const baseName = filename.replace(/\.xlsx$/i, '').trim();
           const fnMatch = baseName.match(/^([A-Za-z\s.]+?)\s+(\d{3,8})\b/);
@@ -2531,58 +2749,94 @@
           }
         }
 
+        // 2. Scan Rows 3..9 for Summary Boxes (OUTSTANDING LOAN, EMI (WEEKLY), LOAN AMOUNT)
+        let contractualPayableRupees = 0;
+        let summaryEmiRupees = 0;
+        let summaryPrincipalRupees = 0;
+
+        for (let r = 3; r <= 9; r++) {
+          const row = targetSheet.getRow(r);
+          const nextRow = targetSheet.getRow(r + 1);
+          for (let c = 1; c <= 8; c++) {
+            const labelTxt = String(this.extractCellPrimitive(row.getCell(c)) || '').toUpperCase().trim();
+            if (!labelTxt) continue;
+            const belowVal = this.extractCellPrimitive(nextRow.getCell(c));
+            const belowNum = Number(String(belowVal).replace(/[^0-9.\-]/g, ''));
+
+            if (/OUTSTANDING\s*LOAN|OPENING\s*PAYABLE|CONTRACTUAL/.test(labelTxt) && !isNaN(belowNum) && belowNum > 0) {
+              contractualPayableRupees = belowNum;
+              cellMap.openingPayableCell = nextRow.getCell(c).address;
+            } else if (/EMI\s*\(WEEKLY\)|EMI\s*\(MONTHLY\)|^EMI$/.test(labelTxt) && !isNaN(belowNum) && belowNum > 0) {
+              summaryEmiRupees = belowNum;
+              cellMap.openingEmiCell = nextRow.getCell(c).address;
+              if (labelTxt.includes('WEEKLY') && !custDetails.scheme) custDetails.scheme = '52 WEEK';
+              if (labelTxt.includes('MONTHLY') && !custDetails.scheme) custDetails.scheme = 'MONTHLY';
+            } else if (/LOAN\s*AMOUNT|LOAN\s*GRANTED|PRINCIPAL/.test(labelTxt) && !isNaN(belowNum) && belowNum > 0) {
+              summaryPrincipalRupees = belowNum;
+              cellMap.principalCell = nextRow.getCell(c).address;
+            }
+          }
+        }
+
+        // Legacy C8 / D8 fallback if Row 4/5 summary was not present
+        if (contractualPayableRupees <= 0) {
+          const c8Val = this.extractCellPrimitive(targetSheet.getCell('C8'));
+          const c8Num = Number(String(c8Val).replace(/[^0-9.\-]/g, ''));
+          if (!isNaN(c8Num) && c8Num > 1000) {
+            contractualPayableRupees = c8Num;
+            cellMap.openingPayableCell = 'C8';
+            cellMap.layoutStyle = 'LEGACY_7COL';
+          }
+        }
+
+        // 3. Dynamically Detect Schedule Header Row (Row 7 in KHUKUMONI DALAL, Row 10 in Legacy)
         if (!customMapping) {
-          for (let r = 7; r <= 15; r++) {
+          for (let r = 5; r <= 15; r++) {
             const row = targetSheet.getRow(r);
             const rowTexts = [];
-            for (let c = 1; c <= 10; c++) {
+            for (let c = 1; c <= 9; c++) {
               rowTexts.push(String(this.extractCellPrimitive(row.getCell(c)) || '').toUpperCase().trim());
             }
             const joined = rowTexts.join(' | ');
             if ((joined.includes('EMI') || joined.includes('INSTALLMENT')) &&
-                (joined.includes('DEPOSIT') || joined.includes('BALANCE') || joined.includes('STATUS') || joined.includes('DUE'))) {
+                (joined.includes('CREDIT') || joined.includes('DEPOSIT') || joined.includes('CLOSING') || joined.includes('STATUS'))) {
               cellMap.headerRow = r;
               cellMap.startRow = r + 1;
+              cellMap.cols.adjDate = 0; // Reset optional column
+
               rowTexts.forEach((txt, idx) => {
                 const colNum = idx + 1;
                 if (!txt) return;
-                if (/(?:INST|SL|NO|WEEK)/.test(txt) && !txt.includes('AMOUNT')) cellMap.cols.instNo = colNum;
-                else if (/(?:EMI|INSTALLMENT\s*AMT|SCHEDULED)/.test(txt)) cellMap.cols.emi = colNum;
-                else if (/(?:DUE\s*DATE|^DATE$)/.test(txt) && !txt.includes('ADJ')) cellMap.cols.dueDate = colNum;
-                else if (/(?:ADJ|COLLECT\s*DATE|PAID\s*DATE)/.test(txt)) cellMap.cols.adjDate = colNum;
-                else if (/(?:ACTUAL|DEPOSIT|RECEIVED|COLLECTED|PAID\s*AMT)/.test(txt)) cellMap.cols.deposit = colNum;
-                else if (/(?:STATUS|REMARK)/.test(txt)) cellMap.cols.status = colNum;
-                else if (/(?:CLOSING|BALANCE|OUTSTANDING)/.test(txt)) cellMap.cols.balance = colNum;
+                if (/^(?:EMI\s*NO|INST\s*NO|INSTALLMENT\s*NO|SL\s*NO|NO\.?)$/.test(txt)) {
+                  cellMap.cols.instNo = colNum;
+                } else if (/^(?:INSTALLMENT|EMI\s*AMOUNT|EMI|SCHEDULED\s*EMI)$/.test(txt)) {
+                  cellMap.cols.emi = colNum;
+                } else if (/^(?:DATE|DUE\s*DATE)$/.test(txt)) {
+                  cellMap.cols.dueDate = colNum;
+                } else if (/(?:DATE\s*ADJUSTMENT|ADJ\s*DATE)/.test(txt)) {
+                  cellMap.cols.adjDate = colNum;
+                  cellMap.layoutStyle = 'LEGACY_7COL';
+                } else if (/^(?:CREDIT|ACTUAL\s*DEPOSIT|DEPOSIT|RECEIVED|PAID\s*AMOUNT)$/.test(txt)) {
+                  cellMap.cols.deposit = colNum;
+                } else if (/^(?:STATUS|PAYMENT\s*STATUS|REMARKS?)$/.test(txt)) {
+                  cellMap.cols.status = colNum;
+                } else if (/(?:CLOSING\s*BALANCE|BALANCE|OUTSTANDING)/.test(txt)) {
+                  cellMap.cols.balance = colNum;
+                }
               });
               break;
             }
           }
-        }
-
-        let contractualPayableRupees = 0;
-        const c8Val = this.extractCellPrimitive(targetSheet.getCell(cellMap.openingPayableCell));
-        if (c8Val !== '' && !isNaN(Number(String(c8Val).replace(/[^0-9.\-]/g, '')))) {
-          contractualPayableRupees = Number(String(c8Val).replace(/[^0-9.\-]/g, ''));
         } else {
-          for (let r = Math.max(2, cellMap.headerRow - 3); r < cellMap.headerRow; r++) {
-            for (let c = 1; c <= 8; c++) {
-              const v = this.extractCellPrimitive(targetSheet.getRow(r).getCell(c));
-              const num = Number(String(v).replace(/[^0-9.]/g, ''));
-              if (num >= 1000 && num > custDetails.principalRupees) {
-                contractualPayableRupees = num;
-                cellMap.openingPayableCell = targetSheet.getRow(r).getCell(c).address;
-                break;
-              }
-            }
-            if (contractualPayableRupees > 0) break;
-          }
+          cellMap.headerRow = Number(customMapping.headerRow) || 7;
+          cellMap.startRow = Number(customMapping.startRow) || 8;
+          cellMap.cols = { ...cellMap.cols, ...customMapping.cols };
         }
 
-        const d8Val = this.extractCellPrimitive(targetSheet.getCell(cellMap.openingEmiCell));
-        const d8EmiRupees = (d8Val !== '' && !isNaN(Number(String(d8Val).replace(/[^0-9.]/g, ''))))
-          ? Number(String(d8Val).replace(/[^0-9.]/g, '')) : 0;
-        const scheduledEmiRupees = custDetails.weeklyInstallmentRupees || d8EmiRupees || 0;
+        const principalRupees = summaryPrincipalRupees || custDetails.principalRupees || 0;
+        const scheduledEmiRupees = summaryEmiRupees || custDetails.weeklyInstallmentRupees || 0;
 
+        // 4. Extract All Installment Rows (Row 8 to 59+)
         const installmentRows = [];
         const maxRows = Math.max(targetSheet.rowCount, 120);
         let consecutiveBlankRows = 0;
@@ -2592,10 +2846,9 @@
           const rawInstNo = this.extractCellPrimitive(row.getCell(cellMap.cols.instNo));
           const rawEmi = this.extractCellPrimitive(row.getCell(cellMap.cols.emi));
           const rawDueDate = this.extractCellPrimitive(row.getCell(cellMap.cols.dueDate));
-          const rawAdjDate = this.extractCellPrimitive(row.getCell(cellMap.cols.adjDate));
+          const rawAdjDate = cellMap.cols.adjDate > 0 ? this.extractCellPrimitive(row.getCell(cellMap.cols.adjDate)) : '';
           const rawDeposit = this.extractCellPrimitive(row.getCell(cellMap.cols.deposit));
           const rawStatus = String(this.extractCellPrimitive(row.getCell(cellMap.cols.status)) || '').trim().toUpperCase();
-          const rawBalance = this.extractCellPrimitive(row.getCell(cellMap.cols.balance));
           const balanceFormula = this.extractCellFormula(row.getCell(cellMap.cols.balance));
 
           const instNumParsed = Number(String(rawInstNo).replace(/[^0-9]/g, ''));
@@ -2609,7 +2862,8 @@
           }
           consecutiveBlankRows = 0;
 
-          const instNo = instNumParsed || (installmentRows.length + 1);
+          // If A8 uses dynamic array formula =_xlfn.SEQUENCE(52), fallback cleanly to sequential index
+          const instNo = instNumParsed > 0 ? instNumParsed : (installmentRows.length + 1);
           const emiRupees = rawEmi !== '' && !isNaN(Number(String(rawEmi).replace(/[^0-9.]/g, '')))
             ? Number(String(rawEmi).replace(/[^0-9.]/g, ''))
             : scheduledEmiRupees;
@@ -2624,7 +2878,7 @@
 
           let rowWarning = null;
           if (rawStatus === 'PAID' && (!hasDepositCell || depositRupees === 0)) {
-            rowWarning = `Row ${r} (Inst #${instNo}): Marked PAID but Deposit cell is empty. Deposit kept ₹0 unless confirmed.`;
+            rowWarning = `Row ${r} (Inst #${instNo}): Marked PAID but CREDIT/Deposit cell is 0. Deposit kept ₹0 unless confirmed.`;
             warnings.push({
               level: 'critical',
               row: r,
@@ -2633,8 +2887,8 @@
               suggestedEmiRupees: emiRupees,
               message: rowWarning
             });
-          } else if (depositRupees > 0 && (rawStatus === 'UNPAID' || rawStatus === '')) {
-            rowWarning = `Row ${r} (Inst #${instNo}): Deposit ₹${depositRupees} exists, but Excel status is "${rawStatus || 'BLANK'}".`;
+          } else if (depositRupees > 0 && rawStatus === 'UNPAID') {
+            rowWarning = `Row ${r} (Inst #${instNo}): Deposit ₹${depositRupees} exists, but status is UNPAID.`;
             warnings.push({ level: 'caution', row: r, instNo, code: 'DEPOSIT_STATUS_MISMATCH', message: rowWarning });
           }
 
@@ -2643,7 +2897,7 @@
             emiPaise: FinEngine.toPaise(emiRupees),
             dueDate: dueDateISO,
             rawDueDate: String(rawDueDate || ''),
-            adjustedDate: adjDateISO,
+            adjustedDate: adjDateISO || (depositRupees > 0 ? dueDateISO : ''),
             actualDepositPaise: FinEngine.toPaise(depositRupees),
             excelStatus: rawStatus || 'UNPAID',
             status: rawStatus || 'UNPAID',
@@ -2662,10 +2916,10 @@
 
         const draftLoan = {
           loanNo: custDetails.loanNo,
-          principalPaise: FinEngine.toPaise(custDetails.principalRupees),
+          principalPaise: FinEngine.toPaise(principalRupees),
           contractualPayablePaise: FinEngine.toPaise(contractualPayableRupees),
           emiPaise: FinEngine.toPaise(scheduledEmiRupees || (installmentRows[0] ? FinEngine.toRupeesNumber(installmentRows[0].emiPaise) : 0)),
-          loanDate: custDetails.loanDateISO,
+          loanDate: custDetails.loanDateISO || (installmentRows[0]?.dueDate || ''),
           scheme: custDetails.scheme || `${installmentRows.length} WEEK`,
           approvedDiscountPaise: 0,
           sourceFilename: filename,
@@ -2675,21 +2929,14 @@
 
         const recalc = FinEngine.recalculateLoanAndSchedule(draftLoan, installmentRows);
 
-        if (!custDetails.fullName) warnings.push({ level: 'critical', code: 'MISSING_NAME', message: 'Customer Name missing in A2.' });
+        if (!custDetails.fullName) warnings.push({ level: 'critical', code: 'MISSING_NAME', message: 'Customer Name missing in header.' });
         if (!custDetails.loanNo) warnings.push({ level: 'critical', code: 'MISSING_LOAN_NO', message: 'Loan Number missing.' });
-        if (/CLOSE|CLOSED|SETTLED/i.test(filename) && recalc.loan.netSettlementDuePaise > 0) {
-          warnings.push({
-            level: 'caution',
-            code: 'FILENAME_CLOSED_MISMATCH',
-            message: `Filename suggests CLOSED, but remaining Closing Balance is ${FinEngine.formatINR(recalc.loan.contractualClosingBalancePaise)}. No fake discount/deposit was invented.`
-          });
-        }
 
         return {
           filename,
           sheetName: targetSheet.name,
-          companyHeader: a1Raw || 'SHILABIZ NIDHI LIMITED',
-          rawA2Block: a2Text || rawCustomerLines.join('\n'),
+          companyHeader: 'SHILABIZ NIDHI LIMITED',
+          rawA2Block: a1Text || a2Text,
           customer: {
             fullName: custDetails.fullName,
             address: custDetails.address,
@@ -2705,6 +2952,10 @@
         };
       },
 
+      /**
+       * Lossless Exporter supporting both KHUKUMONI DALAL 6-column (A-F) template
+       * and 7-column template.
+       */
       async exportCustomerLoanToExcelBuffer(customer, loan, installments) {
         const tpl = CloudDB.getExcelTemplateBuffer(loan.id);
         if (!tpl || !tpl.buffer) {
@@ -2716,61 +2967,103 @@
 
         const ws = wb.getWorksheet(loan.sourceSheetName) || wb.worksheets[0];
         const map = loan.cellMap || tpl.cellMap || {
-          customerBlockCell: 'A2',
-          openingPayableCell: 'C8',
-          openingEmiCell: 'D8',
-          headerRow: 10,
-          startRow: 11,
-          cols: { instNo: 1, emi: 2, dueDate: 3, adjDate: 4, deposit: 5, status: 6, balance: 7 }
+          layoutStyle: 'KHUKUMONI_6COL',
+          customerBlockCell: 'A1',
+          openingPayableCell: 'C5',
+          openingEmiCell: 'D5',
+          principalCell: 'E5',
+          headerRow: 7,
+          startRow: 8,
+          cols: { instNo: 1, emi: 2, dueDate: 3, adjDate: 0, deposit: 4, status: 5, balance: 6 }
         };
 
-        const a2Cell = ws.getCell(map.customerBlockCell || 'A2');
-        const updatedCustomerLines = [
-          `NAME - ${customer.fullName || ''}`,
-          `ADDRESS - ${customer.address || ''}`,
-          `MOBILE NO - ${customer.mobile || ''}`,
-          `LOAN NO - ${loan.loanNo || ''}`,
-          `LOAN GRANTED - ${FinEngine.toRupeesNumber(loan.principalPaise)}`,
-          `LOAN DATE - ${Utils.formatDateDisplay(loan.loanDate)}`,
-          `SCHEME - ${loan.scheme || ''}`,
-          `WEEKLY INSTALLMENT - ${FinEngine.toRupeesNumber(loan.emiPaise)} RUPEES`
-        ];
-        if (Array.isArray(customer.unrecognizedLines) && customer.unrecognizedLines.length > 0) {
-          updatedCustomerLines.push(...customer.unrecognizedLines);
+        // 1. Update Customer Header Block in A1 (KHUKUMONI format) or A2
+        const headerCell = ws.getCell(map.customerBlockCell || 'A1');
+        if ((map.customerBlockCell || 'A1') === 'A1') {
+          const nameLine = customer.address
+            ? `${customer.fullName || ''} (${customer.address})`
+            : `${customer.fullName || ''}`;
+          const datePart = loan.loanDate ? ` (${Utils.formatDateDisplay(loan.loanDate)})` : '';
+          const loanLine = `LOAN NO - ${loan.loanNo || ''}${datePart}`;
+          const mobLine = `MOB NO- ${customer.mobile || ''}`;
+          headerCell.value = [nameLine, loanLine, mobLine].join('\n');
+        } else {
+          headerCell.value = [
+            `NAME - ${customer.fullName || ''}`,
+            `ADDRESS - ${customer.address || ''}`,
+            `MOBILE NO - ${customer.mobile || ''}`,
+            `LOAN NO - ${loan.loanNo || ''}`,
+            `LOAN GRANTED - ${FinEngine.toRupeesNumber(loan.principalPaise)}`,
+            `LOAN DATE - ${Utils.formatDateDisplay(loan.loanDate)}`,
+            `SCHEME - ${loan.scheme || ''}`,
+            `WEEKLY INSTALLMENT - ${FinEngine.toRupeesNumber(loan.emiPaise)} RUPEES`
+          ].join('\n');
         }
-        a2Cell.value = updatedCustomerLines.join('\n');
 
-        ws.getCell(map.openingPayableCell || 'C8').value = FinEngine.toRupeesNumber(loan.contractualPayablePaise);
-        ws.getCell(map.openingEmiCell || 'D8').value = FinEngine.toRupeesNumber(loan.emiPaise);
+        // 2. Update Summary Cells (C5=Outstanding, D5=EMI, E5=Loan Amount)
+        ws.getCell(map.openingPayableCell || 'C5').value = FinEngine.toRupeesNumber(loan.contractualPayablePaise);
+        ws.getCell(map.openingEmiCell || 'D5').value = FinEngine.toRupeesNumber(loan.emiPaise);
+        if (map.principalCell) {
+          ws.getCell(map.principalCell).value = FinEngine.toRupeesNumber(loan.principalPaise);
+        }
 
+        // 3. Write Complete Installment Schedule
         const recalc = FinEngine.recalculateLoanAndSchedule(loan, installments);
+        const depColLetter = ws.getColumn(map.cols.deposit).letter || 'D';
+        const balColLetter = ws.getColumn(map.cols.balance).letter || 'F';
+        const payableCellAddr = map.openingPayableCell || 'C5';
+
         recalc.installments.forEach((inst, idx) => {
-          const rNum = inst.excelRowNumber || ((map.startRow || 11) + idx);
+          const rNum = inst.excelRowNumber || ((map.startRow || 8) + idx);
           const row = ws.getRow(rNum);
           const emiRupees = FinEngine.toRupeesNumber(inst.emiPaise);
           const depRupees = FinEngine.toRupeesNumber(inst.actualDepositPaise);
           const balRupees = FinEngine.toRupeesNumber(inst.closingBalancePaise);
 
+          // Write Installment No (overwrite dynamic SEQUENCE formula with clean integer so all Excel viewers work)
           row.getCell(map.cols.instNo).value = inst.installmentNo;
           row.getCell(map.cols.emi).value = emiRupees;
-          row.getCell(map.cols.dueDate).value = inst.dueDate ? Utils.formatDateDisplay(inst.dueDate) : (inst.rawDueDate || '');
-          row.getCell(map.cols.adjDate).value = inst.adjustedDate ? Utils.formatDateDisplay(inst.adjustedDate) : '';
-          row.getCell(map.cols.deposit).value = depRupees > 0 ? depRupees : null;
-          row.getCell(map.cols.status).value = inst.status;
 
-          const balCell = row.getCell(map.cols.balance);
-          const depColLetter = ws.getColumn(map.cols.deposit).letter || 'E';
-          const balColLetter = ws.getColumn(map.cols.balance).letter || 'G';
-          const formulaToWrite = inst.balanceFormula || (idx === 0
-            ? `${map.openingPayableCell || 'C8'}-${depColLetter}${rNum}`
-            : `${balColLetter}${rNum - 1}-${depColLetter}${rNum}`);
+          // Keep Date object if possible, or DD/MM/YYYY string
+          if (inst.dueDate && /^\d{4}-\d{2}-\d{2}$/.test(inst.dueDate)) {
+            row.getCell(map.cols.dueDate).value = new Date(`${inst.dueDate}T00:00:00Z`);
+          } else if (inst.rawDueDate) {
+            row.getCell(map.cols.dueDate).value = inst.rawDueDate;
+          }
 
-          balCell.value = { formula: formulaToWrite, result: balRupees };
+          if (map.cols.adjDate && map.cols.adjDate > 0) {
+            row.getCell(map.cols.adjDate).value = inst.adjustedDate ? Utils.formatDateDisplay(inst.adjustedDate) : '';
+          }
+
+          // Preserve 0 if status was PUJA, otherwise write deposit or null if unpaid
+          if (depRupees > 0) {
+            row.getCell(map.cols.deposit).value = depRupees;
+            row.getCell(map.cols.status).value = 'PAID';
+          } else if (inst.excelStatus === 'PUJA') {
+            row.getCell(map.cols.deposit).value = 0;
+            row.getCell(map.cols.status).value = 'PUJA';
+          } else {
+            row.getCell(map.cols.deposit).value = null;
+            row.getCell(map.cols.status).value = inst.status === 'SETTLED' ? 'SETTLED' : null;
+          }
+
+          // Write Closing Balance formula (=C5-D8, =F8-D9) + cached result
+          const formulaToWrite = idx === 0
+            ? `${payableCellAddr}-${depColLetter}${rNum}`
+            : `${balColLetter}${rNum - 1}-${depColLetter}${rNum}`;
+
+          row.getCell(map.cols.balance).value = {
+            formula: formulaToWrite,
+            result: balRupees
+          };
         });
 
         return await wb.xlsx.writeBuffer();
       }
     };
+
+
+
     /* =========================================================================
        SECTION E: MAIN ERP CONTROLLER & ALL 17 MODULE HANDLERS (ShilabizERP)
        - Unlocks with password: SARUP
@@ -3263,26 +3556,32 @@
         const monthPrefix = todayISO.slice(0, 7);
         const todayColl = txns.filter(t => t.date === todayISO).reduce((s, t) => s + (t.amountPaise || 0), 0);
         const monthColl = txns.filter(t => (t.date || '').startsWith(monthPrefix)).reduce((s, t) => s + (t.amountPaise || 0), 0);
-
+        
         const kpis = [
-          { label: 'Areas / Groups', val: `${this.state.areas.length} / ${this.state.groups.length}`, sub: `${this.state.customers.length} Customers` },
-          { label: 'Active / Closed Loans', val: `${activeLoans} / ${closedLoans}`, sub: `${loans.length} Total Loans` },
-          { label: 'Principal Disbursed', val: FinEngine.formatINR(totalPrincipal), sub: 'Sanctioned Principal' },
-          { label: 'Contractual Payable', val: FinEngine.formatINR(totalPayable), sub: 'Scheduled Payable' },
-          { label: 'Actual Collections', val: FinEngine.formatINR(totalCollected), sub: 'Confirmed Deposits' },
-          { label: 'Contractual Closing', val: FinEngine.formatINR(totalClosing), sub: 'Payable - Collected' },
-          { label: 'Approved Discounts', val: FinEngine.formatINR(totalDiscount), sub: 'Separate Rebates' },
-          { label: 'Net Settlement Due', val: FinEngine.formatINR(totalNetDue), sub: `Overdue: ${FinEngine.formatINR(totalOverdue)}` },
-          { label: "Today's Collection", val: FinEngine.formatINR(todayColl), sub: `Month: ${FinEngine.formatINR(monthColl)}` }
+          { label: 'Areas / Groups', val: `${this.state.areas.length} / ${this.state.groups.length}`, sub: `${this.state.customers.length} Customers`, icon: 'map-pin', color: '#38bdf8' },
+          { label: 'Active / Closed Loans', val: `${activeLoans} / ${closedLoans}`, sub: `${loans.length} Total Loans`, icon: 'landmark', color: '#c084fc' },
+          { label: 'Principal Disbursed', val: FinEngine.formatINR(totalPrincipal), sub: 'Sanctioned Principal', icon: 'wallet', color: '#fbbf24' },
+          { label: 'Contractual Payable', val: FinEngine.formatINR(totalPayable), sub: 'Scheduled Payable', icon: 'file-spreadsheet', color: '#60a5fa' },
+          { label: 'Actual Collections', val: FinEngine.formatINR(totalCollected), sub: 'Confirmed Deposits', icon: 'indian-rupee', color: '#34d399' },
+          { label: 'Contractual Closing', val: FinEngine.formatINR(totalClosing), sub: 'Payable - Collected', icon: 'scale', color: '#fb7185' },
+          { label: 'Approved Discounts', val: FinEngine.formatINR(totalDiscount), sub: 'Separate Rebates', icon: 'sparkles', color: '#a78bfa' },
+          { label: 'Net Settlement Due', val: FinEngine.formatINR(totalNetDue), sub: `Overdue: ${FinEngine.formatINR(totalOverdue)}`, icon: 'flame', color: '#facc15' },
+          { label: "Today's Collection", val: FinEngine.formatINR(todayColl), sub: `Month: ${FinEngine.formatINR(monthColl)}`, icon: 'trending-up', color: '#f472b6' }
         ];
 
         document.getElementById('dashboard-kpi-grid').innerHTML = kpis.map(k => `
           <div class="kpi-card">
-            <span class="kpi-label">${Utils.escapeHTML(k.label)}</span>
-            <div class="kpi-value">${Utils.escapeHTML(k.val)}</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span class="kpi-label" style="margin:0;">${Utils.escapeHTML(k.label)}</span>
+              <div class="kpi-icon-aura" style="color:${k.color};">
+                <i data-lucide="${k.icon}" style="width:16px; height:16px;"></i>
+              </div>
+            </div>
+            <div class="kpi-value" style="color:${k.color}; text-shadow: 0 0 18px ${k.color}44;">${Utils.escapeHTML(k.val)}</div>
             <div class="kpi-sub">${Utils.escapeHTML(k.sub)}</div>
           </div>
         `).join('');
+
 
         const tbody = document.getElementById('dashboard-recent-txns');
         const recent = this.state.transactions.slice(0, 8);
