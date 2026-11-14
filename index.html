@@ -1077,6 +1077,273 @@
     }
 
 
+    /* Full-Screen HD Image Lightbox & Edit Highlight */
+    .group-hero-img, .sidebar-brand img, .owner-mini-chip img {
+      cursor: zoom-in !important;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .group-hero-img:hover {
+      transform: scale(1.08) !important;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.85) !important;
+    }
+    @keyframes formFlashGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+      50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.65), 0 0 28px rgba(245, 158, 11, 0.45); }
+    }
+    .edit-focus-glow {
+      animation: formFlashGlow 1.2s ease 2;
+      border-color: #f59e0b !important;
+    }
+    #hd-image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(3, 6, 14, 0.94);
+      backdrop-filter: blur(14px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    #hd-image-lightbox.open {
+      display: flex;
+    }
+    #hd-lightbox-img {
+      max-width: 94vw;
+      max-height: 82dvh;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 2px solid rgba(245, 158, 11, 0.55);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(6, 182, 212, 0.25);
+      image-rendering: high-quality;
+      transition: transform 0.25s ease;
+    }
+    .lightbox-controls {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+
+
+    /* =====================================================================
+       ULTRA GAMING HUD & MAXIMUM RGB NEON AURA OVERDRIVE PACK
+       (Paste right ABOVE 
+       ===================================================================== */
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap');
+
+    /* 1. Animated Cyberpunk Gaming Grid & Multi-Aura Background */
+    #main-wrapper {
+      background-color: #04060e !important;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(0, 245, 255, 0.24), transparent 36%),
+        radial-gradient(circle at 85% 22%, rgba(255, 0, 128, 0.22), transparent 38%),
+        radial-gradient(circle at 50% 82%, rgba(139, 92, 246, 0.25), transparent 42%),
+        radial-gradient(circle at 20% 85%, rgba(16, 185, 129, 0.2), transparent 35%),
+        linear-gradient(rgba(0, 245, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 255, 0.05) 1px, transparent 1px) !important;
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 34px 34px, 34px 34px !important;
+      animation: cyberGridPulse 10s linear infinite alternate !important;
+    }
+
+    @keyframes cyberGridPulse {
+      0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+      100% { background-position: 20px -20px, -20px 20px, 15px 15px, -15px -15px, 0 34px, 34px 0; }
+    }
+
+    /* 2. Bold Gaming Fonts & Larger Sizes Across Dashboard */
+    .page-title-wrap h2,
+    .group-hero-banner h3,
+    .panel-title,
+    .lock-title,
+    .sidebar-brand-text h1 {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      letter-spacing: 1px !important;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(0, 245, 255, 0.55);
+    }
+
+    /* 3. RGB Animated Hero Banner (`SHILABIZ NIDHI LIMITED`) */
+    .group-hero-banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(125deg, rgba(8, 12, 26, 0.92), rgba(28, 14, 58, 0.88), rgba(6, 28, 45, 0.92)) !important;
+      border: 2px solid transparent !important;
+      border-radius: 18px !important;
+      box-shadow:
+        0 0 28px rgba(0, 245, 255, 0.28),
+        0 0 45px rgba(168, 85, 247, 0.22),
+        inset 0 0 30px rgba(0, 245, 255, 0.14) !important;
+      animation: rgbBannerBorder 4s linear infinite alternate !important;
+    }
+
+    /* Moving Laser Scanline Across Hero Banner */
+    .group-hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -100%;
+      left: -50%;
+      width: 200%;
+      height: 55%;
+      background: linear-gradient(180deg, transparent, rgba(0, 245, 255, 0.18), rgba(255, 0, 200, 0.12), transparent);
+      transform: rotate(-15deg);
+      animation: laserSweep 4.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes laserSweep {
+      0% { top: -120%; }
+      50%, 100% { top: 160%; }
+    }
+
+    @keyframes rgbBannerBorder {
+      0% { border-color: #00f5ff !important; box-shadow: 0 0 25px rgba(0, 245, 255, 0.45), inset 0 0 20px rgba(0, 245, 255, 0.18) !important; }
+      50% { border-color: #ff007f !important; box-shadow: 0 0 28px rgba(255, 0, 127, 0.45), inset 0 0 20px rgba(255, 0, 127, 0.18) !important; }
+      100% { border-color: #facc15 !important; box-shadow: 0 0 28px rgba(250, 204, 21, 0.45), inset 0 0 20px rgba(250, 204, 21, 0.18) !important; }
+    }
+
+    .group-hero-banner h3 {
+      font-size: 16.5px !important;
+      background: linear-gradient(90deg, #00f5ff, #fde047, #ff007f, #00f5ff);
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: neonTextFlow 4s linear infinite;
+    }
+
+    @keyframes neonTextFlow {
+      to { background-position: 250% center; }
+    }
+
+    .group-hero-img {
+      width: 64px !important;
+      height: 64px !important;
+      border: 2.5px solid #00f5ff !important;
+      box-shadow: 0 0 22px #00f5ff, 0 0 38px rgba(255, 0, 128, 0.6) !important;
+      animation: avatarSpinGlow 3.5s ease-in-out infinite alternate !important;
+    }
+
+    @keyframes avatarSpinGlow {
+      0% { transform: translateY(0px) scale(1); border-color: #00f5ff; box-shadow: 0 0 20px #00f5ff; }
+      100% { transform: translateY(-5px) scale(1.06); border-color: #ff007f; box-shadow: 0 0 26px #ff007f; }
+    }
+
+    /* 4. Supercharged Gaming KPI Cards (Larger Bold Numbers & Neon Aura) */
+    .kpi-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(12, 18, 36, 0.92) 0%, rgba(7, 10, 22, 0.95) 100%) !important;
+      border: 1.5px solid var(--card-glow, rgba(0, 245, 255, 0.5)) !important;
+      border-radius: 18px !important;
+      padding: 16px 14px !important;
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.85),
+        0 0 20px -3px var(--card-glow, rgba(0, 245, 255, 0.45)),
+        inset 0 0 22px -6px var(--card-glow, rgba(0, 245, 255, 0.35)) !important;
+      animation: cardPopIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+                 auraCardBreathe 3.2s ease-in-out infinite alternate !important;
+    }
+
+    @keyframes auraCardBreathe {
+      0% {
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.85),
+          0 0 14px -2px var(--card-glow, rgba(0, 245, 255, 0.38)),
+          inset 0 0 14px -6px var(--card-glow, rgba(0, 245, 255, 0.25));
+      }
+      100% {
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.9),
+          0 0 26px 2px var(--card-glow, rgba(0, 245, 255, 0.68)),
+          inset 0 0 28px -2px var(--card-glow, rgba(0, 245, 255, 0.45));
+      }
+    }
+
+    /* Top Laser Bar on Every KPI Card */
+    .kpi-card::before {
+      height: 4px !important;
+      background: var(--card-aura, linear-gradient(90deg, #00f5ff, #ff007f)) !important;
+      box-shadow: 0 0 18px 2px var(--card-glow, #00f5ff) !important;
+    }
+
+    /* Larger, Ultra-Bold Gaming Font for Labels, Numbers & Subtitles */
+    .kpi-label {
+      font-family: 'Rajdhani', sans-serif !important;
+      font-size: 13.5px !important;
+      font-weight: 700 !important;
+      letter-spacing: 1px !important;
+      color: #e2e8f0 !important;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+    }
+
+    .kpi-value {
+      font-family: 'Orbitron', 'Chakra Petch', monospace !important;
+      font-size: 24px !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.8px !important;
+      margin: 6px 0 4px !important;
+      filter: drop-shadow(0 0 10px currentColor);
+      animation: numberGlowPulse 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes numberGlowPulse {
+      0% { filter: drop-shadow(0 0 6px currentColor); transform: scale(1); }
+      100% { filter: drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
+    }
+
+    .kpi-sub {
+      font-family: 'Chakra Petch', sans-serif !important;
+      font-size: 12.5px !important;
+      font-weight: 700 !important;
+      color: #cbd5e1 !important;
+    }
+
+    /* Pulsing Gaming Icon Box inside KPI Cards */
+    .kpi-icon-aura {
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 12px !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1.5px solid currentColor !important;
+      box-shadow: 0 0 16px currentColor, inset 0 0 10px currentColor !important;
+      animation: iconFloat 2.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes iconFloat {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-3px) rotate(6deg); }
+    }
+
+    /* High-Voltage Neon Palette for All 9 KPI Cards */
+    .kpi-card:nth-child(1) { --card-aura: linear-gradient(90deg, #00f5ff, #3b82f6); --card-glow: rgba(0, 245, 255, 0.65); }
+    .kpi-card:nth-child(2) { --card-aura: linear-gradient(90deg, #d946ef, #8b5cf6); --card-glow: rgba(217, 70, 239, 0.65); }
+    .kpi-card:nth-child(3) { --card-aura: linear-gradient(90deg, #facc15, #f97316); --card-glow: rgba(250, 204, 21, 0.65); }
+    .kpi-card:nth-child(4) { --card-aura: linear-gradient(90deg, #38bdf8, #818cf8); --card-glow: rgba(56, 189, 248, 0.65); }
+    .kpi-card:nth-child(5) { --card-aura: linear-gradient(90deg, #00ff9d, #00f5ff); --card-glow: rgba(0, 255, 157, 0.7); }
+    .kpi-card:nth-child(6) { --card-aura: linear-gradient(90deg, #ff0055, #fb7185); --card-glow: rgba(255, 0, 85, 0.68); }
+    .kpi-card:nth-child(7) { --card-aura: linear-gradient(90deg, #c084fc, #ff007f); --card-glow: rgba(192, 132, 252, 0.65); }
+    .kpi-card:nth-child(8) { --card-aura: linear-gradient(90deg, #fde047, #00ff9d); --card-glow: rgba(253, 224, 71, 0.68); }
+    .kpi-card:nth-child(9) { --card-aura: linear-gradient(90deg, #ff007f, #ff7b00); --card-glow: rgba(255, 0, 127, 0.68); }
+
+    /* Mobile Screen Font Size Boost so numbers look bold & punchy on phone */
+    @media (max-width: 992px) {
+      .kpi-value {
+        font-size: 20px !important;
+      }
+      .kpi-label {
+        font-size: 12px !important;
+      }
+      .kpi-sub {
+        font-size: 11.5px !important;
+      }
+    }
+
+
+
+
   </style>
 </head>
 <body>
@@ -2067,6 +2334,23 @@
       </div>
     </div>
   </div>
+  <!-- Full-Screen HD Image Viewer Modal -->
+  <div id="hd-image-lightbox" onclick="if(event.target===this) window.ShilabizERP.closeHDImage()">
+    <img id="hd-lightbox-img" src="group.jpg" alt="Full Screen HD View" />
+    <div class="lightbox-controls">
+      <button type="button" class="btn btn-secondary" onclick="window.ShilabizERP.zoomHDImage()">
+        <i data-lucide="zoom-in"></i> Toggle 2x HD Zoom
+      </button>
+      <a id="hd-lightbox-download" href="group.jpg" download class="btn btn-primary">
+        <i data-lucide="download"></i> Save HD Photo
+      </a>
+      <button type="button" class="btn btn-danger" onclick="window.ShilabizERP.closeHDImage()">
+        <i data-lucide="x"></i> Close
+      </button>
+    </div>
+  </div>
+
+
 
   <div id="toast-container"></div>
   <!-- =====================================================================
@@ -4904,6 +5188,399 @@
         `;
       }
     };
+
+
+
+
+    /* =========================================================================
+       UNIVERSAL DELETE, WORKING EDIT WITH AUTO-SCROLL & HD PHOTO VIEWER PATCH
+       (Paste right ABOVE: window.ShilabizERP = ShilabizERP;)
+       ========================================================================= */
+    Object.assign(ShilabizERP, {
+      isZoomedHD: false,
+
+      // 1. Full-Screen HD Photo Viewer for group.jpg / owner.jpg / logo.png
+      openHDImage(srcUrl) {
+        const modal = document.getElementById('hd-image-lightbox');
+        const img = document.getElementById('hd-lightbox-img');
+        const dl = document.getElementById('hd-lightbox-download');
+        if (!modal || !img) return;
+        this.isZoomedHD = false;
+        img.style.transform = 'scale(1)';
+        img.src = srcUrl || 'group.jpg';
+        if (dl) dl.href = srcUrl || 'group.jpg';
+        modal.classList.add('open');
+        lucide.createIcons();
+      },
+
+      closeHDImage() {
+        document.getElementById('hd-image-lightbox')?.classList.remove('open');
+      },
+
+      zoomHDImage() {
+        const img = document.getElementById('hd-lightbox-img');
+        if (!img) return;
+        this.isZoomedHD = !this.isZoomedHD;
+        img.style.transform = this.isZoomedHD ? 'scale(1.85)' : 'scale(1)';
+      },
+
+      bindAllImagesForFullScreen() {
+        document.querySelectorAll('.group-hero-img, .sidebar-brand img, .owner-mini-chip img').forEach(img => {
+          img.onclick = (e) => {
+            e.stopPropagation();
+            this.openHDImage(img.getAttribute('src') || 'group.jpg');
+          };
+        });
+      },
+
+      // 2. Helper to Scroll Smoothly to Top Form on Edit (Fixes Phone & Laptop Edit)
+      scrollToAndHighlightForm(inputId) {
+        const viewport = document.getElementById('content-viewport');
+        if (viewport) viewport.scrollTo({ top: 0, behavior: 'smooth' });
+        const el = document.getElementById(inputId);
+        if (el) {
+          const panel = el.closest('.panel');
+          if (panel) {
+            panel.classList.remove('edit-focus-glow');
+            void panel.offsetWidth;
+            panel.classList.add('edit-focus-glow');
+          }
+          setTimeout(() => {
+            el.focus();
+            if (el.select) el.select();
+          }, 300);
+        }
+      },
+
+      // 3. Fixed Area Edit & Cascade Delete
+      editArea(id) {
+        const a = this.state.areas.find(x => x.id === id);
+        if (!a) return;
+        document.getElementById('area-edit-id').value = a.id;
+        document.getElementById('area-name').value = a.name || '';
+        document.getElementById('area-code').value = a.code || '';
+        document.getElementById('area-desc').value = a.description || '';
+        this.scrollToAndHighlightForm('area-name');
+        this.toast(`Editing Area "${a.name}" — Update above & click Save.`, 'info');
+      },
+
+      async deleteArea(id) {
+        const a = this.state.areas.find(x => x.id === id);
+        if (!a) return;
+        const childGroups = this.state.groups.filter(g => g.areaId === id);
+        const childCusts = this.state.customers.filter(c => c.areaId === id);
+        const childLoans = this.state.loans.filter(l => l.areaId === id);
+
+        const msg = (childGroups.length > 0 || childCusts.length > 0)
+          ? `Area "${a.name}" contains ${childGroups.length} Group(s), ${childCusts.length} Customer(s), and ${childLoans.length} Loan(s). Delete this Area AND all data inside it permanently from Cloud Firestore?`
+          : `Delete Area "${a.name}" permanently from Cloud Firestore?`;
+
+        const ok = await this.confirmDialog('Delete Area & Linked Data', msg);
+        if (!ok) return;
+
+        const ops = [{ store: 'areas', type: 'delete', id: a.id }];
+        childGroups.forEach(g => ops.push({ store: 'groups', type: 'delete', id: g.id }));
+        childCusts.forEach(c => ops.push({ store: 'customers', type: 'delete', id: c.id }));
+        childLoans.forEach(l => {
+          ops.push({ store: 'loans', type: 'delete', id: l.id });
+          ops.push({ store: 'excelTemplates', type: 'delete', id: l.id });
+          this.state.installments.filter(i => i.loanId === l.id).forEach(i => ops.push({ store: 'installments', type: 'delete', id: i.id }));
+          this.state.transactions.filter(t => t.loanId === l.id).forEach(t => ops.push({ store: 'transactions', type: 'delete', id: t.id }));
+          this.state.discounts.filter(d => d.loanId === l.id).forEach(d => ops.push({ store: 'discounts', type: 'delete', id: d.id }));
+        });
+
+        await CloudDB.putBatch(ops);
+        await this.logAudit('AREA_DELETED', 'areas', a.id, { name: a.name });
+        this.syncStateFromCloudCache();
+        this.toast(`Deleted Area "${a.name}" from Cloud Firestore.`, 'success');
+      },
+
+      // 4. Fixed Group Edit & Cascade Delete (Works even when Group has 6 Customers)
+      editGroup(id) {
+        const g = this.state.groups.find(x => x.id === id);
+        if (!g) return;
+        document.getElementById('group-edit-id').value = g.id;
+        document.getElementById('group-area-id').value = g.areaId;
+        document.getElementById('group-name').value = g.name || '';
+        document.getElementById('group-day').value = g.collectionDay || 'Saturday';
+        document.getElementById('group-desc').value = g.description || '';
+        this.scrollToAndHighlightForm('group-name');
+        this.toast(`Editing Group "${g.name}" — Change details above & click Save Group.`, 'info');
+      },
+
+      async deleteGroup(id) {
+        const g = this.state.groups.find(x => x.id === id);
+        if (!g) return;
+        const childCusts = this.state.customers.filter(c => c.groupId === id);
+        const childLoans = this.state.loans.filter(l => l.groupId === id);
+
+        const msg = childCusts.length > 0
+          ? `Group "${g.name}" has ${childCusts.length} Customer(s) and ${childLoans.length} Loan(s). Do you want to permanently DELETE this Group along with all ${childCusts.length} Customers and their Loans from Cloud Firestore?`
+          : `Delete empty Group "${g.name}" permanently from Cloud Firestore?`;
+
+        const ok = await this.confirmDialog('Delete Group & Customers', msg);
+        if (!ok) return;
+
+        const ops = [{ store: 'groups', type: 'delete', id: g.id }];
+        childCusts.forEach(c => ops.push({ store: 'customers', type: 'delete', id: c.id }));
+        childLoans.forEach(l => {
+          ops.push({ store: 'loans', type: 'delete', id: l.id });
+          ops.push({ store: 'excelTemplates', type: 'delete', id: l.id });
+          this.state.installments.filter(i => i.loanId === l.id).forEach(i => ops.push({ store: 'installments', type: 'delete', id: i.id }));
+          this.state.transactions.filter(t => t.loanId === l.id).forEach(t => ops.push({ store: 'transactions', type: 'delete', id: t.id }));
+          this.state.discounts.filter(d => d.loanId === l.id).forEach(d => ops.push({ store: 'discounts', type: 'delete', id: d.id }));
+        });
+
+        await CloudDB.putBatch(ops);
+        await this.logAudit('GROUP_DELETED', 'groups', g.id, { name: g.name, deletedCustomers: childCusts.length });
+        this.syncStateFromCloudCache();
+        this.toast(`Deleted Group "${g.name}" and its linked records.`, 'success');
+      },
+
+      // 5. Universal Delete for Any Loan / Customer (Removes Loan, Installments, Transactions, Discounts)
+      async deleteCustomerLoan(loanId) {
+        const loan = this.state.loans.find(l => l.id === loanId);
+        if (!loan) return;
+        const cust = this.state.customers.find(c => c.id === loan.customerId);
+        const custName = cust ? cust.fullName : 'Customer';
+
+        const ok = await this.confirmDialog(
+          'Delete Customer & Loan Data',
+          `Are you sure you want to permanently delete ${custName} (Loan #${loan.loanNo}) and all its installments & payment records from Cloud Firestore?`
+        );
+        if (!ok) return;
+
+        const ops = [
+          { store: 'loans', type: 'delete', id: loan.id },
+          { store: 'excelTemplates', type: 'delete', id: loan.id }
+        ];
+
+        // If customer has no other loans, delete customer record too
+        const otherLoans = this.state.loans.filter(l => l.customerId === loan.customerId && l.id !== loan.id);
+        if (otherLoans.length === 0 && cust) {
+          ops.push({ store: 'customers', type: 'delete', id: cust.id });
+        }
+
+        this.state.installments.filter(i => i.loanId === loan.id).forEach(i => ops.push({ store: 'installments', type: 'delete', id: i.id }));
+        this.state.transactions.filter(t => t.loanId === loan.id).forEach(t => ops.push({ store: 'transactions', type: 'delete', id: t.id }));
+        this.state.discounts.filter(d => d.loanId === loan.id).forEach(d => ops.push({ store: 'discounts', type: 'delete', id: d.id }));
+
+        await CloudDB.putBatch(ops);
+        await this.logAudit('LOAN_DELETED', 'loans', loan.id, { loanNo: loan.loanNo, customer: custName });
+        this.syncStateFromCloudCache();
+        this.toast(`Deleted ${custName} (Loan #${loan.loanNo}) from Cloud Firestore.`, 'success');
+      },
+
+      // 6. Reset / Clear Deposit on a Single Installment Row (In Installment Schedule & Payment Preview)
+      async clearInstallmentDeposit(instId) {
+        const inst = this.state.installments.find(i => i.id === instId);
+        if (!inst) return;
+        const loan = this.state.loans.find(l => l.id === inst.loanId);
+        if (!loan) return;
+
+        const ok = await this.confirmDialog(
+          'Delete Installment Deposit',
+          `Clear the deposit of ${FinEngine.formatINR(inst.actualDepositPaise)} on Installment #${inst.installmentNo} (Loan #${loan.loanNo}) and recalculate Closing Balance?`
+        );
+        if (!ok) return;
+
+        const allInsts = this.state.installments.filter(i => i.loanId === loan.id).map(i =>
+          i.id === instId ? { ...i, actualDepositPaise: 0, adjustedDate: '', status: 'UNPAID' } : i
+        );
+        const recalc = FinEngine.recalculateLoanAndSchedule(loan, allInsts);
+        const ops = [
+          { store: 'loans', data: recalc.loan },
+          ...recalc.installments.map(i => ({ store: 'installments', data: i }))
+        ];
+        await CloudDB.putBatch(ops);
+        this.syncStateFromCloudCache();
+        this.toast(`Cleared deposit on Installment #${inst.installmentNo}.`, 'success');
+      },
+
+      // 7. Delete Discount Entry
+      async deleteDiscountByLoan(loanId) {
+        const loan = this.state.loans.find(l => l.id === loanId);
+        if (!loan) return;
+        const ok = await this.confirmDialog('Delete Discount', `Remove Approved Discount of ${FinEngine.formatINR(loan.approvedDiscountPaise)} from Loan #${loan.loanNo}?`);
+        if (!ok) return;
+
+        const insts = this.state.installments.filter(i => i.loanId === loan.id);
+        const recalc = FinEngine.recalculateLoanAndSchedule({ ...loan, approvedDiscountPaise: 0 }, insts);
+        const ops = [
+          { store: 'loans', data: recalc.loan },
+          ...recalc.installments.map(i => ({ store: 'installments', data: i }))
+        ];
+        this.state.discounts.filter(d => d.loanId === loan.id).forEach(d => ops.push({ store: 'discounts', type: 'delete', id: d.id }));
+        this.state.transactions.filter(t => t.loanId === loan.id && t.type === 'DISCOUNT').forEach(t => ops.push({ store: 'transactions', type: 'delete', id: t.id }));
+
+        await CloudDB.putBatch(ops);
+        this.syncStateFromCloudCache();
+        this.toast(`Removed discount from Loan #${loan.loanNo}.`, 'success');
+      },
+
+      // 8. Delete Transaction Entry Directly from Ledger
+      async deleteTransactionEntry(txnId) {
+        const orig = this.state.transactions.find(t => t.id === txnId);
+        if (!orig) return;
+        const ok = await this.confirmDialog(
+          'Delete Transaction Permanently',
+          `Permanently delete this ${orig.type} transaction (${FinEngine.formatINR(orig.amountPaise)}) and recalculate the loan balance?`
+        );
+        if (!ok) return;
+
+        const loan = this.state.loans.find(l => l.id === orig.loanId);
+        const ops = [{ store: 'transactions', type: 'delete', id: orig.id }];
+
+        if (loan && !orig.isReversed) {
+          const insts = this.state.installments.filter(i => i.loanId === loan.id).sort((a, b) => a.installmentNo - b.installmentNo);
+          if (orig.type === 'DISCOUNT') {
+            loan.approvedDiscountPaise = Math.max(0, (loan.approvedDiscountPaise || 0) - orig.amountPaise);
+          } else if (Array.isArray(orig.affectedInstallments) && orig.affectedInstallments.length > 0) {
+            orig.affectedInstallments.forEach(a => {
+              const r = insts.find(x => Number(x.installmentNo) === Number(a.instNo));
+              if (r) r.actualDepositPaise = Math.max(0, (r.actualDepositPaise || 0) - (a.addedPaise || 0));
+            });
+          } else {
+            // Match by installment number in reference if imported
+            const m = String(orig.reference || '').match(/#(\d+)/);
+            if (m) {
+              const r = insts.find(x => Number(x.installmentNo) === Number(m[1]));
+              if (r) r.actualDepositPaise = Math.max(0, (r.actualDepositPaise || 0) - orig.amountPaise);
+            }
+          }
+          const recalc = FinEngine.recalculateLoanAndSchedule(loan, insts);
+          ops.push({ store: 'loans', data: recalc.loan });
+          recalc.installments.forEach(i => ops.push({ store: 'installments', data: i }));
+        }
+
+        await CloudDB.putBatch(ops);
+        this.syncStateFromCloudCache();
+        this.toast('Transaction deleted and balance updated.', 'success');
+      }
+    });
+
+    // Wrap renderActiveModule so Delete buttons & HD image click handlers appear in EVERY module automatically
+    const _origRenderActiveModule = ShilabizERP.renderActiveModule.bind(ShilabizERP);
+    ShilabizERP.renderActiveModule = function() {
+      _origRenderActiveModule();
+      this.bindAllImagesForFullScreen();
+
+      // Inject Delete Customer/Loan button in Customer Profile top filter bar if not already there
+      const profBar = document.querySelector('#view-customer-profile .filter-bar');
+      if (profBar && !document.getElementById('btn-delete-profile-loan')) {
+        const delBtn = document.createElement('button');
+        delBtn.id = 'btn-delete-profile-loan';
+        delBtn.className = 'btn btn-danger btn-sm';
+        delBtn.innerHTML = `<i data-lucide="trash-2"></i> Delete Customer / Loan`;
+        delBtn.onclick = () => {
+          const lid = document.getElementById('profile-loan-select')?.value;
+          if (lid) this.deleteCustomerLoan(lid);
+        };
+        profBar.appendChild(delBtn);
+      }
+
+      // Inject Delete Loan button in Payment Collection snapshot box
+      const paySnap = document.getElementById('pay-loan-snapshot');
+      const payLoanId = document.getElementById('pay-loan-select')?.value;
+      if (paySnap && payLoanId && !paySnap.querySelector('.del-pay-loan-btn')) {
+        const dBtn = document.createElement('button');
+        dBtn.type = 'button';
+        dBtn.className = 'btn btn-danger btn-sm del-pay-loan-btn';
+        dBtn.style.marginTop = '8px';
+        dBtn.innerHTML = `<i data-lucide="trash-2"></i> Delete This Loan Account`;
+        dBtn.onclick = () => this.deleteCustomerLoan(payLoanId);
+        paySnap.appendChild(dBtn);
+      }
+
+      // Add Delete buttons to Customer Management table rows
+      if (this.state.activeModule === 'customers') {
+        document.querySelectorAll('#customers-table-body tr').forEach(tr => {
+          const actionTd = tr.lastElementChild;
+          const collectBtn = actionTd?.querySelector('button[onclick*="openPaymentForLoan"]');
+          if (collectBtn && !actionTd.querySelector('.del-cust-btn')) {
+            const match = collectBtn.getAttribute('onclick').match(/'([^']+)'/);
+            if (match) {
+              const btn = document.createElement('button');
+              btn.className = 'btn btn-danger btn-sm del-cust-btn';
+              btn.style.marginLeft = '4px';
+              btn.textContent = 'Delete';
+              btn.onclick = () => this.deleteCustomerLoan(match[1]);
+              actionTd.appendChild(btn);
+            }
+          }
+        });
+      }
+
+      // Add Delete buttons to Loans Management & Dues/Outstanding tables
+      ['#loans-table-body', '#dues-table-body'].forEach(sel => {
+        document.querySelectorAll(`${sel} tr`).forEach(tr => {
+          const actionTd = tr.lastElementChild;
+          const collectBtn = actionTd?.querySelector('button[onclick*="openPaymentForLoan"]');
+          if (collectBtn && !actionTd.querySelector('.del-ln-btn')) {
+            const match = collectBtn.getAttribute('onclick').match(/'([^']+)'/);
+            if (match) {
+              const btn = document.createElement('button');
+              btn.className = 'btn btn-danger btn-sm del-ln-btn';
+              btn.style.marginLeft = '4px';
+              btn.textContent = 'Delete';
+              btn.onclick = () => this.deleteCustomerLoan(match[1]);
+              actionTd.appendChild(btn);
+            }
+          }
+        });
+      });
+
+      // Add Delete Deposit button to Installment Schedule rows that have a deposit > 0
+      if (this.state.activeModule === 'installments') {
+        const lid = document.getElementById('inst-loan-select')?.value;
+        document.querySelectorAll('#installments-table-body tr').forEach(tr => {
+          const instNoTxt = tr.firstElementChild?.textContent?.replace('#', '').trim();
+          const actionTd = tr.lastElementChild;
+          if (lid && instNoTxt && actionTd && !actionTd.querySelector('.del-inst-btn')) {
+            const instObj = this.state.installments.find(i => i.loanId === lid && String(i.installmentNo) === String(instNoTxt));
+            if (instObj && instObj.actualDepositPaise > 0) {
+              const btn = document.createElement('button');
+              btn.className = 'btn btn-danger btn-sm del-inst-btn';
+              btn.style.marginLeft = '4px';
+              btn.textContent = 'Clear ₹';
+              btn.onclick = () => this.clearInstallmentDeposit(instObj.id);
+              actionTd.appendChild(btn);
+            }
+          }
+        });
+      }
+
+      // Add Delete button to Transaction Ledger rows
+      if (this.state.activeModule === 'ledger') {
+        const q = (document.getElementById('ledger-search')?.value || '').trim().toLowerCase();
+        const type = document.getElementById('ledger-type-filter')?.value || '';
+        const list = this.state.transactions.filter(t => {
+          if (type && t.type !== type) return false;
+          const l = this.state.loans.find(x => x.id === t.loanId);
+          const c = this.state.customers.find(x => x.id === t.customerId);
+          return !q || `${t.id} ${l ? l.loanNo : ''} ${c ? c.fullName : ''} ${t.notes}`.toLowerCase().includes(q);
+        });
+        document.querySelectorAll('#ledger-table-body tr').forEach((tr, idx) => {
+          const txn = list[idx];
+          const actionTd = tr.lastElementChild;
+          if (txn && actionTd && !actionTd.querySelector('.del-txn-btn')) {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-danger btn-sm del-txn-btn';
+            btn.style.marginLeft = '4px';
+            btn.textContent = 'Delete';
+            btn.onclick = () => this.deleteTransactionEntry(txn.id);
+            actionTd.appendChild(btn);
+          }
+        });
+      }
+
+      lucide.createIcons();
+    };
+
+
+
+
+
 
     window.ShilabizERP = ShilabizERP;
     window.addEventListener('DOMContentLoaded', () => {
